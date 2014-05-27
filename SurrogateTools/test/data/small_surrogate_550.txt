@@ -1,0 +1,52 @@
+#GRID	US36KM_148X112	-2736000.000000	-2088000.000000	36000.000000	36000.000000	148	112	1	LAMBERT	meters	33.000000	45.000000	-97.000000	-97.000000	40.000000
+#SRGDESC=550,Retail Trade (COM1) plus Personal Repair (COM3)
+#
+#SURROGATE REGION = USA
+#SURROGATE CODE = 550
+#SURROGATE NAME = Retail Trade (COM1) plus Personal Repair (COM3)
+#DATA SHAPEFILE = county_pophu02
+#DATA ATTRIBUTE = FIPSSTCO
+#WEIGHT SHAPEFILE = us_lu2k
+#WEIGHT ATTRIBUTE = 
+#WEIGHT FUNCTION = COM1+COM3
+#FILTER FUNCTION = 
+#MERGE FUNCTION = 
+#SECONDARY SURROGATE = Commercial Land
+#TERTIARY SURROGATE = Population
+#QUARTERNARY SURROGATE = 
+#
+#CONTROL VARIABLE FILE = /nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/control_variables_grid_36km02.csv
+#SURROGATE SPECIFICATION FILE = /nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/surrogate_specification_2002.csv
+#SHAPEFILE CATALOG = /nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/shapefile_catalog.csv
+#GENERATION CONTROL FILE = /nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/surrogate_generation_grid_36km02.csv
+#SURROGATE CODE FILE = /nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/surrogate_IDs.csv
+#GRIDDESC = /nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/GRIDDESC.txt
+#
+#USER = lran
+#COMPUTER SYSTEM = linux
+#DATE = Fri Mar 03 23:19:41 EST 2006
+#############COPY OF THE INPUT FILE############################
+## Gapfill surrogate ratios to generate surrogate -- USA_550=Retail Trade (COM1) plus Personal Repair (COM3)
+#OUTFILE=/nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/output/US36KM_148X112_02/USA_550_FILL.txt
+#XREFFILE=/nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/srgtool/surrogate_IDs.csv
+#OUTSRG=Retail Trade (COM1) plus Personal Repair (COM3); GAPFILL=/nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/output/US36KM_148X112_02/USA_550_NOFILL.txt|Retail Trade (COM1) plus Personal Repair (COM3);/nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/output/US36KM_148X112_02/USA_500_NOFILL.txt|Commercial Land;/nas/uncch/depts/cep/emc/lran/mims/mimssp_7_2005/output/US36KM_148X112_02/USA_100_NOFILL.txt|Population
+#############END OF THE INPUT FILE############################
+#SRGDESC=550,Retail Trade (COM1) plus Personal Repair (COM3)
+#SRGDESC=500,Commercial Land
+#SRGDESC=100,Population
+550	1001	103	36	0.0	!	3.353737	1244.538608	0.002695
+550	1001	103	37	0.1	!	101.099437	1244.538608	0.083957
+550	1001	103	38	0.2	!	3.877648	1244.538608	0.987817
+550	1001	104	36	0.5	!	0.034379	1244.538608	0.002722
+550	1003	102	30	0.3	!	651.373077	5150.080909	0.514038
+550	1003	102	31	0.2	!	133.733505	5150.080909	0.880365
+550	1003	102	32	0.0	!	0.013435	5150.080909	0.997245
+550	1005	106	35	0.5	!	41.514022	714.597048	0.058094
+550	1005	106	36	0.5	!	6.921965	714.597048	0.464390
+550	1007	101	38	0.6	!	43.679368	466.641906	0.093604
+550	1007	102	38	0.6 !	253.085696	466.641906	0.635959
+550	1009	102	41	0.3	!	43.868543	1134.929321	0.038653
+550	1009	103	41	0.5	!	570.418884	1134.929321	0.541256
+550	1009	103	42	0.2	!	278.084000	1134.929321	0.900521
+550	1011	103	42	1.1	!	278.084000	1134.929321	0.900521
+550	1022	103	42	1.04	!	278.084000	1134.929321	0.900521

@@ -1,0 +1,91 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>MIMS Spatial Allocator Programmer's Guide</title>
+</head>
+
+<body>
+
+<h1>MIMS Spatial Allocator Programmer's Guide</h1>
+<h2>How to implement a customized reader:</h2>
+<p>A. The developer needs to change the PolyReader() method.
+The second argument to this method is a character string that points to the
+environment variable that specifies the type of the reader. In addition to
+adding customized code for the new reader, the developer must insert a section
+similar to the following segment:
+<pre>
+   else if (!strcmp(type,&quot;ShapeFile&quot;)) 
+   {
+      poly PolyShapeReader(ename);
+</pre>
+<p>B. To implement the customized reader (i.e. the substitute for
+PolyShapeReader), the developer needs to provide a reader method that 
+returns a PolyObject and takes a
+character string argument pointing to the environment variable that specifies
+the file name. This method should do all the data reading and fill in an
+appropriate PolyObject struct. A pointer to the struct should be obtained by a
+call to getNewPoly(nObjects). The
+reader code should specify the type of polygon (polygon, line, or point), the map
+information<b> </b> struct<b>,</b> and the bounding box. (See PolyShapeReader
+and RegularGridReader for complete examples.)</p>
+<pre>
+   poly->nSHPType = SHPT_POLYGON;
+   poly->map = map;
+   poly->bb = newBBox(xmin, ymin, xmax, ymax)
+</pre>
+<p>Then in a loop over the objects the developer can do the following:<o:p>
+<ol>
+<li>Get a pointer to a PolyShape struct, e.g.:
+<pre>
+      ps = getNewPolyShape(number_of_parts);
+      ps->num_contours = 0; 
+</pre>
+<li>Loop over the parts (i.e. contours, or polylines), get a pointer to a Shape struct
+<pre>
+      shp = getNewShape(number_of_vertices);
+</pre>
+<li>In a loop over the vertices, fill in the x and y for each vertex
+<pre>
+      shp->vertex[i].x = xcoord;
+      shp->vertex[i].y = ycoord;
+</pre>
+<li>Close vertices loop<o:p>
+<li>Add a contour to the PolyShape, i.e.
+<pre>
+      gpc_add_contour(ps,shp,SOLID_POLYGON);
+</pre>
+<li>Close the loop over the parts
+<li>Add the PolyShape struct to the PolyShape Object
+<pre>
+      polyShapeIncl(&(poly->plist),ps,NULL);
+</pre>
+</ol>
+
+<p>C. A replacement for the attachAttribute method will also need to 
+be developed for the new file format.  This routine will need to 
+properly associate the attribute information with the polygons.</p>
+
+<h2>Creating a new writer / Adding new operations</h2>
+<p>Currently, the program is organized into two main operations: creating
+surrogates (implemented in reportSurrogate), and performing spatial 
+aggregation (reportSum). These methods each take a PolyObject *
+(a list of Shapes), perform a computation based on the attributes, and write 
+the results to the file formats applicable to that operation.  
+e.g. reportSurrogate has the format of the surrogate file embedded in it;
+reportSum calls polyShapeWrite to write the .shp portion of the shape file,
+and then in manipulates the attributes as appropriate (summing or averaging)
+and writes the new values with calls to DBFWriteDoubleAttribute.
+
+<p>Several major methods are used in support of the surrogate generation
+and the spatial aggregation.  These are: sum1Poly, sum2Poly, and avg1Poly.
+If the developer wanted to add an interpolation method and fit it into
+the current aggregation framework, a new method (e.g. interp1Poly) could
+be developed that would interpolate the values of the attributes as
+desired.  Alternatively, if the new operation would not fit into this
+framework, a new branch to the main program could be added.
+
+</body>
+</html>

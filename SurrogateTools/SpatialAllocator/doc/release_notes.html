@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Release Notes</title>
+</head>
+
+<body>
+<p><b>The July 2005 version of the Spatial Allocator includes the following new features:</b> </p>
+<ul>
+  <li>The original mims_spatial.exe program has been divided into:
+      <ul>
+        <li>Allocator.exe, performs spatial allocation, overlay, and <a href="#filters">filtering of shapefiles </a></li>
+        <li> <a href="#filters">creating surrogates based on filtered shapefiles</a> - using this feature, you can apply a filter to a shapefile and create a surrogate on the resulting data all in one run of the spatial allocator</li>
+      </ul>
+  </li>
+  <li>srgcreate.exe, generates surrogates
+      <ul>
+        <li>surrogates based on a <a href="#weight">mathematical functions of attributes in a shapefile</a></li>
+      </ul>
+  </li>
+  <li>srgmerge.exe, merges surrogates, creates surrogates that are <a href="#merge">weighted functions of existing surrogates</a> or create new surrogates by applying <a href="#gapfill">"gap filling"</a> to existing surrogates</li>
+  <li>Biogenic emissions program</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>The January 2005 version of the Spatial Allocator has the following new features:</b>
+<ul>
+  <li><a href="#filters">filtering of shapefiles</a> - using this feature, you can create a new shapefile that is a subset of a larger shapefile according to criteria you specify for the attributes of the shapefile</li>
+  <li> <a href="#filters">creating surrogates based on filtered shapefiles</a> - using this feature, you can apply a filter to a shapefile and create a surrogate on the resulting data all in one run of the spatial allocator</li>
+  <li> generate surrogates based on a <a href="#weight">mathematical functions of attributes in a shapefile</a></li>
+  <li> create new surrogates that are <a href="#merge">weighted functions of existing surrogates</a> using the new <b>srgmerge</b> program</li>
+  <li> create new surrogates by applying <a href="#gapfill">"gap filling"</a> to existing surrogates by using the new <b>srgmerge</b> program
+</ul>
+</body>
+</html>

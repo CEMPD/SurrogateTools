@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Surrogate Computation and Quality Summary</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<A name="surrogates"></A><H2>4. Surrogate Computation and Quality Assurance Summary</H2>
+<P>A surrogate used in air quality modelling can be generated from a surrogate weight shapefile, merging existing surrogates, 
+or gapfilling a existing surrogate.  Computer system scripts files with environment variables are often used to call srgcreate or srgmerge 
+in the MIMS Allocator for generating surrogates.</P>
+<p>A Java-based Surrogate Tool was developed to provide a more user-friendly 
+way to use the Spatial Allocator. The Surrogate Tool uses user-defined text inputs to control which surrogates are 
+generated, and the format of these files allows them to be easily edited and maintained in a spreadsheet program like Microsoft Excel.
+The merging and gapfilling programs were re-developed in Java with improved program design and implementation.  
+There is no assumption in the new gapfilling tool.  A Java summary report tool was also developed for quality assurance purpose.  
+The tool summarizes all surrogates listed in a input file (SRGDESC.txt file) based on surrogate codes and counties.  
+It gives reports about gapfilling, not sum to 1, or nodata information for each county of all surrogats.  
+All java programs are packed into the SurrogateTools.jar file.</p>  
+
+<hr>
+<P>More information on the SurrogateTools is available at <a href=http://www.ie.unc.edu/cempd/projects/mims/spatial/srgtool/>
+http://www.ie.unc.edu/cempd/projects/mims/spatial/srgtool/</a></p>
+<p><a href=srg_weight.html><b>To Section 4.2: Generating Surrogates from Weight Shapefiles</b></a>
+</body>
+</html>
+
+
+ 

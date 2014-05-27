@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Revision History</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<H2><A name="revisions"></A>8. Revision History</H2>
+<h3>New Features Added in December 2007</h3>
+<p>In the fall 2007, the following changes were made:</p>
+<ul>
+<li>Updated PROJ4.0 library to the current version PROJ4.5.0. <b>NOTE: due to this change, the map projection called LATLON and ellipsoid called SPHERE are no longer suppored</b>.</li>
+<li>Added datum transformation files to the PROJ4.5.0 installation</li>
+<li>Changed the Spatail Allocator projection codes to use the new function in PROJ4.5.0 to handle datum transformation while converting projections</li>
+<li>Modified all scripts in the release with the new projection specification.</li>
+</ul>
+
+<h3>New Features Added in October 2006</h3>
+<p>In October 2006, the following changes were made:</p>
+<ul>
+<li>Added support for CMAQ OCEANfile and area percentage allocation mode.</li>
+</ul>
+
+<h3>New Features Added in Spring and Summer 2006</h3>
+<p>In the spring and summer of 2006, the following changes were made:</p>
+<ul>
+<li>Support for the rotated lat-lon WRF-nmm E-Grid was added to allocator, srgcreate, and beld3smk.</li>
+<li>Support for polygon-based surrogates (e.g. for census tracts) was added to srgcreate and srgmerge.</li>
+<li>Many robustness improvements were made to the software.</li>
+<li>Corrections were made to properly process input Shapefiles have multiple Shape entries in for the same Shape</li>
+<li>Srgcreate supports the DENOMINATOR_THRESHOLD variable to specify when shapes should be ignored, 
+so that small slivers due to data and weight Shapefiles that don't quite line up (e.g. for census
+tracts and counties for urban populoation surrogate) don't generate actual values of surrogates and prevent proper gapfilling.</li>
+<li>Srgmerge updates 8 decimal place surrogates.</li>
+<li>When a surrogate does not sum to 1 for a county, a comment line is added reporting this.</li>
+<li>Comment lines are output if there is no data polygon ID found for a row in the surrogate file.</li>
+<li>The SurrogateTools Java package was added to the software system, with tools for:
+  <ul><li>Automatically generating dozens of surrogates</li>
+      <li>Generating Quality Assurance reports</li>
+      <li>Normalizing Surrogates</li>
+      <li>Gapfilling Surrogates</li>
+      <li>Merging Surrogates</li>
+   </ul></li>
+</ul>
+
+<h3>New Features Added in June/July 2005</h3>
+	<p>The source code for the Spatial Allocator has undergone significant revision.  The main executable, mims_spatial.exe, has been divided into separate utilities for surrogate processing and spatial allocation (srgcreate.exe and allocator.exe), and the supporting source files have been reorganized, with many functions now residing in their own modules.  All supporting source files that are not associated with external libraries have been placed in a library called libspatial.  These changes allow for better full-life-cycle maintenance of the software.</p>
+<ul>
+    <li>The beld3smk program is new and can be used to create SMOKE biogenic input files.</li>
+    <li>The diffioapi utility is new and can be used to compare I/O API files.</li>
+    <li>The dbf2asc utility is new and can be used to convert DBF files to ASCII .csv files.</li>
+    <li>The environment variables for all modes were renamed to make them more understandable.</li>
+    <li>For general spatial allocation not involving surrogates, the AGGREGATE and AVERAGE modes have been replaced with an ALLOCATE mode, with a new allocation mode file allowing the user to specify different allocation functions to use  for different attributes.</li>
+<li>Discrete attributes (e.g. county name) can now be processed as part of ALLOCATE mode using one of two options: maximum overlap or centroid.</li>
+<li>General spatial allocation now includes an OVERLAY mode, which allows the user to accept a point, line, or polygon shapefile or point file and
+overlay a grid, polygon, or bounding box and print the attributes that fall within the overlaying region(s). Output options are shapefile, I/O API file, 
+delimited ASCII file (delimiter can be user-selected), or standard output (stdout).</li>
+<li>The MAX_LINE_SEG variable can now be used to specify a maximum length of a line segment.  This is useful when gridded data is converted between different map projections - as the precision of the spatial allocation computation is increased over using just four points per grid cell.</li>
+<li>Debugging output can now be turned on or off using the DEBUG_OUTPUT environment variable.  All processing information except error messages
+can be suppressed, which allows data results to be clearly displayed in standard output in certain processing modes.</li>
+<li>A map projection can now be specified using a grid name.</li>
+<li>There is additional support for new input and output file types.  New input types are:
+   <ul><li>PointFile</li>
+       <li>I/O API  file</li>
+	   <li>Polygon file (ASCII text file that lists the coordinates of polygons - used in OVERLAY mode only)</li>
+   </ul>
+  <li>New output types are:</li>
+   <ul>
+     <li>Delimited ASCII file with choice of &nbsp;','&nbsp;(comma), '|'&nbsp;(pipe), ';' (semicolon),&nbsp;or &nbsp;'&nbsp;' (space) as delimiter (output from OVERLAY mode)</li>
+       <li>I/O API file</li>
+   </ul>
+   <li>To ease memory overhead, a new variable called MAX_INPUT_FILE_SHAPES can be specified allowing the user to specify a maximum read buffer that will be processed, so that large files may be processed in multiple passes instead of being read in all at once.  This feature is currently  supported only in OVERLAY mode.</li>
+</ul>
+<h3>New Features Added in January 2005</h3>
+<ul>
+  <li>Shapefiles can  be filtered to produce new shapefiles that contain only the shapes that matched the user-specified criteria.</li>
+  <li>A filter can be applied to a weight file prior to creating a surrogate using the filtered weights.</li>
+  <li>A function of attributes can  be specified as the weight to use for computing a surrogate.</li>
+  <li>Existing surrogates can be merged (e.g., using weighted averages) to create new surrogates.</li>
+  <li>Existing surrogates can be gap-filled with more general surrogates so that entries are available for all counties of interest.</li>
+  <li>Surrogates can be created using the Mercator map projection.</li>
+</ul>
+<h3>Revisions Made in December 2003</h3>
+<ul>
+  <li>Corrected a bug that caused line objects outside the modeling domain but within the counties of the modeling domain to be excluded from the denominator of surrogate computations.</li>
+  <li>Tested the software with stereographic and polar stereographic map projections.</li>
+  <li>Corrected a bug that caused polygon holes to  be treated improperly. This often caused problems with water surrogates in coastal areas where holes were commonly required to represent the geography.</li>
+  <li>Implemented a feature to warn the user about counties for which the surrogates do not sum to one and the corresponding grid cells. A sum less than one is legitimate if the county is only partially covered by the grid.</li>
+  <li>Added a date and version number that is printed at the beginning of execution.</li>
+</ul>
+<hr>
+<p>To Section 9: <a href=future.html>Future Enhancements</a></p>
+</body>
+</html>

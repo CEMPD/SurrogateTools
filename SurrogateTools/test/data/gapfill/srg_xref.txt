@@ -1,0 +1,12 @@
+#Surrogate cross reference file
+#SRGDESC=2,Airports
+#SRGDESC=3,Area
+#SRGDESC=4,Ports
+#SRGDESC=5,Navigable H20
+#SRGDESC=6,Highways
+#SRGDESC=7,Population
+#SRGDESC=8,Housing
+#SRGDESC=202,Gapfilled Airports
+#SRGDESC=206,Gapfilled Highways
+#SRGDESC=300,Half Pop Half Housing
+#SRGDESC=303,"Half Pop Half Housing, Area"

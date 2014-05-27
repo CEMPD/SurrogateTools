@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Introduction</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<div align="center">
+  <h2 align="left"><a name="summary"></a>1. Introduction</h2>
+</div>
+
+<h3>1.1 Problem Statement</h3>
+<p>Air quality modelers often need geographic data and spatial surrogate 
+computation in generating emission and other spatial input data.  Geographic
+information systems (GIS) can be used in processing, displaying, analyzing,
+and generating any geographic data needed.  However, the use of GIS has 
+created a number of challenges for air quality modelers because GIS systems 
+are generally very expensive and have complex programs with steep learning
+curves.  Currently, most of geographic data needed in air quality modeling
+are generated in GIS by GIS experts.  To address these challenges, 
+the Multimedia Integrated Modeling System (MIMS) Spatial Allocator has 
+been developed to bridge the gap between emission modelers and GIS experts
+by providing a free, easy-to-use, portable suite of utilities for spatial
+surrogate computation, BELD3 landuse data, point in grid conversion, or other 
+data spatial allocation, spatial data overlay, spatial Shapefile selection 
+(filtering), map projection conversion, and other spatial analyses.</p>
+<p>The MIMS Spatial Allocator is licensed as open-source software and provided 
+at no cost because its development was sponsored by NOAA and EPA. The Spatial
+Allocator uses GIS industry standard ESRI shapefiles and plain 
+text data files for input and output data.  The Spatial Allocator utilities 
+are written in the highly portable C and C++ programming language.  The
+surrogate tools used to run the utilities for all surrogate computation and quality assurance summary tables are 
+written in the Sun Java language. The current release provides binaries for RedHat Linux and Windows. 
+ In addition to the supported operating systems, the Spatial 
+Allocator can easily be adapted to run on almost any UNIX-based 
+operating system, as source code is provided.</p>
+<P>The Spatial Allocator consists of seven programs.  The first four programs 
+listed below are primary programs, while the other three are secondary 
+programs used for data file comparison and format conversion.</p>
+<ul>
+  <li>The spatial allocator program (<b>allocator</b>) performs spatial
+      computations such as filtering, overlays, map projection
+      conversion, and conversion of data from one spatial form to
+      another. For example, the allocator can be used to map point source data to modeling grid cells or polygons,
+      aggregate data for county polygons into state polygons, convert data from one
+      grid to another, or create a new shapefile by specifying a filter
+      based on any attributes of an existing shapefile.</li>
+  <p><li>The surrogate creator program (<b>srgcreate</b>) generates surrogates
+      for point-, line-, or polygon-based weight shapefiles such as ports,
+      airports, housing, population, agriculture, water area, and
+      railroads. The surrogate creator tool can generate surrogates for
+      regularly spaced air quality model grids, the WRF/NMM-CMAQ E-grids(rotated diamond shaped grids), or
+      any modeling polygon shapes (such as census tracts) on a variety of map
+      projections, such as Universal Transverse Mercator (UTM), Lambert
+      Conformal, and latitude-longitude. It supports a variety of
+      standard and user-specified ellipsoids to approximate the shape of
+      the Earth.</li></p>
+  <p><li>The BELD3 converter program (<b>beld3smk</b>) converts 1-km gridded landuse  data to a user-specified modeling grid, egrid, or polygons. 
+  The output of this program  can be used as input to the Normbeis3 program in the SMOKE emissions model. </li></p>
+  <p><li>The <b>srgmerge</b> utility can create new surrogates that are functions of existing surrogates, and can fill in the gaps of one surrogate with entries from other surrogates. </li></p>
+  <p><li>The <b>diffsurr</b> utility compares the values of two surrogates.</li></p>
+  <p><li>The <b>diffioapi</b> utility compares two I/O API files, checking that the  files' headers and data values are consistent.</li></p>
+  <p><li>The <b>dbf2asc</b> utility produces an ASCII (csv) file from the DBF portion of a shapefile.  </p>
+</ul>
+<p>In addition, five Java-based tools for generating and processing spatial surrogates are available in the SurrogateTools.jar file.  
+The tools provide a more user-friendly way to use the Spatial Allocator for computing surrogates from shapefiles, merging 
+existing surrogate data, or gapfilling surrogate data using data from other surrogates without creating system scripts files.  
+The tools also provide quality summary capability for all surrogates generated and surrogate normalization program 
+for any county with surrogates not summed to 1.0.  All tools require Java 1.5 or later version.</p> 
+<ul>
+<li><b>SurrogateTool</b> is a program that runs srgcreate and srgmerge to create surrogates,
+merge existing surrogates, and gapfill computed surrogates.  It frees users from creating system
+dependent script files to generate surrogates.  The Surrogate Tool uses user-defined text inputs to control 
+which surrogates are generated, and the format of these files allows them to be easily edited and 
+maintained in a spreadsheet program like Microsoft Excel.</li> 
+<p><li><b>QA tool</b> is used to summarize and provide quality assurance information
+about a list of computed surrogates.  Four reports (Not1, gapfill, nodata, and summary)
+are generated for surrogates.</li></p>
+<p><li><b>Normalization tool</b> is a program that "normalizes" surrogates for counties that
+do not sum to 1.0 and makes the county surrogate ratio sum to 1. This should be used with care
+because surrogate values for counties on the edge of the grid often should not sum to 1. 
+The tool accepts an exclude list of such counties.</li></p>
+<p><li><b>Gapfilling tool</b> is a Java-based tool that gapfills surrogates as the gapfilling function of srgmerge in the Spatial 
+Allocator does.  But, the gapfilling in srgmerge has an assumption that the lowest surrogate has all counties of interest.  The 
+Java-based gapfilling tool eliminates this assumption to ensure that any gapfilling with proper input surrogates will run successfully.
+<p><li><b>Merging tool</b> is a Java-based tool that merges multiple surrogates to output a new
+surrogate.  The tool is very similar to the merging that is available in the srgmerge program, except that only two part 
+equations are accepted (e.g., a*s1+b*s2 where a+b=1.0). Another difference is that if values are missing for one surrogate 
+for a county, values for the other surrogate are output.</li></p>
+</ul>
+
+<p>More information on obtaining the programs, running example scripts for each of these programs and utilities, and using Java tools can be found in the section entitled Using the software on the main <a href=index.html>contents page.</a></p>
+<h3>1.2 Project Objectives</h3>
+
+The following were the objectives of the MIMS Spatial Allocator development projects: </h2>
+
+<ol>
+  <li>Develop software that (a) reads geospatial data (polygons, lines,
+      and points with attributes that serve as weights in
+      latitude-longitude or projected coordinates) and a description of
+      target polygons (possibly on a different map projection and Earth
+      ellipsoid); (b) allocates the input data to the target polygons
+      based on weighted spatial overlap of the input data and target
+      polygons; and (c) outputs the results (e.g., to generate
+      surrogates to be used as inputs to the Sparse Matrix Operator
+      Kernel Emissions [SMOKE] modeling system)<br>&nbsp;</li>
+  <li>Develop a machine-independent Java surrogate tools which calls the 
+      MIMS Spatial Allocator utilities internally without script files
+      for users to compute one or more surrogates in a single run 
+      based on simple csv and text input files and summarize the computed surrogates
+      for quality assurance. <br>&nbsp; </li>
+  <li>Develop an automated test suite to test the spatial allocation
+      software's capabilities and report whether or not the program is
+      functioning properly, and if not, what problems were encountered.
+      The results of the software should be verified against a
+      commercial GIS (e.g., MapInfo Professional or ArcGIS).<br>&nbsp;</li>
+  <li>Demonstrate the use of the spatial allocation software to prepare
+      surface water cover, railroads, airports, and housing type
+      information for use by SMOKE (i.e., surrogates).<br>&nbsp;</li>
+  <li>Support incremental development by providing an interface that allows additional data readers and writers to be added in a reasonably simple way. 
+  The <A href="programmers_guide.html">programmer's guide</A> provides some documentation on how to develop a custom reader/writer.</li>
+</ol>
+<h3>1.3 Credits</h3>
+<p>The MIMS Spatial Allocator was developed by members of the Institute
+for the Environment at the University of North Carolina at Chapel Hill
+(<A href="http://www.ie.unc.edu/">http://www.ie.unc.edu/</A>), some of whom were formerly associated with
+MCNC.  The development and continued maintenance of this software has
+been sponsored by the EPA Office of Research and Development.  The first
+version of the Spatial Allocator software was developed in 2002-2003 to
+provide a tool for performing emission surrogate generation and other
+types of spatial allocation without requiring users to have a GIS.
+Initial releases of the software took place in March 2003 and December
+2003. A project to update the tool with new features was sponsored in
+2004-2005, with a first release of the updated tool in January 2005 and
+another release in April 2006. Other updates were made in 2008. A complete history of revisions is available <a href="rev_history.html">here</a>.
+<p>This document includes instructions for the current release of the
+software and serves as a user's guide for the Spatial Allocator. 
+ An older user's guide [<a href="Spatial_Allocator_UG.pdf">
+PDF</a>][<a href="Spatial_Allocator_UG.doc">MS Word</a>] is
+available that offers a different view of the software and was developed
+independently of this user's guide; it has not been updated to include
+any of the enhancements made during late 2005 or 2006.</p>
+<hr>
+<p>To Section 2: <a href=background.html>Background on Shapefiles and Surrogates.</a></p>
+</body>
+</html>

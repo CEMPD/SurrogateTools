@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Creating Inputs to SMOKE Biogenic Processing</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<H2><A name="SMOKE_Biogenic"></a>5. Creating Inputs to SMOKE Biogenic Processing</H2>
+<h3>5.1 Creating the Inputs to the SMOKE Program NORMBEIS3</h3>
+<p>
+The program beld3smk.exe can be used to allocate BELD3 landuse data  onto the modeling grid of interest which can then be used as input to the SMOKE program NORMBEIS3. The BELD3 data set gives landuse  fractions for 230 different types at a 1-km resolution. The data  included with beld3smk includes 24 tiles of landuse data covering  North America as shown below. These input files are I/O API files named  b3_a.tile#n.nzero.ncf, b3_b.tile#n.nzero.ncf, and  b3_tot.tile#n.nzero.ncf. <p>
+<ul>
+<li>The "a" files contain data for the first 120  landuse types.</li>
+<li>The "b" files contain the remaining 110 types. </li>
+<li>The  "tot" file contains the total land use fractions.</li>
+</ul>
+<p>These files have been  compacted by removing variables whose values are all zero for the domain covered by that particular tile. The output files from beld3smk will contain all variables including those that are all zero.
+</p>
+<p align=center><img src="m108-tile.gif" alt="Picture of 24 BELD tiles over North America">
+<p>
+When beld3smk.exe is run, it determines which of the 24 tiles intersect the modeling grid and then allocates the data in those  tiles to the output grid. It merges the various tiles together to  create one set of output files consisting of an "a", "b", and "tot"  file. 
+</p><p>
+The following environment variables control the behavior of beld3smk.
+<ul>
+<li>OUTPUT_GRID_NAME: specifies the name of the modeling grid. The  corresponding grid description must be in the GRIDDESC file.</li>
+<li>GRIDDESC: the full file name including the directory of the grid description  file</li>
+<li>INPUT_DATA_DIR: the directory that contains the input data needed by the program.  This input data includes the 24 tiles of BELD3 data, a Shapefile with  the positions of the tiles, and files to provide variable names and  descriptions for the 230 landuse types. Note that the environment  variable must include the trailing slash on the directory name.</li>
+<li>TMP_DATA_DIR: directory for writing temporary files created by the  program. This directory must exist before the program is run and the  environment variable must include the trailing slash on the directory  name.</li>
+<li>OUTPUT_FILE_PREFIX: output name prefix including directory. The  output files will be named by appending _a.ncf, _b.ncf, and _tot.ncf  to OUTPUT_FILE_PREFIX. The program will not overwrite existing output  files if the new output files a for a different grid.</li>
+</ul>
+<p> The script convert_beld.csh runs the beld3smk program for a small  test domain. This script can easily be modified for any given  modeling grid by changing the OUTPUT_GRID_NAME and the  OUTPUT_FILE_PREFIX and ensuring that the desired grid is described in  the GRIDDESC file. <b>NOTE: because I/O API file support is not currently available on Windows, beld3smk is not available on Windows.</b>
+</p>
+<h3>5.2 Comparing I/O API Files</h3>
+<p>The diffioapi.exe program compares two I/O API files. The program first checks the two files' headers to ensure that they are  consistent. These checks include map projection, grid description  (grid origin, grid cell size, and number of rows and columns), layer  structure, time structure (start time, time step, and duration), and  variable names. After confirming that the headers match, diffioapi  loops through all variables in the files and compares the values for  each time step and layer. If the values differ by more than a user- specified tolerance, an error message is printed indicating the  variable name, time step, layer, row, and column that differs.  The following environment variables control the behavior of diffioapi:</p>
+<ul>
+<li>ORIG_FILE: full file name including directory of the original I/O API  file</li>
+<li>NEW_FILE: full file name including directory of the new I/O API file</li>
+<li>TOLERANCE: tolerance used when calculating percent difference between  data values</li>
+</ul>
+<p><b>Note: because I/O API files are not currently supported on Windows, diffioapi is not currently available for Windows.</p>
+<hr>
+<p>To Section 6: <a href="converting.html">Converting Map Projections of Shapefiles</a></p>
+</body>
+</html>

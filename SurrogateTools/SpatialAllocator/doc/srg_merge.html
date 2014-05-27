@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Generating Surrogates by Merging Existing Surrogates</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<a name="merge"></a><h2>4.3. Generating Surrogates by Merging Existing Surrogates</h2>
+<h3>4.3.1 The Srgmerge Program</h3>
+<p> In some cases it is desirable to apply a weight function (for more information see the <a href=weight_func.html>Computing Surrogates Using Weight Functions</a>), but the attributes of interest do not reside in a single shapefile, or their units are not consistent. Surrogates can be computed in these cases, but the input surrogates must first be computed independently and then combined using weighted sums. To implement this feature, a separate program called <strong>srgmerge</strong> has been developed. Srgmerge reads previously computed surrogates from files and outputs new surrogates. Srgmerge can both merge surrogates and perform <a href="srg_gapfill.htm">gap filling</a>, which is described in the next section. </p>
+<p> Srgmerge requires as a command line argument an ASCII input file that describes how the surrogates should be merged. The program srgmerge.exe should be with the mims_spatial and diffsurr executables that are in the top level of the installation folder for the Spatial Allocator. To run the program, cd to that directory and then type 
+<pre>
+srgmerge.exe <i>name_of_input_file</i>
+</pre>
+The ASCII input file to srgmerge uses keyword-value pairs to specify its data values. The following three keywords MUST be found in the srgmerge input file: OUTFILE, XREFFILE, and OUTSRG. The function of these keywords is as follows:
+<ul>
+  <li> OUTFILE specifies an output file name to which the new surrogates will be written. </li>
+  <li>XREFFILE specifies a file name for a surrogate <a href="#xref"> cross reference file</a>. </li>
+  <li>OUTSRG specifies the name of the output surrogates and a function that describes how the input surrogates are to be combined to create the output surrogates. </li>
+</ul>
+Note that multiple OUTSRG= lines may exist in the input file, and the specifications that follow each OUTSRG= must be given on a single line. When multiple OUTSRG= lines are found in a file, there will be multiple sets of surrogate fractions in the resulting output file. The syntax for the functions specified in the OUTSRG= lines is similar to that of the weight functions with  two exceptions: the names of the files that contain the input surrogates are included as part of the syntax (as shown below), and division and subtraction are not allowed. So, the inputs to this function are the file and input surrogate names, as opposed to the weight functions, which include attribute names in weight shapefiles. The name of the new surrogates to be generated is also included on the OUTSRG= line. The example below depicts a typical input file for srgmerge. Any lines that begin with the character '#' are considered to be comments and are ignored by the program.
+<p></p>
+<pre><b># Example input file for creating functions of surrogates using srgmerge</b>
+
+OUTFILE=output/merged_srgs.txt
+
+XREFFILE=data/srg_xref.txt
+
+OUTSRG=Half Pop Half Housing; 0.5*({data/surrogates.txt|Population})+0.5*({data/surrogates.txt|Housing})
+
+OUTSRG=Population; 1*{data/surrogates.txt|Population}
+
+OUTSRG=Housing; 1*{data/surrogates.txt|Housing}
+
+</pre>
+<p> All of the output surrogates will be saved in the new file specified in the OUTFILE line. In this case it will be named output/merged_srgs.txt. The XREFFILE line specifies the name of the cross-reference file for surrogate names and IDs (more detail is given on this file below). The first OUTSRG= line in this example specifies that the name of the first set of new surrogates to compute is "Half Pop Half housing". The new surrogate fractions will be computed using an evenly weighted average of the Population surrogates in the file data/surrogates.txt and the Housing surrogates in the same input file. The remaining OUTSRG= lines specify that the Population and Housing surrogates should be copied to the output file without making any changes. Note that the names of the input surrogates are enclosed in  braces (i.e., {}) using the syntax {<i>filename|surrogate name</i>}. A pipe (|) is used to separate the file name from the surrogate name. We would have preferred to use a colon, but there were issues because a colon separates the disk drive from the file name on Windows. </p>
+<p>The allowable operators and functions have the same limitations as described in the <a href="weight_func.html">Weight Function Syntax</a> section, with the exception that division and subtraction are not allowed in srgmerge. Typically, you will want to specify a weighted average for which the "weights" sum to 1. Note that you should use the type of slashes (forward or back ) for the file names that is appropriate to the computer you are running on (i.e., back slashes for Windows,  forward slashes for Linux or other Unix systems). </p>
+<p> The srgmerge program does some checking on the surrogate fractions that it outputs. First it checks to see whether each surrogate fraction it outputs is between 0 and 1, as they all should be. Also, if it finds that the total of all the fractions for a county is not 1, it writes this comment on the end of the surrogate line:
+  
+<pre>
+Invalid total: the sum of the values does not equal 1 for county X
+</pre>
+Note that the check for the sum of the fractions being equal to 1 for the county  occurs only if all of the input surrogate fractions summed to 1 for the county; some of the counties on the edge of the grid will not have their surrogate fractions sum to 1.
+<p></p>
+
+<a name="xref"></a>
+<h3>4.3.2 Example Cross-Reference File</h3>
+<p>The XREFFILE keyword specifies the name of the surrogate cross-reference file that contains surrogate names and IDs for both the input and output surrogates. The XREFFILE is a reference file that links surrogate ID codes and surrogate names. All surrogates in the OUTSRG list must either appear as comments (e.g., #SRGDESC=ID,name) in the input surrogate files, or they must exist within the XREFFILE. So, for the above example to work properly, the corresponding cross-reference file should contain entries for at least &quot;Half Pop Half Housing&quot;. The descriptions for Population and Housing may be provided as comments in the input surrogate files, but if they are not included there, they should be listed in the XREFFILE. Each entry in the XREFFILE or in the header of the surrogate files should have the format #SRGDESC=<i>id,name</i>. For the input surrogates, the headers of the surrogate files will be checked first. If the name is not found there, a warning will be printed, and then the XREFFILE will be checked. If the name is not found in either place, srgmerge will quit with an error. Here is an example of the correct format of the cross-reference file:
+<pre><b># Example of a surrogate cross-reference file</b>
+
+#SRGDESC=2,Airports
+#SRGDESC=5,Railroads
+#SRGDESC=6,Agriculture
+#SRGDESC=7,Population
+#SRGDESC=8,Housing
+#SRGDESC=201,Gapfilled Airports
+#SRGDESC=204,Gapfilled Railroads
+#SRGDESC=300,Half Pop Half Housing
+
+</pre>
+<p>In this example cross-reference file, surrogate IDs exist for airports, railroads, agriculture, population, housing,  gap-filled airports, gap-filled railroads, and half pop half housing. </p>
+<hr>
+<p>To Section 4.4: <a href=srg_gapfill.html>Gap Filling Computed Surrogates</a></p>
+</body>
+</html>

@@ -1,0 +1,44 @@
+#Linux gcc
+CC = gcc
+CPP = g++
+
+#AIX VisualAge compiler
+#CC = c89
+#CPP = xlC
+
+#Optional flags - uncomment one OPTFLAGS line
+OPTFLAGS = -O
+
+#Note:  Must have cppunit installed, probably will need a 
+# -L directive on next line to tell compiler location of libcppunit.a 
+LIBS = -lcppunit
+LDFLAGS = -static
+CFLAGS = $(OPTFLAGS) -DDEBUG -DFILTER_UNIT_TEST_MAIN -DDEBUG_PWA -D_AIX
+
+
+CSRCOBJS = parse_weight_attributes.o parse_include_exclude.o create_subsets.o dbfopen.o \
+	shpopen.o regex.o
+CPPSRCOBJS = FilterUnitTestMain.o ParseAttributeUnitTest.o
+
+filter_test: $(CSRCOBJS) $(CPPSRCOBJS)
+	$(CPP) -o $@ $(CSRCOBJS) $(CPPSRCOBJS) $(LIBS) $(LDFLAGS)
+	cp $@ ../testsuite
+
+clean: 
+	rm -f *.o filter_test ../testsuite/filter_test
+
+parse_weight_attributes.o: parse_weight_attributes.c parse_weight_attributes.h
+	$(CC) $(CFLAGS) -c parse_weight_attributes.c
+parse_include_exclude.o: parse_include_exclude.c parse_weight_attributes.h
+	$(CC) $(CFLAGS) -c parse_include_exclude.c
+create_subsets.o: create_subsets.c parse_weight_attributes.h
+	$(CC) $(CFLAGS) -c create_subsets.c
+FilterUnitTestMain.o: FilterUnitTestMain.cpp ParseAttributeUnitTest.h
+	$(CPP) $(CFLAGS) -Icppunit/include -c FilterUnitTestMain.cpp
+ParseAttributeUnitTest.o: ParseAttributeUnitTest.cpp ParseAttributeUnitTest.h
+	$(CPP) $(CFLAGS) -Icppunit/include -c ParseAttributeUnitTest.cpp
+dbfopen.o: shapefil.h
+	$(CC) $(CFLAGS) -c dbfopen.c
+regex.o: regex.c regex.h
+	$(CC) $(CFLAGS) -c -UDEBUG regex.c
+

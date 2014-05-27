@@ -1,0 +1,28 @@
+The following bugs/issues are still being worked on:
+
+Negative areas encountered when reading latlon gridded shapefiles written by the SA itself
+
+compare surrogates for point and line files
+
+chunking in ALLOCATE mode and surrogate creator not currently supported
+
+Average mode for points and lines does not account for attributes (avg1Poly
+function) --needs more testing to understand what is taking place
+
+GPC Union problem--add code to prevent duplicate outputs
+- will need to write a filter to catch redundancie, mostly encountered 
+  when overlaying line shapefiles
+
+Average of point and line attributes is not working (avg1Poly function)
+
+NONE as weight attribute for allocate mode--does it make sense?
+
+max overlap algorithm robustness problem to handle case where sum of 
+  pieces causes overlap to be greater than another case, but individual
+  pieces do not
+
+centroid algorithm improvement - currently is just avg of xs and avg of ys
+
+PointFile attributes are all treated like strings, there is no type
+differentiation in a PointFile; this would need to be corrected to 
+support proper allocation of values in the point file

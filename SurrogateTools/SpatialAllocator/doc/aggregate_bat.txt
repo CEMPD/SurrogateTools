@@ -1,0 +1,52 @@
+:: ******************* Aggregate Shapefiles Run Script **************************
+:: This script aggregates population and housing data from NC tracts to NC 
+:: counties.
+:: 
+:: Script created by : K. Hanisak, Carolina Environmental Program, UNC-CH
+:: Last edited : March 2003 
+:: 
+:: *****************************************************************************
+
+:: Set Input Directories
+@echo off
+
+set MIMSDIR=..
+set DATADIR=%MIMSDIR%\data
+set OUTPUT=%MIMSDIR%\output
+
+:: Set executable
+
+set EXE=%MIMSDIR%\Win32\mims_spatial.exe
+
+:: Select method of spatial analysis
+
+set MIMS_PROCESSING=AGGREGATE
+
+:: Data polygon shapefile (state counties) -- level of aggregation
+:: Set name and path of shapefile
+
+set POLY_DATA=%DATADIR%\cnty_tn
+set POLY_DATA_TYPE=ShapeFile
+set DATA_POLY_MAP_PRJN=+proj=latlong
+set DATA_POLY_ELLIPSOID=+a=6370993.0,+b=6370993.0
+
+:: Set Shapefile from which to aggregate data (tracts)
+
+set POLY_WEIGHT=%DATADIR%\tn_pophous
+set POLY_WEIGHT_TYPE=ShapeFile
+set WEIGHT_POLY_MAP_PRJN=+proj=lcc,+lat_1=33,+lat_2=45,+lat_0=40,+lon_0=-97
+set WEIGHT_POLY_ELLIPSOID=+a=6370993.0,+b=6370993.0
+
+:: set output file name
+set POLY_OUT_NAME=%OUTPUT%\agg_pophou
+set OUTPUT_POLY_MAP_PRJN=+proj=latlong
+set OUTPUT_POLY_ELLIPSOID=+a=6370993.0,+b=6370993.0
+
+:: Set attribute to aggregate by (county)
+set ATTR_DATA_ID=FIPS_CODE
+
+:: Set attributes to aggregate to county level
+set ATTR_WEIGHT=POP2000,HOUSEHOLDS
+
+echo Aggregating tracts to county for population and housing
+%EXE%

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Computing Grid Cells for Point Source Data</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<H2><A name="point_to_grid.html"></a>7.4 Computing Grid Cells that Contain Points</H2>
+<p>
+The program allocator.exe can be used to allocate point source data into the output grid, egrid, or polygon. For this calculation, MIMS_PROCESSING is set to OVERLAY mode.</p>
+
+<p>When allocator.exe is run, it determines how to map the point source data into grid, egrid, or polygon modeling output.
+It will print output on screen or into a file based on the format users define with modeling output grid, egrid, or polygon IDs.</p>
+</p>
+<p>The following is a sample script named overlay_sites_on_egrid.csh used to map a point source data into the the WRF/NMM-CMAQ egrid:</p>
+<pre>
+#! /bin/csh -f
+#******************* Overlay Run Script **************************************
+# Set debug output
+setenv DEBUG_OUTPUT Y
+
+# Set executable
+setenv MIMSDIR ..
+setenv EXE "$MIMSDIR/allocator.exe"
+
+# Set Input Directory
+setenv DATADIR $MIMSDIR/data
+setenv OUTPUT $MIMSDIR/output
+
+# Select method of spatial analysis
+
+setenv MIMS_PROCESSING OVERLAY
+
+setenv TIME time
+
+setenv OVERLAY_SHAPE EGRID_359X573
+setenv OVERLAY_TYPE EGrid
+setenv OVERLAY_MAP_PRJN EGRID_359X573
+setenv OVERLAY_ELLIPSOID "+a=6371200.00,+b=6371200.00"
+setenv OUTPUT_POLY_FILE $DATADIR/egrid_arc.dat
+setenv GRIDDESC $DATADIR/GRIDDESC.txt
+setenv OVERLAY_OUT_TYPE DelimitedFile
+setenv OVERLAY_OUT_NAME $OUTPUT/egrid_point.csv
+setenv OVERLAY_OUT_DELIM COMMA
+setenv OVERLAY_OUT_CELLID YES
+# will print row and col
+# problem with this method is that ROW and COL are not avaiable to pass through
+#setenv OVERLAY_ATTRS Site_ID
+setenv OVERLAY_ATTRS ALL
+setenv INPUT_FILE_NAME $DATADIR/CASTNET_locations.txt
+setenv INPUT_FILE_TYPE PointFile
+setenv INPUT_FILE_XCOL Longitude
+setenv INPUT_FILE_YCOL Latitude
+setenv INPUT_FILE_DELIM SEMICOLON
+setenv INPUT_FILE_MAP_PRJN "+proj=latlong"
+setenv INPUT_FILE_ELLIPSOID "+a=6370997.00,+b=6370997.00"
+setenv WRITE_HEADER Y
+echo "Overlaying egrid with PointFile"
+$TIME $EXE
+#*****************************************************************************
+
+</pre>
+<p>The output egrid_point.csv contains column and row of egrid cells for the input point data in addition to the original 
+input data items.</p> 
+<hr>
+<p><b>To Section 8: <a href="rev_history.html">Revision History</a></b></p>
+</body>
+</html>

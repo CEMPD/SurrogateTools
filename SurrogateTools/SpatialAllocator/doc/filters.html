@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Filtering a Shapefile</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<a name="filters"></a>
+<h2>7.3. Filtering a Shapefile</h2>
+<h3>7.3.1 Specifying Filters</h3>
+<p> The filtering feature was added to overcome a limitation of the original Spatial Allocator: it could only generate surrogates based on all of the shapes in a weight file. For example, a surrogate for interstate highways could not be generated from a weight file that contained data on multiple road types. With the January 2005 version of the Spatial Allocator, it became possible to specify a set of criteria that shapes in the weight file must meet in order to be included in the surrogate calculation. In addition to creating a filtered surrogate, the FILTER_SHAPE mode of the allocator program will cause the program to create a new Shapefile that contains only the shapes that meet the filter criteria.</p>
+<p> Two types of filter criteria can be specified: discrete and continuous.  With discrete filters, the filter specifies a list of acceptable values (e.g. road_type=Interstate), or a pattern that is applied to specify acceptable values (e.g. Name=C* to specify words starting with C).  Alternatively, continuous filters use relational expressions to specify the matching values (e.g. length<100). The shapes that meet the filter criteria can either be included or excluded from the output file. Multiple filter criteria can be applied at one time.  The specification of the filter to apply is stored in a &quot;filter file&quot;.  </p>
+<p>A filter file is a text file that is required to generate either a filtered shapefile or filtered surrogates from nonfiltered shapefiles. The filter file consists of blocks of keyword-value pairs (i.e., lines of the form keyword=value). There are two required keywords: ATTRIBUTE_NAME and ATTRIBUTE_TYPE. The value given for the ATTRIBUTE_NAME specifies the attribute (i.e., column) in the DBF part of the shapefile whose values will be evaluated against the filter. The ATTRIBUTE_TYPE should be set to either DISCRETE or CONTINUOUS. Specify CONTINUOUS to treat the attribute values as numbers, or DISCRETE to treat them as strings. <b>Note: DBFs can be viewed with Microsoft Excel(TM) on Windows or Open Office on Windows. This is helpful to see what attribute names are available in the DBF and what the values look like.</b> </p>
+<p> Once the attribute name and type are selected, the rest of the filter criteria can be specified by including or excluding values. The keyword INCLUDE_VALUES specifies a list of values for which the corresponding shapes in the shapefile should be retained in the output shapefile. The keyword EXCLUDE_VALUES specifies a list of values for which the corresponding shapes in the shapefile should  not be included in the output shapefile. You must specify either INCLUDE_VALUES or EXCLUDE_VALUES for each ATTRIBUTE_NAME that is specified. If desired, both INCLUDE_VALUES and EXCLUDE_VALUES may be set, and their effect is cumulative. This means that any shapes that pass the INCLUDE_VALUES criteria must also pass the EXCLUDE_VALUES criteria for the shape to be placed in the output shapefile. Do not specify multiple INCLUDE_VALUES or EXCLUDE_VALUES lines for the same ATTRIBUTE_NAME. </p>
+<p> Comments are allowed in the filter files if they are preceded with a #. You can name your filter file anything you like, but it must be saved in ASCII text format. The Spatial Allocator is not case-sensitive; as the file is read, all alphabetic characters will automatically be converted to uppercase.  
+  
+<pre># Example A
+# comment
+ATTRIBUTE_NAME=ROAD_TYPE
+ATTRIBUTE_TYPE=DISCRETE
+INCLUDE_VALUES=A11,A12
+</pre>
+In Example A above, the name of the attribute on which the filter is based is &quot;ROAD_TYPE&quot;, which is a discrete type (i.e., road types are designated with alphanumeric codes). The filter in this example specifies that only shapes that have the road types A11 or A12 should be included in the output shapefile. <b>Note: Be careful about using spaces around commas. Spaces are not ignored even if they are before and after commas, so do not use any spaces unless you really want to search for them.</b>
+<pre>
+# Example B
+# comment
+ATTRIBUTE_NAME=ROAD_TYPE
+ATTRIBUTE_TYPE=DISCRETE
+EXCLUDE_VALUES=A13
+</pre>
+In the filter file shown in Example B, the EXCLUDE_VALUES keyword is specified instead of the INCLUDE_VALUES keyword. Thus, only shapes for which the ROAD_TYPE is <strong>not</strong> A13 will be included in the output shapefile. If we combined examples A and B and specified the same INCLUDE_VALUES and EXCLUDE_VALUES, the EXCLUDE_VALUES line would be ignored because the two criteria are mutually exclusive.
+<pre>
+# Example C
+ATTRIBUTE_NAME=LENGTH
+ATTRIBUTE_TYPE=CONTINUOUS
+INCLUDE_VALUES=100-200
+</pre>
+In Example C, the filter is based on the attribute LENGTH (i.e., road length). LENGTH is treated as a CONTINUOUS attribute. The filter specified in Example C causes shapes for which the value of LENGTH is between 100 and 200 inclusive to be included in the output shapefile. Note that continuous criteria can include values with decimal points (e.g., 10.5, 2.25). Also, in addition to a range with a lower and an upper bound explicitly defined, you can  specify criteria using the &quot;less than&quot; and &quot;greater than&quot; mathematical relations; for example, &lt;100, &lt;=100 (a range between a minimum value of -1E20 and 100), &gt;100, and &gt;=100 (a range between 100 and a maximum value of 1E20). You can also use this syntax on an EXCLUDE_VALUES line, in which case your results will be filtered the opposite of above. So, if Example C specified EXCLUDE_VALUES instead of INCLUDE_VALUES, only shapes for which the LENGTH is <strong>not</strong> between 100 and 200 would be included in the output surrogate.
+<p> If the ATTRIBUTE_TYPE is set to CONTINUOUS, you can  specify only a single mathematical relation or range (as opposed to DISCRETE, which allows a comma-delimited list as the value for INCLUDE_VALUES or EXCLUDE_VALUES). Similarly, if the ATTRIBUTE_TYPE is DISCRETE, the program does not allow any relational operators to appear in the INCLUDE_VALUES or EXCLUDE_VALUES lines. <br>
+  <br>
+  A filter file may specify filter criteria for more than one attribute name. Example D shows a filter file that is based on two attributes and also shows the use of a regular expression (in the last line), which is discussed in the &quot;Using Regular Expressions&quot; section below this example. When the filter in Example D is applied, only shapes for which the STATE_NAME is Tennessee and the COUNTY_NAME starts with a C will be included in the output shapefile. 
+  
+<pre>
+# Example D
+ATTRIBUTE_NAME=STATE_NAME
+ATTRIBUTE_TYPE=DISCRETE
+INCLUDE_VALUES=TENNESSEE
+ATTRIBUTE_NAME=COUNTY_NAME
+ATTRIBUTE_TYPE=DISCRETE
+INCLUDE_VALUES=C*
+</pre>
+<b>Please be cautious when using a filtered polygon shapefile such as that shown in Example D as a weight file.</b> If you specify a filter on county names or FIPS codes, you might expect that the output surrogate will  contain only surrogates for those counties that pass the filter. However, this will not be the case if the boundaries of the shapes in your weight file do not exactly match the county boundaries in your data file. If there are slight differences in the boundaries, small portions of the weights will be allocated to excluded counties that are adjacent to included counties that did pass the filter. So, surrogates will be generated for counties that you might think would be excluded. <i> To see what is meant by this, create a filter that includes only a single county and notice that the resulting surrogate may also include values for adjacent counties, but the numerators and denominators will be uncharacteristically small as compared to those for the included county. </i> The "extra" surrogates will not be correct because most of their weight contributions were not considered. As a workaround, if you desire to do county-based filtering of the weight file, apply the same filter to the data file and use the filtered data file instead of the original as the input to the Spatial Allocator. If you take this approach, surrogates will  be generated only for counties explicitly listed in the data file, so the small misallocations will not be considered.
+<p></p>
+<p>The filter file syntax supports the use of &quot;regular expressions&quot; when the ATTRIBUTE_TYPE is specified as DISCRETE. This capability opens up a whole realm of possibilities for filtering shapefiles based on discrete attributes. This implementation follows the &quot;grep&quot; regular expression syntax that is used on Linux and other Unix systems. The WWW contains many tutorials on how to use regular expressions. There is also an excellent <a href="http://www.oreilly.com/catalog/regex2/">book</a> available on the subject of regular expressions. Example E is a relatively simple example of using a regular expression to save typing when creating a filtered surrogate. Here, we are interested in generating an alphabetical surrogate based on county names:</p>
+<pre>
+# Example E
+ATTRIBUTE_NAME=COUNTY
+ATTRIBUTE_TYPE=DISCRETE
+INCLUDE_VALUES=[A-K]*
+</pre>
+<p> The filter in example E will generate a shapefile that contains only counties that start with the letters from A through K. Another popular substitution is to specify a question mark (?) for a single character. For example, 25?? would match with any alphanumeric four-character strings starting with 25. </p>
+<h3>7.3.2 Creating a Filtered Shapefile</h3>
+<p>  If you are interested in creating a filtered shapefile (as opposed to generating a new surrogate based on the filter), start with the <a href="filter_shapefile_bat.txt">filter_shapefile</a> script and customize it to your needs. This script runs the allocator program in FILTER_SHAPE mode. The variables in the script should be set as follows:
+<p></p>
+<UL>
+  <LI>MIMS_PROCESSING=FILTER_SHAPE</li>
+  <LI>FILTER_FILE=&lt;name of filter file to use&gt;
+  <LI>INPUT_FILE_TYPE=ShapeFile</li>
+  <LI>INPUT_FILE_NAME=&lt;name of input shape file to use&gt;</li>
+  <LI>OUTPUT_FILE_NAME=&lt;name of filtered shape file to output&gt;</li>
+</UL>
+<p> There are two types of values that attributes can have. The attribute values  can be either discrete (e.g., a road type or other non-arithmetic data type) or continuous (e.g., area, length, or some other data type on which arithmetic operations can be performed). is the following sentence a separate point, or a point related to the first sentence? clarify.] </strong> Shapes can be both included or excluded based on attribute criteria, which allows a lot of flexibility in filtering data. </p>
+<h3>7.3.3 Filtering a Weight Shapefile for Surrogate Computation</h3>
+<p>Generating a filtered weight shapefile for surrogate computation is similar to generating a shapfile without the environment setting for
+surrogate computation. However, in surrogate computation a temporary weight shapefile is created by specified filter function and then used as 
+the input for computing the surrogate weights. The name of this temporary shapefile is specified using the FILTERED_WEIGHT_SHAPES environment variable. This temporary shapefile does not get deleted after a surrogate is generated. Thus, if you are generating surrogates based on some filter criteria, you may want to conserve disk space by manually deleting the temporary shapefile(s) once your surrogates have been generated. Alternatively, you may want to save the temporary shapefile for quality assurance purposes or as an input to future processing. As in the case of generating a filtered shapefile, 
+the FILTER_FILE environment variable is used to specify the name of the filter file to use. </p>
+<p> To create a filtered shapefile in surrogate computation, start with the <a href="filtered_surrogate_bat.txt">filtered_surrogate</a> script and customize it to meet your needs.  For example, be sure that WEIGHT_FILE_NAME, WEIGHT_ATTR_LIST, OUTPUT_FILE_NAME, and SURROGATE_ID are set appropriately for the filtered surrogate. The variables in the filtered_surrogate script that are different from those in the <a href=generate_surrogates_bat.txt>generate_surrogates</a> script are the following:
+<UL>
+  <LI>FILTERED_WEIGHT_SHAPES=&lt;name of the filtered shapefile to use for weights&gt;</li>
+  <LI>FILTER_FILE=&lt;name of the filter file to use&gt;</li>
+</ul>
+<p><b>Note: Refer to Example D above to see when one must use caution in generating surrogates from filtered polygon shapefiles.</b></p>
+<hr>
+<p>To Section 7.4: <a href=point_to_grid.html>Computing Grid Cells that Contain Points</a></p>
+</body>
+</html>

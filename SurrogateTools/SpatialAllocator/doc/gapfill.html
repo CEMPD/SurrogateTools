@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Gap Filling in Surrogates</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="subpagebody">
+<h2><a name="gapfill"></a>9. Gap Filling Surrogates</h2>
+<p> In addition to <a href=srg_merg.html>merging surrogates</a>, the srgmerge program also supports gap filling of surrogates. Gap filling is used when the weight data sets do not contain values in all counties for which there are emissions in the emission inventory. If left unaccounted for, the emissions data from those counties may be lost. The idea behind the gap-filling feature of the srgmerge program is to allow the user to specify secondary, tertiary, and quaternary surrogates that will be used to fill in the data gaps with data that are less specific yet still relevant. Thus, if a primary surrogate does not have a value for a county, the value will be obtained from a secondary surrogate. If the secondary surrogate does not have a value, a value will be obtained from a tertiary surrogate, and so forth; hence the term &quot;gap filling.&quot; </p>
+<p><b>It is assumed that the most detailed/lowest-level surrogate has entries for all counties of interest</b>; therefore,  the counties given for the output surrogate will be the same as those available for the lowest-level surrogate. Each surrogate that is input to the gap-fill function of srgmerge needs to be created before srgmerge is executed. To access the gap-fill function of the srgmerge program, add the word "GAPFILL=" after the output surrogate name in the value for the OUTSRG keyword and then list the surrogates to use with their file names in the order of precedence from primary to quaternary. Otherwise, the input file format is the same as discussed  in the <a href="srg_merge.html">Merging Surrogates</a> section. Currently, separate runs of srgmerge must be performed for gap filling versus surrogate merging, but this restriction may be relaxed in the future. Execution of srgmerge for gap filling works the same way asit does for <a href="srg_merge.html">merging surrogates</a>: simply type the name of the program followed by the ASCII input file. An example srgmerge input file that performs gap filling is the following:
+<pre>
+<b>#Example Input file for gap filling using srgmerge</b>
+OUTFILE=/output/new_srg.txt
+
+XREFFILE=srg_xref.txt
+
+OUTSRG=Filled Airports;GAPFILL=data/surrogates.txt|Airports;data/surrogates.txt|Population
+
+OUTSRG=Airports;GAPFILL=data/surrogates.txt|Airports
+
+OUTSRG=Population;GAPFILL=data/surrogates.txt|Population
+</pre>
+<p> In the above example, we see that the input file is very similar to the input file for the surrogate <a href=srg_merge.html>merging mode of srgmerge</a>; only the OUTSRG= lines have changed. The first OUTSRG line in this file causes a new surrogate called Filled Airports to be created and placed in the output file. The values for this surrogate will come first from the Airports surrogate, then for any counties missing from the Airports surrogate the values will be obtained from the Population surrogate. The second and third OUTSRG= lines cause the original Airports and Population surrogates to be copied to the output file without any modification. So, in these cases, the GAPFILL function is being used to pass the surrogates through to the output file so that the output file has all the surrogates of interest that will be input to SMOKE. The reason to support this pass-through method for gapfilling is because srgmerge can only gap fill or merge during any particular execution of the program.  So, the pass-through must be supported in both modes.  At some point in the future, it may be possible to do both operations during the same execution of the program.  The OUTFILE and XREFFILE keywords operate exactly as they do when <a href="srg_merge.html">merging surrogates</a>. Note that there must be entries in the XREFFILE for the surrogates Filled Airports, Airports, and Population to support the above example. </p>
+<hr>
+<p>To Section 10: <a href=alloc.html>General Spatial Allocation and Overlays</a></p>
+</body>
+</html>

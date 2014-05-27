@@ -1,0 +1,11 @@
+#Surrogate cross reference file
+#SRGDESC=2,Airports
+#SRGDESC=3,Area
+#SRGDESC=4,Ports
+#SRGDESC=5,Navigable H20
+#SRGDESC=6,Highways
+#SRGDESC=7,Population
+#SRGDESC=8,Housing
+#SRGDESC=202,Merge Airports
+#SRGDESC=206,Merge Highways
+#SRGDESC=300,Half Pop Half Housing

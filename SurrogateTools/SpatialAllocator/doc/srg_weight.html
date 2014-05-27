@@ -1,0 +1,716 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Generating Surrogates from Weight Shapefiles</title>
+<link href="mims_styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="subpagebody">
+<A name="surrogates"></A><H2>4.2. Generating Surrogates from Weight Shapefiles</H2>
+<P>The <strong>srgcreate</strong> program is used to generate surrogates from weight shapefiles such as popluation or road shapefiles. 
+The generate_surrogates scripts for <A href="generate_surrogates_csh.txt" target="_blank">UNIX</A> and <A
+href="generate_surrogates_bat.txt" target="_blank">Windows</A> are provided with the software. These scripts specify: 
+  
+<OL>
+  <LI>where the executables are located.
+  <LI>where to get the shapefiles and save the resulting surrogate files.
+  <LI>where to find the GRIDDESC file (contains grid definitions) for regular grid or egrid output format
+  <LI>define projection and ellipsoid for data, weight, and output files.
+  <LI>define grid name for regular grid and egrid output.
+  <LI>define output file for egrid and polygon output format.
+  <LI>whether to put a header line on the surrogate file.
+  <LI>whether to include a column summing the surrogate fractions for each data polygon (used for quality assurance purposes).
+  <LI>what files to use for the surrogate generation. 
+  <LI>what attribute to use in the data file.
+  <LI>whether the weight shapefile needs to be filtered using a filter function to extract some shapes for surrogate computation.  
+  Detailed information of using filter function for weight shapefile is described in
+   <a href="filters.html">Filtering a Shapefile</a>.
+  <LI>whether weight attribute function from the weight shapefile is used for surrogate computation.  
+How to use weight function is described in <a href="weight_func.html">Computing Surrogates 
+Using Weight Functions</a>.
+  <LI>what attribute to use in the weight file if no weight function is used.
+  <LI>the name of the output shapefile containing the gridded numerator.
+  <LI>what surrogate ID to assign to the surrogate.
+  <LI>specify the value of a denominator threshold under which the surrogate values will not be used. 
+  <LI>commands to aggregate the individual surrogates into a single file.</LI>.
+</OL>
+<p>The scripts contain both mandatory and optional environment variables that control the functioning of the program. The environment variables described in the <a href="env_vars.html">Environment Variables</a> section that impact the functioning of the srgcreate program are the ones listed in subsections with headings that relate to surrogates. Note that the output file containing the gridded surrogate numerators is output<b> only</b> if the OUTPUT_FILE_NAME is set to something other than NONE. This file is output using the map projection of the output grid, egrid, or polygon.</p>
+<P>The selection of the weight for the surrogates with the WEIGHT_ATTR_LIST variable is an important decision. For example, if you want to weight the surrogates based on the population at the census tract level, but the surrogates are created at the county level, you must specify the census tract file as your WEIGHT_FILE_NAME file and the name of the population attribute from that file as the WEIGHT_ATTR_LIST. Some important items to note are the following: 
+  
+<UL>
+  <LI>If WEIGHT_ATTR_LIST identifies a floating point or integer attribute, the attribute value will be summed for the grid cell and divided by the sum for the county (as described in the <a href=background.html>Background on Shapefiles and Surrogates</a> section). 
+    
+  <LI>If WEIGHT_ATTR_LIST identifies a string, the weight of each weight object will be set to 1 and the surrogate will essentially represent a count of objects in the grid cell vs. the county. 
+    
+<LI>If WEIGHT_ATTR_LIST is specified as NONE, then the program will use the area of the weight objects if they are polygons, the length if they are lines, and the count if they are points. 
+    
+<LI>The DATA_ID_ATTR should be specified as a unique ID for each data polygon (typically it is the five-digit FIPS state/county code). The value of this attribute will be output for each surrogate. </LI>
+</UL>
+The srgcreate program generates a surrogate file ready to be used in SMOKE. 
+On each line after the header line, the values used by SMOKE are followed by a  &quot;!&quot; and then by the numerator, denominator, and QA sum.
+The format of the surrogate file is described below, and an example is provided in the file <a href=sample_srg.txt>sample_srg.txt</a> for regular grid output.
+<br>
+
+
+<P><TABLE BORDER="1" CELLSPACING="0" CELLPADDING="0" WIDTH="664">
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center;page-break-after:
+
+  avoid"><CENTER><B>Line</B></CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border:solid windowtext 1.5pt;
+
+  border-left:none;mso-border-left-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER><B>Columns</B></CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border:solid windowtext 1.5pt;
+
+  border-left:none;mso-border-left-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER><B>Description</B></CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>1</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>A</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">#GRID</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>B</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Grid name</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>C</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">X origin in units of the projection</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>D</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Y origin in units of the projection</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>E</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">X direction cell length in units of the
+
+      projection</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>F</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Y direction cell length in units of the
+
+      projection</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>G</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Number of columns</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>H</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Number of rows</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>I</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Number of boundary cells</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>J</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoBodyTextIndent">Projection types:<BR>
+
+      Latitude-Longitude: &#147;LAT-LON&#148; or &#147;LATGRD3&#148;<BR>
+
+      Lambert Conformal: &#147;LAMBERT&#148; or &#147;LAMGRD3&#148;<BR>
+
+      Universal Transverse Mercator: &#147;UTM&#148; or &#147;UTMGRD3&#148;</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>K</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Projection units</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>L</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Projection alpha value</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>M</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Projection beta value</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>N</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Projection gamma value</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>O</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">X-dir projection center in units of the
+
+      projection</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>P</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Y-dir projection center in units of the
+
+      projection</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>2+</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>A</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Spatial Surrogates code (area) or County
+
+      feature/roadway type (mobile) (Integer)</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>B</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Country/State/County Code (integer)</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>C</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Grid column number (Integer)</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>D</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Grid row number (Integer)</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+  <TR>
+
+    <TD WIDTH="63" VALIGN="TOP" style="width:47.0pt;border:solid windowtext 1.5pt;
+
+  border-top:none;mso-border-top-alt:solid windowtext 1.5pt;padding:0in 5.25pt 0in 5.25pt"></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="81" VALIGN="TOP" style="width:61.0pt;border-top:none;border-left:none;
+
+  border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal" style="text-align:center"><CENTER>E</CENTER></TD><span style='mso-bookmark:PTDAY'></span> 
+
+    <TD WIDTH="483" VALIGN="TOP" style="width:362.15pt;border-top:none;border-left:
+
+  none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
+
+  mso-border-top-alt:solid windowtext 1.5pt;mso-border-left-alt:solid windowtext 1.5pt;
+
+  padding:0in 5.25pt 0in 5.25pt">
+
+      <P class="MsoNormal">Spatial surrogate ratio (area) or fraction
+
+      of county feature in cell (mobile) (Real)</TD><span style='mso-bookmark:PTDAY'></span> 
+
+  </TR>
+
+</TABLE><BR>
+<hr>
+<P>To Section 4.3:<a href=srg_merge.html>Generating Surrogates by Merging Existing Surrogates</a></p>
+</body>
+</html>
+

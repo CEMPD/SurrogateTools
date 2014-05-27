@@ -1,0 +1,33 @@
+# Makefile for Spatial Tool Program
+
+CC = cl
+
+#Optional flags - uncomment one OPTFLAGS line
+OPTFLAGS = -O2
+
+PROJDIR = PROJ.4
+LIBS = $(PROJDIR)\proj.lib
+
+#CC_FLAGS = -c $(OPTFLAGS) -I$(PROJDIR) -DDEBUG
+CC_FLAGS = -c $(OPTFLAGS) -I$(PROJDIR)
+
+
+SRGOBJS = attributes.obj bbox.obj data_weight.obj dbfopen.obj \
+  dscgridc.obj fractionalVegReader.obj inpoly.obj intersect.obj io.obj \
+  mims_spatial.obj mims_spatl_proj.obj polyops.obj \
+  regularGridReader.obj segseg.obj shape_ifc.obj shpopen.obj \
+  strlistc.obj sumpoly.obj surrogates.obj gpc.obj
+
+DIFFOBJS = diffsurr.obj io.obj
+
+all: mims_spatial.exe diffsurr.exe
+
+mims_spatial.exe: $(SRGOBJS)
+	$(CC) $(SRGOBJS) $(LIBS) /exe:mims_spatial.exe
+
+diffsurr.exe: $(DIFFOBJS)
+	$(CC) $(DIFFOBJS) $(LIBS) /exe:diffsurr.exe
+
+.c{}.obj:
+	     $(CC) $(CC_FLAGS) $*.c
+
