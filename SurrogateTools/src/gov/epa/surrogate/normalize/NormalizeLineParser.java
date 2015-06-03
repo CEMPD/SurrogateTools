@@ -27,7 +27,14 @@ public class NormalizeLineParser {
 			tokensList.add(tokens[1].trim());
 			return tokensList.toArray(new String[0]);
 		}
-		return line.split(delimiter);
+		return trim(line.split(delimiter));
+	}
+	
+	private String[] trim(String[] tokens) {
+		for (int i = 0; i < tokens.length; i++) {
+			tokens[i] = tokens[i].trim();
+		}
+		return tokens;
 	}
 
 	private String[] stripSpaces(String[] tokens) {

@@ -1,9 +1,6 @@
 package gov.epa.surrogate.merge;
 
 import gov.epa.surrogate.DiffTwoFiles;
-
-import java.io.File;
-
 import junit.framework.TestCase;
 
 public class MergingTest extends TestCase {
@@ -21,7 +18,7 @@ public class MergingTest extends TestCase {
 	}
 
 	protected void tearDown() throws Exception {
-		new File("test/data/merge/merged_surrogates.txt").delete();
+		//new File("test/data/merge/merged_surrogates.txt").delete();
 	}
 
 

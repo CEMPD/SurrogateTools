@@ -34,7 +34,8 @@ public class NormalizeSurrogateRow {
 		else {
 			//When gridX is census track
 			//Start index is inclusive; End index is exclusive
-			int xCounty = new Integer(tokens[2].substring(0, 5)).intValue();
+			//remove the lines with inconsistent county id
+			int xCounty = new Integer(tokens[2].substring(0, tokens[2].length()-6)).intValue();
 			if ( countyID != xCounty )
 				polyInCty = false;
 			gridY = -1;
