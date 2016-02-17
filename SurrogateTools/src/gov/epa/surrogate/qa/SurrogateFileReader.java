@@ -46,7 +46,7 @@ public class SurrogateFileReader {
 		return !name.contains("NOFILL");
 	}
 
-	public void read() throws IOException {
+	public void read(Threshold tt) throws IOException {
 		System.out.println("Reading " + fileName);
 
 		String line = null;
@@ -55,7 +55,8 @@ public class SurrogateFileReader {
 			if (!isComment(line)) {
 				SurrogateRow row = parser.parse(line, gapFilled);
 				if (verify(row)) {
-					counties.add(row);
+					boolean isBig=tt.isTotalBig(row.getRatio());
+					counties.add(row, isBig);
 				}
 			}
 		}

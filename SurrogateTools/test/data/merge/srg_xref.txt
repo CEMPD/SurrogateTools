@@ -9,3 +9,7 @@
 #SRGDESC=202,Merge Airports
 #SRGDESC=206,Merge Highways
 #SRGDESC=300,Half Pop Half Housing
+#SRGDESC=130,Rural Population
+#SRGDESC=230,Rural Secondary Road Miles
+#SRGDESC=231,Rural Unrestricted Roads
+#SRGDESC=180,Residential Heating - Coal

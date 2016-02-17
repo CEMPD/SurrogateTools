@@ -22,7 +22,7 @@ public class SurrogateNoDataReport {
 		this.delimiter = ",";
 		this.counties = counties;
 		PrintWriter writer = new PrintWriter(new FileWriter(new File(fileName)));
-		this.srgSummary = new SrgSummary(writer, delimiter, counties, header, surrogates);
+		this.srgSummary = new SrgSummary(writer, delimiter, counties, header, surrogates, null);
 	}
 
 	public void write() throws Exception {

@@ -13,12 +13,14 @@ public class MergeCounties {
 	private Equation equation;
 
 	private int outputSurrogateID;
+	
+	private String delimiter;
 
 	public MergeCounties(List<Counties> countiesColl, Equation equation, int outputSurrogateID) {
 		this.countiesColl = countiesColl;
 		this.equation = equation;
 		this.outputSurrogateID = outputSurrogateID;
-
+		delimiter = "\t";
 	}
 
 	public Counties doMerge() throws Exception {
@@ -29,21 +31,21 @@ public class MergeCounties {
 		for (Iterator iter = codes.iterator(); iter.hasNext();) {
 			County[] countiesArray = getCountiesArray(size, ((Integer) iter.next()).intValue());
 		
-			replaceWithOutputSurrogateID(countiesArray, outputSurrogateID);
+			//replaceWithOutputSurrogateID(countiesArray, outputSurrogateID);
 			
 			allCounties.add(merge(countiesArray));			
 		}
 		return allCounties;
 	}
 
-	private void replaceWithOutputSurrogateID(County[] counties, int outputSurrogateID) {
-		for (int i = 0; i < counties.length; i++) {
-			List<SurrogateRow> surrogates = counties[i].getSurrogates();
-			for (int j = 0; j < surrogates.size(); j++) {
-				surrogates.get(j).setSurrogateCode(outputSurrogateID);
-			}
-		}
-	}
+//	private void replaceWithOutputSurrogateID(County[] counties, int outputSurrogateID) {
+//		for (int i = 0; i < counties.length; i++) {
+//			List<SurrogateRow> surrogates = counties[i].getSurrogates();
+//			for (int j = 0; j < surrogates.size(); j++) {
+//				surrogates.get(j).setSurrogateCode(outputSurrogateID);
+//			}
+//		}
+//	}
 
 	private County merge(County[] countiesArray) throws Exception {
 		
@@ -54,14 +56,19 @@ public class MergeCounties {
 			throw new Exception("Currently, merging is supported for a maximum of two surrogate files");
 		}
 		return mergeTwoCounties(countiesArray);
+		
 	}
 
 	private County mergeOneCounty(County county) {
 		List<SurrogateRow> rows = county.getSurrogates();
+		Double sumValue = 0.0;
 		for (int i = 0; i < rows.size(); i++) {
 			SurrogateRow row = rows.get(i);
-			row.setSurrogateCode(outputSurrogateID);// replace with output surrogate id
-			row.setComment(null); // TODO: what should we put for comment when merging
+			int oldSCode = row.getSurrogateCode();
+			sumValue = sumValue + row.getRatio();
+			row.setSurrogateCode(outputSurrogateID);// replace with output surrogate id	 
+			row.setComment( "Note: Only surrogate " + oldSCode + 
+					" is available for this county" + delimiter + sumValue); // TODO: what should we put for comment when merging
 		}
 		return county;
 	}
@@ -80,12 +87,14 @@ public class MergeCounties {
 		List<SurrogateRow> newRows = new ArrayList<SurrogateRow>();
 		
 		identifyingEqualRows(rows1, rows2, indices1, indices2);
-				
-		mergeEqualCounties(rows1, rows2, indices1, indices2, newRows);		
-			
-		mergeCountiesFromCounty1(rows1, indices1, newRows);		
+//		System.out.println(rows1.size() + "  "+ rows2.size() + "  ");
+//		System.out.println(indices1.size() + "  "+ indices2.size() + "  ");
 		
-		mergeCountiesFromCounty2(rows2, indices2, newRows);		
+		 mergeEqualCounties(rows1, rows2, indices1, indices2, newRows);		
+			
+		 mergeCountiesFromCounty1(rows1, indices1, newRows);		
+		
+		 mergeCountiesFromCounty2(rows2, indices2, newRows);		
 		
 		return newCounty(c1.getCountyCode(), newRows);
 	}
@@ -94,31 +103,47 @@ public class MergeCounties {
 		County county = new County(countyID);
 		// sorts the rows
 		Set<SurrogateRow> newRowsSet = new TreeSet<SurrogateRow>(newRows);
+		double sumValue = 0;
 		for (Iterator iter = newRowsSet.iterator(); iter.hasNext();) {
-			county.addRow((SurrogateRow) iter.next());
+			SurrogateRow row = (SurrogateRow) iter.next();
+			sumValue = sumValue + row.getRatio();
+			row.setComment(row.getComment() + "\t" + sumValue);
+			county.addRow(row);
+			//System.out.println("add: " + row.getSurrogateCode() + delimiter + row.getCountyCode());
 		}
 		return county;
 	}
 
-	private void mergeCountiesFromCounty2(List<SurrogateRow> rows1, List<Integer> indices1, List<SurrogateRow> newRows) {
-		for (int i = 0; i < rows1.size(); i++) {
-			if (!indices1.equals(new Integer(i))) {
-				SurrogateRow row = rows1.get(i);
+	private void mergeCountiesFromCounty2(List<SurrogateRow> rows2, List<Integer> indices2, 
+			List<SurrogateRow> newRows) {
+		for (int i = 0; i < rows2.size(); i++) {
+			if (!indices2.contains(new Integer(i))) {
+				SurrogateRow row = rows2.get(i);
+				 
 				double result = equation.evaluate(0.0, row.getRatio());
 				SurrogateRow newRow = newSurrogateRow(row);
 				newRow.setRatio(result);
+				newRow.setComment(equation.getf1() + delimiter + "0.0" + delimiter +
+						equation.getf2() + delimiter + row.getRatio() ); 
 				newRows.add(newRow);
 			}
 		}
+		 
 	}
 
-	private void mergeCountiesFromCounty1(List<SurrogateRow> rows2, List<Integer> indices2, List<SurrogateRow> newRows) {
-		for (int i = 0; i < rows2.size(); i++) {
-			if (!indices2.equals(new Integer(i))) {
-				SurrogateRow row = rows2.get(i);
+	private void mergeCountiesFromCounty1(List<SurrogateRow> rows1, List<Integer> indices1, 
+			List<SurrogateRow> newRows) {
+		 
+		for (int i = 0; i < rows1.size(); i++) {
+			if (!indices1.contains(new Integer(i))) {
+				SurrogateRow row = rows1.get(i);
 				double result = equation.evaluate(row.getRatio(), 0.0);
 				SurrogateRow newRow = newSurrogateRow(row);
 				newRow.setRatio(result);
+				String comment = equation.getf1() + delimiter + row.getRatio()+ delimiter +
+						equation.getf2() + delimiter + "0.0" + delimiter;
+				
+				newRow.setComment(comment); 
 				newRows.add(newRow);
 			}
 		}
@@ -126,8 +151,11 @@ public class MergeCounties {
 
 	private void mergeEqualCounties(List<SurrogateRow> rows1, List<SurrogateRow> rows2, List<Integer> indices1,
 			List<Integer> indices2, List<SurrogateRow> newRows) {
+		 
 		for (int i = 0; i < indices1.size(); i++) {
 			SurrogateRow row = mergeRows(rows1.get(indices1.get(i)), rows2.get(indices2.get(i)));
+			 
+			row.setComment(row.getComment());
 			newRows.add(row);
 		}
 	}
@@ -136,12 +164,14 @@ public class MergeCounties {
 		double result = equation.evaluate(row1.getRatio(), row2.getRatio());
 		SurrogateRow newRow = newSurrogateRow(row1);
 		newRow.setRatio(result);
+		newRow.setComment(equation.getf1() + delimiter + row1.getRatio()+ delimiter +
+				equation.getf2() + delimiter + row2.getRatio()+ delimiter); 
 		return newRow;
 	}
 
 	private SurrogateRow newSurrogateRow(SurrogateRow row) {
 		SurrogateRow newRow = new SurrogateRow();
-		newRow.setSurrogateCode(row.getSurrogateCode());
+		newRow.setSurrogateCode(outputSurrogateID);
 		newRow.setCountyCode(row.getCountyCode());
 	    newRow.setRow(row.getRow());
 		newRow.setColumn(row.getColumn());
@@ -155,7 +185,6 @@ public class MergeCounties {
 			SurrogateRow row1 = rows1.get(i);		
 			
 			for (int j = 0; j < rows2.size(); j++) {				
-				
 				if (row1.compareTo(rows2.get(j)) == 0) {			
 					
 					indices1.add(new Integer(i));

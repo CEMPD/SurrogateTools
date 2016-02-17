@@ -11,6 +11,7 @@ public class Main {
 			System.out.println("Usage: java gov.epa.surrogate.normalize.Main SRGDESC.txt [ExcludeCounties.txt] [1e-6]");
 			System.exit(1);
 		}
+		
 		new SystemInfo().print();
 		try {
 			NormalizeSurrogates ns = null;

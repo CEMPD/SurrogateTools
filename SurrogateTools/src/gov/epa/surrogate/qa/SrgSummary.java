@@ -18,8 +18,9 @@ public class SrgSummary {
 	private DoubleFormatter formatter;
 
 	private Precision precision;
+	private Threshold thresh;
 
-	public SrgSummary(PrintWriter writer, String delimiter, Counties counties, String header, Surrogates surrogates)
+	public SrgSummary(PrintWriter writer, String delimiter, Counties counties, String header, Surrogates surrogates, Threshold thresh)
 			throws Exception {
 		this.writer = writer;
 		this.delimiter = delimiter;
@@ -28,6 +29,7 @@ public class SrgSummary {
 		this.surrogates = surrogates;
 		formatter = new DoubleFormatter();
 		this.precision = new Precision();
+		this.thresh = thresh;
 	}
 
 	private void checkForEmptyCounty(Counties counties) throws Exception {
@@ -42,12 +44,16 @@ public class SrgSummary {
 
 	protected void printColumnHeader(int[] surrogateCodes) throws Exception {
 		// 1st row of column header
+		if (thresh != null )
+			printValueWithLineSeparator("Threshold: " +  thresh.getThreshold());
+		// 2nd row of column header
 		printValueWithDelimiter("COUNTY");
+		
 		for (int i = 0; i < surrogateCodes.length - 1; i++) {
 			printValueWithDelimiter(surrogateCodes[i]);
 		}
 		printValueWithLineSeparator("" + surrogateCodes[surrogateCodes.length - 1]);
-		// 2nd row of column header
+		// 3nd row of column header
 		printValueWithDelimiter("");
 		for (int i = 0; i < surrogateCodes.length - 1; i++) {
 			printValueWithDelimiter("\"" + surrogates.getSurrogateName(surrogateCodes[i]) + "\"");
@@ -56,7 +62,38 @@ public class SrgSummary {
 				+ "\"");
 	}
 
+	
+	protected void printHoldColumnHeader(int[] surrogateCodes, int minTokens) throws Exception {
+		// 1st row of column header
+		if (thresh != null )
+			printValueWithLineSeparator("Threshold: " +  thresh.getThreshold());
+		// 2nd row of column header
+		printValueWithDelimiter("COUNTY");
+		if ( minTokens == 5 ) 
+			printValueWithDelimiter("COL,ROW");
+		else
+			printValueWithDelimiter("POLYID");
+			
+		for (int i = 0; i < surrogateCodes.length - 1; i++) {
+			printValueWithDelimiter(surrogateCodes[i]);
+		}
+		printValueWithLineSeparator("" + surrogateCodes[surrogateCodes.length - 1]);
+		// 3nd row of column header
+		printValueWithDelimiter("");
+		printValueWithDelimiter("");
+		if (minTokens == 5 )
+			printValueWithDelimiter("");
+		for (int i = 0; i < surrogateCodes.length - 1; i++) {
+			printValueWithDelimiter("\"" + surrogates.getSurrogateName(surrogateCodes[i]) + "\"");
+		}
+		printValueWithLineSeparator("\"" + surrogates.getSurrogateName(surrogateCodes[surrogateCodes.length - 1])
+				+ "\"");
+	}
 	protected void printValueWithDelimiter(int value) {
+		writer.print(value + delimiter);
+	}
+	
+	protected void printValueWithDelimiter(long value) {
 		writer.print(value + delimiter);
 	}
 
@@ -74,6 +111,10 @@ public class SrgSummary {
 
 	protected boolean isTotalOne(double sum) {
 		return precision.isTotalOne(sum);
+	}
+	
+	protected boolean isTotalBig(double sum) {
+		return thresh.isTotalBig(sum);
 	}
 
 	protected void close() {

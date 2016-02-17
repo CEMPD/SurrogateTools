@@ -10,7 +10,7 @@ public class SurrogateFileReaderTest extends TestCase {
 		Counties counties = new Counties();
 		SurrogateDescription srgDescription = srgDescription(fileName);
 		SurrogateFileReader reader = new SurrogateFileReader(srgDescription, "\t", 5, counties);
-		reader.read();
+		reader.read(new Threshold(0.3));
 		int[] codes = counties.allCountyCodes();
 		assertEquals(codes.length, 3);
 		assertEquals(6021, codes[0]);
@@ -28,7 +28,7 @@ public class SurrogateFileReaderTest extends TestCase {
 		Counties counties = new Counties();
 		SurrogateDescription srgDescription = srgDescription(fileName);
 		SurrogateFileReader reader = new SurrogateFileReader(srgDescription, "\t", 5, counties);
-		reader.read();
+		reader.read(new Threshold(0.3));
 		int[] codes = counties.allCountyCodes();
 		assertEquals(codes.length, 3);
 		assertEquals(6021, codes[0]);

@@ -23,4 +23,12 @@ public class Equation {
 	public double evaluate(double v1) {
 		return f1 * v1;
 	}
+	
+	public double getf1(){
+		return f1;
+	}
+	
+	public double getf2(){
+		return f2;
+	}
 }
