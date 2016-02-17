@@ -4,13 +4,14 @@ import java.io.File;
 
 import gov.epa.surrogate.DiffTwoFiles;
 import junit.framework.TestCase;
+import gov.epa.surrogate.qa.Threshold;;
 
 public class QAReportsTest extends TestCase {
 
 	public void testRunSurrgateQA() throws Exception {
 		String srgDescFile = "test/data/SRGDESC.txt";
 		QAReports qaReport = new QAReports(srgDescFile);
-		qaReport.execute();
+		qaReport.execute(new Threshold(0.3));
 		compareWithSampleFile("test/data/expected_usa_summary.csv", "test/data/SRGDESC_usa_summary.csv");
 		compareWithSampleFile("test/data/expected_usa_gapfill.csv", "test/data/SRGDESC_usa_gapfill.csv");
 		compareWithSampleFile("test/data/expected_usa_nodata.csv", "test/data/SRGDESC_usa_nodata.csv");
@@ -19,6 +20,8 @@ public class QAReportsTest extends TestCase {
 		compareWithSampleFile("test/data/expected_canada_gapfill.csv", "test/data/SRGDESC_canada_gapfill.csv");
 		compareWithSampleFile("test/data/expected_canada_nodata.csv", "test/data/SRGDESC_canada_nodata.csv");
 		compareWithSampleFile("test/data/expected_canada_not1.csv", "test/data/SRGDESC_canada_not1.csv");
+		//ompareWithSampleFile("test/data/expected_canada_threshold.csv", "test/data/SRGDESC_canada_threshold.csv");
+		//ompareWithSampleFile("test/data/expected_usa_threshold.csv", "test/data/SRGDESC_usa_threshold.csv");
 	}
 	
 	private void compareWithSampleFile(String referenceFile, String testResultFile) throws Exception {
@@ -34,6 +37,8 @@ public class QAReportsTest extends TestCase {
 		new File("test/data/SRGDESC_canada_gapfill.csv").delete();
 		new File("test/data/SRGDESC_canada_nodata.csv").delete();
 		new File("test/data/SRGDESC_canada_not1.csv").delete();
+		//new File("test/data/SRGDESC_canada_threshold.csv").delete();
+		//new File("test/data/SRGDESC_usa_threshold.csv").delete();
 	}
 
 }

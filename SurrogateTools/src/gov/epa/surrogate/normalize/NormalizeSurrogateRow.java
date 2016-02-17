@@ -1,5 +1,7 @@
 package gov.epa.surrogate.normalize;
 
+import java.text.DecimalFormat;
+
 import gov.epa.surrogate.qa.DoubleFormatter;
 
 public class NormalizeSurrogateRow {
@@ -67,11 +69,17 @@ public class NormalizeSurrogateRow {
 	public String getLine() {
 		StringBuffer sb = new StringBuffer();
 		// TODO: formatting
+		DecimalFormat I5 = new DecimalFormat("00000");	
+		DecimalFormat d8 = new DecimalFormat("0.00000000");	
+		DecimalFormat I11 = new DecimalFormat("00000000000");	 
 		sb.append(surrogateID + delimiter);
-		sb.append(countyID + delimiter);
-		sb.append(gridX + delimiter);
-		if ( minimumTokens == 5 ) sb.append(gridY + delimiter);
-		sb.append(format(ratio) + delimiter);
+		sb.append(I5.format(countyID) + delimiter);
+		if ( minimumTokens == 4 ) sb.append(I11.format(gridX) + delimiter);
+		if ( minimumTokens == 5 ) {
+			sb.append(gridX + delimiter);
+			sb.append(gridY + delimiter);
+		}
+		sb.append(d8.format(ratio) + delimiter);
 		sb.append("!" + delimiter + comment);
 		return sb.toString();
 	}

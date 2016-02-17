@@ -59,6 +59,10 @@ public class SurrogateRow implements Comparable {
 	public int getCountyCode() {
 		return countyCode;
 	}
+	
+	public String getComment(){
+		return comment;
+	}
 
 	/*
 	 * this>other => +1 this==other => 0 this<other => -1
@@ -69,12 +73,12 @@ public class SurrogateRow implements Comparable {
 		}
 
 		SurrogateRow surrogateRow = (SurrogateRow) o;
-		if (surrogateCode > surrogateRow.getSurrogateCode()) {
-			return 1;
-		}
-		if (surrogateCode < surrogateRow.getSurrogateCode()) {
-			return -1;
-		}
+//		if (surrogateCode > surrogateRow.getSurrogateCode()) {
+//			return 1;
+//		}
+//		if (surrogateCode < surrogateRow.getSurrogateCode()) {
+//			return -1;
+//		}
 
 		if (countyCode > surrogateRow.getCountyCode()) {
 			return 1;
@@ -110,10 +114,14 @@ public class SurrogateRow implements Comparable {
 	}
 
 	public String getLine() {
-		DecimalFormat d8 = new DecimalFormat("0.00000000");		
-		return surrogateCode + delimiter + countyCode + delimiter + row + delimiter
+		DecimalFormat I5 = new DecimalFormat("00000");	
+		DecimalFormat d8 = new DecimalFormat("0.00000000");	
+		DecimalFormat I11 = new DecimalFormat("00000000000");	 
+		 
+		return surrogateCode + delimiter + I5.format(countyCode) + delimiter  
+				+ ((column == -1) ? I11.format(row) + delimiter : row + delimiter)
 				+ ((column == -1) ? "" : (column + delimiter)) + d8.format(ratio) + delimiter
-				+ ((comment == null) ? "" : delimiter + "!" + delimiter + comment);
+				+ ((comment == null || comment.trim().isEmpty() ) ? "" : delimiter + "!" + delimiter + comment);
 	}
 
 	public void setSurrogateCode(int surrogateID) {

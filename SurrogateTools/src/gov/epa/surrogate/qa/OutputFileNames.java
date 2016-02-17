@@ -24,6 +24,10 @@ public class OutputFileNames {
 	public String not1FileName() throws Exception {
 		return fileName(srgDescriptionFileName, "_" + regionName, "_not1.csv");
 	}
+	
+	public String threshFileName() throws Exception {
+		return fileName(srgDescriptionFileName, "_" + regionName, "_threshold.csv");
+	}
 
 	public String noDataFileName() throws Exception {
 		return fileName(srgDescriptionFileName, "_" + regionName, "_nodata.csv");

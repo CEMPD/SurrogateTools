@@ -32,7 +32,7 @@ public class Merging {
 				.getCrossReferenceFileName());
 		xrefFileReader.read();
 		Surrogates surrogates = xrefFileReader.getSurrogates();
-		System.out.println("Finished reading merge input file and started merging...");
+		System.out.println("Finished reading merge input file and started merging..." );
 		for (int i = 0; i < commands.length; i++) {
 			MergeCommandReader reader = new MergeCommandReader(surrogates, commands[i]);
 			reader.read();		

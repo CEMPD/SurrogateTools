@@ -1132,6 +1132,7 @@ public class SurrogateTool {
 				key = var[0];
 				value = var[1];
 				line = CMD + " " + key + EQ + value + LS;
+				System.out.println("CMD line:" + line);
 				out.write(line);
 			}
 

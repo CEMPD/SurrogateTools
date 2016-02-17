@@ -17,29 +17,31 @@ public class QAReports {
 		srgDescriptionReader = new SrgDescriptionFileReader(fileName);
 	}
 	
-	public void execute() throws Exception {
+	public void execute(Threshold tt) throws Exception {
 		readSrgDesc();
 		String[] regions = srgDescriptionReader.getRegions();
 		for (int i = 0; i < regions.length; i++) {
-			execute(regions[i]);
+			execute(regions[i], tt);  // regions are USA, CANADA...
 		}
 	}
 	
-	public void execute(String regionName) throws Exception {
+	public void execute(String regionName, Threshold tt) throws Exception {
 		OutputFileNames fileNames = new OutputFileNames(srgDescFile,regionName);
 		String summaryFileName = fileNames.summaryFileName();
 		String gapFillFileName = fileNames.gapFillFileName();
 		String noDataFileName = fileNames.noDataFileName();
 		String not1FileName = fileNames.not1FileName();
+		String threshFileName = fileNames.threshFileName();
 
 		Counties counties = new Counties();
-		readSrgFiles(regionName,counties);
+		readSrgFiles(regionName,counties, tt);
 		
 		Surrogates surrogates = srgDescriptionReader.getSurrogates(regionName);
 		writeSrgSummary(summaryFileName, header(srgDescFile),counties, surrogates);
 		writeGapFillSummary(gapFillFileName, header(srgDescFile), counties, surrogates);
 		writeNoDataSummary(noDataFileName, header(srgDescFile),counties, surrogates);
 		writeNot1Summary(not1FileName, header(srgDescFile),counties, surrogates);
+		writeThreshSummary(threshFileName, header(srgDescFile),counties, surrogates, minTokens(), tt);
 
 	}
 
@@ -52,7 +54,7 @@ public class QAReports {
 		}
 	}
 
-	private void readSrgFiles(String regionName, Counties counties) throws Exception {
+	private void readSrgFiles(String regionName, Counties counties, Threshold tt) throws Exception {
 		System.out.println("Reading surrogate files...");
 		String fileName = null;
 		SurrogateDescription[] surrogateDescriptions = srgDescriptionReader.getSurrogateDescriptions(regionName);
@@ -64,7 +66,7 @@ public class QAReports {
 				fileName = surrogateDescriptions[i].getFileName();
 				SurrogateFileReader fileReader = new SurrogateFileReader(surrogateDescriptions[i], "\t",
 						srgDescriptionReader.getMinimumTokens(), counties);
-				fileReader.read();
+				fileReader.read(tt);
 			}
 		} catch (Exception e) {
 			throw new Exception("Error reading the surrogate file '" + fileName + "'\n" + e.getMessage());
@@ -109,10 +111,27 @@ public class QAReports {
 			throw new Exception("Error writing the NOT1 SUMMARY FILE --" + e.toString());
 		}
 	}
+	
+	private void writeThreshSummary(String threshFileName, String header, Counties counties, 
+			Surrogates surrogates, int minTokens, Threshold tt) throws Exception {
+		try {
+			SurrogateThreshReport thresh = new SurrogateThreshReport(threshFileName, counties, header, surrogates, minTokens, tt);
+			thresh.write();
+		} catch (Exception e) {
+			throw new Exception("Error writing the NOT1 SUMMARY FILE --" + e.toString());
+		}
+	}
+	
+	
 
 	private String header(String srgDescFileName) {
 		String header = srgDescriptionReader.getHeader() + System.getProperty("line.separator") + srgDescFileName;
 		return header;
+	}
+	
+	private int minTokens() {
+		int tokes = srgDescriptionReader.getMinimumTokens();
+		return tokes;
 	}
 
 }

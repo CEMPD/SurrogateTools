@@ -17,10 +17,10 @@ public class Counties {
 		this.surrogatesList = new ArrayList<Integer>();
 	}
 
-	public void add(SurrogateRow row) {
+	public void add(SurrogateRow row, boolean isBig) {
 		int countyCode = row.getCountyCode();
 		County county = countyCode(countyCode);
-		county.addRow(row);
+		county.addRow(row, isBig);
 
 		addToSurrogateList(row.getSurrogateCode());
 	}
@@ -64,12 +64,14 @@ public class Counties {
 		return codes;
 	}
 
+
 	private void addToSurrogateList(int surrogateCode) {
 		Integer code = new Integer(surrogateCode);
 		if (!surrogatesList.contains(code)) {
 			surrogatesList.add(code);
 		}
 	}
+	
 
 	public boolean isEmpty() {
 		return counties.isEmpty();
