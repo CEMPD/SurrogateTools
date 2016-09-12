@@ -9,7 +9,7 @@ public class MergingPolyTest extends TestCase {
 		String inputFile = "test/data/merge/merge_Poly_input.txt";
 		Merging mg = new Merging(inputFile);
 		mg.doMerging();
-		compareWithSampleFile("test/data/merge/merged_Poly_surrogates.txt","test/data/merge/expected_merged_output.txt");
+		compareWithSampleFile("test/data/merge/merged_Poly_surrogates.txt","test/data/merge/expected_merged_Poly_surrogates.txt");
 		
 	}
 

@@ -13,7 +13,7 @@ public class NormalizeTest extends TestCase {
 		NormalizeSurrogates ns = new NormalizeSurrogates(srgDescFile, excludeListFile, "1e-6");
 		ns.normalize();
 		compareWithSampleFile("test/data/expected_normalize_small_SRGDESC.txt", "test/data/small_SRGDESC_NORM.txt");
-		compareWithSampleFile("test/data/expected_normalized.txt", "test/data/small_surrogate_550_NORM.txt");
+		compareWithSampleFile("test/data/expected_small_surrogate_550_NORM.txt", "test/data/small_surrogate_550_NORM.txt");
 	}
 
 	private void compareWithSampleFile(String referenceFile, String testResultFile) throws Exception {
