@@ -54,9 +54,10 @@ public class NormalizeSurrogate {
 		}
 		String outputFileName = dirName + File.separator + 
 		        file.getName().substring(0,file.getName().lastIndexOf('.')) + "_NORM.txt";
-		if (new File(outputFileName).exists()) {
-			System.out.println("Delete existing normalized output surrogate file: " + outputFileName);
-			new File(outputFileName).delete();		}
+		System.out.println("normalized output surrogate file: " + outputFileName);
+//		if (new File(outputFileName).exists()) {
+//			System.out.println("Delete existing normalized output surrogate file: " + outputFileName);
+//			new File(outputFileName).delete();		}
 		return outputFileName;
 	}
 
@@ -99,6 +100,7 @@ public class NormalizeSurrogate {
 		NormalizeSurrogateRow[] rows = county.surrogateRows();
 		for (int i = 0; i < rows.length; i++) {
 			writer.println(rows[i].getLine());
+			//System.out.println(" output surrogate: " + rows[i].getLine());
 		}
 	}
 
