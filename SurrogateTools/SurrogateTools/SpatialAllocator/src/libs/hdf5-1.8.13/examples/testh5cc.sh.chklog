@@ -1,0 +1,41 @@
+============================
+testh5cc.sh  Test Log
+============================
+***Simple Compile and Link in one step.
+Testing h5cc h5cc_hdf5main.c                                           PASSED
+Testing h5cc h5cc_appmain.c h5cc_prog1.c h5cc_prog2.c                  PASSED
+***Simple Compile and Link with -shlib in one step.
+Testing h5cc -shlib h5cc_hdf5main.c                                    PASSED
+Testing h5cc -shlib h5cc_appmain.c h5cc_prog1.c h5cc_prog2.c           PASSED
+***Compile and Link in two steps.
+Testing h5cc -c h5cc_hdf5main.c                                        PASSED
+Testing h5cc h5cc_hdf5main.o                                           PASSED
+Testing h5cc -c h5cc_appmain.c h5cc_prog1.c h5cc_prog2.c               PASSED
+Testing h5cc h5cc_appmain.o h5cc_prog1.o h5cc_prog2.o                  PASSED
+***Compile and Link with -shlib in two steps.
+Testing h5cc -c h5cc_hdf5main.c                                        PASSED
+Testing h5cc -shlib h5cc_hdf5main.o                                    PASSED
+Testing h5cc -c h5cc_appmain.c h5cc_prog1.c h5cc_prog2.c               PASSED
+Testing h5cc -shlib h5cc_appmain.o h5cc_prog1.o h5cc_prog2.o           PASSED
+***Build external library and link with it.
+Testing h5cc -c h5cc_prog1.c h5cc_prog2.c                              PASSED
+Testing h5cc h5cc_appmain.c libapph5cc.a                               PASSED
+Testing h5cc h5cc_appmain.o libapph5cc.a                               PASSED
+***Build external library and link with it using -shlib.
+Testing h5cc -c h5cc_prog1.c h5cc_prog2.c                              PASSED
+Testing h5cc -shlib h5cc_appmain.c libapph5cc.a                        PASSED
+Testing h5cc -shlib h5cc_appmain.o libapph5cc.a                        PASSED
+***Just preprocess, no compile, no link.
+Testing h5cc -E h5cc_hdf5main.c                                        PASSED
+Testing h5cc -E h5cc_appmain.c h5cc_prog1.c h5cc_prog2.c               PASSED
+***Version compatibility tests.
+H5_USE_16_API_DEFAULT is not defined.
+H5_NO_DEPRECATED_SYMBOLS is not defined.
+Testing h5cc -DH5_USE_16_API_DEFAULT h5cc_v16main.c                    PASSED
+Testing h5cc h5cc_v18main.c                                            PASSED
+All h5cc tests passed.
+0.98user 0.62system 0:01.96elapsed 81%CPU (0avgtext+0avgdata 77152maxresident)k
+0inputs+0outputs (0major+236210minor)pagefaults 0swaps
+
+Finished testing testh5cc.sh 
+============================

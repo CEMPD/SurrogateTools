@@ -1,0 +1,49 @@
+----------------------------
+testhdf  Test Log
+----------------------------
+
+For help use: testhdf -help
+Built with HDF Library Version: 4.2.10, HDF Version 4.2 Release 10, February 7, 2014
+
+Testing  -- Bit-Vector routines (bitvect) 
+Testing  -- Threaded Balanced Binary Trees (tbbt) 
+Testing  -- VERSION OF LIBRARY (vers) 
+Testing  -- HFILE (hfile) 
+Testing  -- HFILE LIMITS (hfile1) 
+Testing  -- HBLOCKS (hblocks) 
+Testing  -- EXTERNAL ELEMENTS (extelt) 
+Testing  -- COMPRESSED ELEMENTS (comp) 
+Testing  -- Chunks (chunks) 
+Testing  -- BIT I/O (bitio) 
+Testing  -- 8BIT RASTER IMAGE INTERFACE (8bit) 
+Testing  -- PALETTE INTERFACE (pal) 
+Testing  -- 24BIT RASTER IMAGE INTERFACE (24bit) 
+Testing  -- ENCODING/DECODING INTERFACE (macros) 
+Testing  -- CONVERSION INTERFACE (conv) 
+Testing  -- SDMMS (sdmms) 
+Testing  -- SDNMMS (sdnmms) 
+Testing  -- DATASTRINGS (sdstr) 
+Testing  -- HYPERSLAB INTERFACE (slabs) 
+Testing  -- ANNOTATIONS (anot) 
+Testing  -- UPDATE ANNOTATIONS (anot_2) 
+Testing  -- FILE ANNOTATIONS (anfile) 
+Testing  -- MULTI-ANNOTATIONS (manot) 
+Testing  -- N-Bit Dataset Interface (nbit) 
+Testing  -- LITTLE-ENDIAN INTERFACE (litend) 
+Testing  -- VSET InterfaceTest (vset) 
+Testing  -- VSET Name and Class (vnameclass) 
+Testing  -- VSET AttributeTest (vattr) 
+Testing  -- Vdata fields pack Test (vsfpack) 
+Testing  -- Getting Raw Data's Spatial Information (datainfo) 
+Testing  -- Getting Raw Data's Spatial Information of Attributes (attdatainfo) 
+Testing  -- Multi-File Generic Raster Image Interface (mfgr) 
+         -- ***** GR SZIP test skipped *****
+
+
+All tests were successful. 
+
+
+Cleaning Up...
+
+----------------------------
+Finished testing testhdf 

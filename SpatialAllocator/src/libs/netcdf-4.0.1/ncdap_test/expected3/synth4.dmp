@@ -1,0 +1,33 @@
+netcdf synth4 {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	DIM2 = 2 ;
+	DIM4 = 4 ;
+variables:
+	byte v1(DIM2, DIM4) ;
+	short v2(DIM2, DIM4) ;
+	int v3(DIM2, DIM2) ;
+	float v4(DIM2, DIM2) ;
+	double v5(DIM2, DIM2) ;
+data:
+
+ v1 =
+  97, 98, 99, 100,
+  101, 102, 103, 104 ;
+
+ v2 =
+  116, 216, 316, 416,
+  516, 616, 716, 816 ;
+
+ v3 =
+  132, 232,
+  332, 432 ;
+
+ v4 =
+  1320, 2320,
+  3320, 4320 ;
+
+ v5 =
+  1640, 2640,
+  3640, 4640 ;
+}

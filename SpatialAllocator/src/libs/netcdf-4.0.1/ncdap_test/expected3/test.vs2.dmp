@@ -1,0 +1,47 @@
+netcdf test {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	stringdim64 = 64 ;
+variables:
+	int Field_DFNT_INT32__0(unlimited) ;
+	int Field_DFNT_INT32__1(unlimited) ;
+	int Field_DFNT_INT32__2(unlimited) ;
+	int Field_DFNT_INT32__3(unlimited) ;
+	int Field_DFNT_INT32__4(unlimited) ;
+	double Field_DFNT_UINT32__0(unlimited) ;
+	double Field_DFNT_UINT32__1(unlimited) ;
+	double Field_DFNT_UINT32__2(unlimited) ;
+	int Field_DFNT_INT16__0(unlimited) ;
+	int Field_DFNT_INT16__1(unlimited) ;
+	int Field_DFNT_INT16__2(unlimited) ;
+	int Field_DFNT_INT16__3(unlimited) ;
+	int Field_DFNT_INT16__4(unlimited) ;
+	double Field_DFNT_UINT16__0(unlimited) ;
+	double Field_DFNT_UINT16__1(unlimited) ;
+	double Field_DFNT_UINT16__2(unlimited) ;
+	int Field_DFNT_INT8__0(unlimited) ;
+	int Field_DFNT_INT8__1(unlimited) ;
+	int Field_DFNT_INT8__2(unlimited) ;
+	int Field_DFNT_INT8__3(unlimited) ;
+	int Field_DFNT_INT8__4(unlimited) ;
+	byte Field_DFNT_UINT8__0(unlimited) ;
+	byte Field_DFNT_UINT8__1(unlimited) ;
+	byte Field_DFNT_UINT8__2(unlimited) ;
+	double Field_DFNT_FLOAT32__0(unlimited) ;
+	double Field_DFNT_FLOAT32__1(unlimited) ;
+	double Field_DFNT_FLOAT32__2(unlimited) ;
+	double Field_DFNT_FLOAT32__3(unlimited) ;
+	double Field_DFNT_FLOAT32__4(unlimited) ;
+	double Field_DFNT_FLOAT32__5(unlimited) ;
+	double Field_DFNT_FLOAT32__6(unlimited) ;
+	double Field_DFNT_FLOAT64__0(unlimited) ;
+	double Field_DFNT_FLOAT64__1(unlimited) ;
+	double Field_DFNT_FLOAT64__2(unlimited) ;
+	double Field_DFNT_FLOAT64__3(unlimited) ;
+	double Field_DFNT_FLOAT64__4(unlimited) ;
+	double Field_DFNT_FLOAT64__5(unlimited) ;
+	double Field_DFNT_FLOAT64__6(unlimited) ;
+	char Field_DFNT_CHAR8__0(unlimited, stringdim64) ;
+	char Field_DFNT_UCHAR8__0(unlimited, stringdim64) ;
+data:
+}

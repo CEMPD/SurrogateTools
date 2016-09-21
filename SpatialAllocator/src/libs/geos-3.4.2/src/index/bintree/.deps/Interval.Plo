@@ -1,0 +1,7 @@
+Interval.lo Interval.o: Interval.cpp \
+  ../../../include/geos/index/bintree/Interval.h \
+  ../../../include/geos/export.h
+
+../../../include/geos/index/bintree/Interval.h:
+
+../../../include/geos/export.h:

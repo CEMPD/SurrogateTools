@@ -1,0 +1,4 @@
+# Filter Specifications for continuous filter of TN for use with population surrogate
+ATTRIBUTE_NAME=STFID
+ATTRIBUTE_TYPE=CONTINUOUS
+INCLUDE_VALUES=470650000000-470870000000

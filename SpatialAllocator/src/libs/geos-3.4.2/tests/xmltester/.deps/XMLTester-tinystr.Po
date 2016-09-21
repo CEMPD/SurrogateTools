@@ -1,0 +1,1 @@
+XMLTester-tinystr.o XMLTester-tinystr.o: tinyxml/tinystr.cpp

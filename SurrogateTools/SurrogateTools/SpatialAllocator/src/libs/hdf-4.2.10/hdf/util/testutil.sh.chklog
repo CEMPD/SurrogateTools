@@ -1,0 +1,32 @@
+============================
+testutil.sh  Test Log
+============================
+
+==============================
+HDF Utilities tests started
+==============================
+** Testing gif2hdf and hdf2gif  ***
+ *********************** NOTE ****************************
+ Use WEB Browser and JHV to compare 
+ ./testfiles/SunWheel.gif and ./testfiles/bttrfly.gif 
+ with gif_hdf_temp/SunWheel.hdf and gif_hdf_temp/bttrfly.hdf
+ 
+ Use JHV  and WEB Browser to compare 
+ ./testfiles/skull.hdf and gif_hdf_temp/skull.gif
+ ********************* END NOTE **************************
+
+** Testing hdf24to8  ***
+** Testing hdfed  ***
+** Testing ristosds  ***
+** Testing hdfpack  ***
+** Testing hdftopal/paltohdf  ***
+** Testing r8tohdf/hdftor8  ***
+** Testing hdfcomp  ***
+** Testing jpeg2hdf/hdf2jpeg  ***
+==============================
+HDF Utilities tests passed.
+==============================
+
+
+Finished testing testutil.sh 
+============================

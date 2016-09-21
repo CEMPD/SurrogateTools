@@ -1,0 +1,16 @@
+netcdf test {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	stringdim64 = 64 ;
+variables:
+	byte LevelWritten__0(unlimited) ;
+	double Time__0(unlimited) ;
+	double Concentration__0(unlimited) ;
+	double Concentration__1(unlimited) ;
+	double Concentration__2(unlimited) ;
+	double Concentration__3(unlimited) ;
+	char Species__0(unlimited, stringdim64) ;
+	byte FixedBuoy0x20Point_LevelWritten__0(unlimited) ;
+	byte FloatBuoy0x20Point_LevelWritten__0(unlimited) ;
+data:
+}

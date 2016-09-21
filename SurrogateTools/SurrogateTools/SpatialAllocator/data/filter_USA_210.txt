@@ -1,0 +1,5 @@
+# Filter txt file for surrogate -- USA_210=Rural Primary Road Miles
+# Filter Function: NEWRD_CLAS = 2
+ATTRIBUTE_NAME=NEWRD_CLAS 
+ATTRIBUTE_TYPE=DISCRETE
+INCLUDE_VALUES= 2

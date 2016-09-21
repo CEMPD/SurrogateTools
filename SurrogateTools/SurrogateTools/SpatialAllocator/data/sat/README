@@ -1,0 +1,89 @@
+Data Web Site
+L. Ran	CEMPD, Institute for the Environment, UNC-Chapel Hill
+
+
+1. NLCD land cover data:
+                Donwload NLCD data from: http://www.mrlc.gov/nlcd06_data.php
+
+2. MODIS tiled land cover data: MCD12Q1
+                From https://ladsweb.nascom.nasa.gov/data/search.html, select:
+
+                Combined Terra & Aqua MODIS
+                Combined Land Level 3/Level4 yearly Tiled Products
+                MCD12Q1
+                Set time period for downloading
+                5 - MODIS Collection 5
+                Coordinate System: Latitude/Longitude 
+                Type in extents in degree
+                Search
+                View All
+                Order Files Now
+
+3. GOES:
+	The GOES website is:
+		http://satdas.nsstc.nasa.gov/
+
+	GOES data site:
+		http://satdas.nsstc.nasa.gov/cgi-bin/old_sat5.cgi
+
+   	Procedures:
+	a) Get the data
+	b) unzip downloaded GOES data into daily directories using  ./util/goes_untar.pl
+
+
+4. MODIS L2 data (swath)    
+		http://ladsweb.nascom.nasa.gov/data/search.html
+
+		MODIS data set list: 
+		https://lpdaac.usgs.gov/lpdaac/get_data/data_pool
+
+                Download data in HDF4 format: 
+		Aerosol: MOD04_L2, MYD04_L2  
+                Cloud: MOD06_L2 + MOD03, MYD06_L2 + MYD03
+
+	a) Get aeroal data:
+		First select Terra MODIS:
+		MODIS Aerosol products:
+		Select Level 2 products and select L2 aerosol product
+		Select time: 2006 June 20 to 30
+		Collection 5
+		Select Latitude/Longitude with the above lat and long extent
+		Coverage options: select day, night, and both (all)
+		all other defaults and Click search
+		Display all files
+		Right click and select Copy Link Location
+		Download all files into one directory
+
+	b) Get cloud data:
+                MODIS Cloud:
+		Select Level 2 products and select L2 Cloud products
+		Select time: 2006 June 20 to 30
+		Collection 5
+		Select Latitude/Longitude with the above lat and long extent
+		Coverage options: select day, night, and both (all)
+		all other defaults and Click search
+		Display all files
+                Download all files into one directory
+
+		MODIS Geolocation (need this for MODIS cloud product re-gridding):
+		Select Level 1 products and select 03 Geolocation - 1km
+		Select time: same as cloud
+		Collection 5
+		Select Latitude/Longitude with the above lat and long extent
+		Coverage options: select day, night, and both (all)
+		Display all files
+		Download all files into the MODIS Cloud file directory
+
+5. OMI L2 data (swath)
+		Download data from the NASA mirador site:
+        	http://mirador.gsfc.nasa.gov/cgi-bin/mirador/presentNavigation.pl?tree=project&project=OMI
+        	Put downloaded data in one directory which is defined in the script file.
+		
+6. OMI L3 and L2G data (merged):
+		NASA Geonanni web site:
+                http://gdata1.sci.gsfc.nasa.gov/daac-bin/G3/gui.cgi?instance_id=omi
+	        The tool is also may also be used process MODIS L3 products (not tested well) from NASA MODIS web site.
+
+		OMI info: http://disc.sci.gsfc.nasa.gov/giovanni/additional/users-manual/G3_manual_Chapter_10_OMIL2G.shtml#what_l2g
+			  ftp://aurapar2u.ecs.nasa.gov/data/s4pa//Aura_OMI_Level2/OMAERUV.003/doc/README.OMI_DUG.pdf
+

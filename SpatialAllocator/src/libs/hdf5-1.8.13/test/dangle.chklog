@@ -1,0 +1,27 @@
+============================
+ dangle  Test Log
+============================
+Testing dangling objects with weak file close:
+Testing     dangling dataset IDs                                       PASSED
+Testing     dangling group IDs                                         PASSED
+Testing     dangling named datatype IDs                                PASSED
+Testing     dangling named datatype ID used by dataset                 PASSED
+Testing     dangling attribute IDs                                     PASSED
+Testing dangling objects with semi file close:
+Testing     dangling dataset IDs                                       PASSED
+Testing     dangling group IDs                                         PASSED
+Testing     dangling named datatype IDs                                PASSED
+Testing     dangling named datatype ID used by dataset                 PASSED
+Testing     dangling attribute IDs                                     PASSED
+Testing dangling objects with strong file close:
+Testing     dangling dataset IDs                                       PASSED
+Testing     dangling group IDs                                         PASSED
+Testing     dangling named datatype IDs                                PASSED
+Testing     dangling named datatype ID used by dataset                 PASSED
+Testing     dangling attribute IDs                                     PASSED
+All dangling ID tests passed.
+0.11user 0.02system 0:00.14elapsed 91%CPU (0avgtext+0avgdata 25696maxresident)k
+0inputs+0outputs (0major+7445minor)pagefaults 0swaps
+
+Finished testing dangle 
+============================

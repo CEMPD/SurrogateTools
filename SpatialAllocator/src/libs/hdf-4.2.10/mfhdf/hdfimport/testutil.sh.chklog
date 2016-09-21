@@ -1,0 +1,29 @@
+============================
+testutil.sh  Test Log
+============================
+
+==============================
+HDFIMPORT tests started
+==============================
+** Testing hdfimport  ***
+Testing for 32-bit floating point ASCII (2D data)
+Testing for 32-bit floating point ASCII (3D data)
+Testing for 32-bit integer binary (2D data)
+Testing for 32-bit integer  binary (3D data)
+Testing for 16-bit integer binary (2D data)
+Testing for 16-bit integer (3D data)
+Testing for 32-bit floating point binary (2D data)
+Testing for 32-bit floating point binary (3D data)
+Testing for 64-bit floating point binary (2D data) - Default Behaviour (Conversion to 32 bit FP SDS)
+Testing for 64-bit floating point binary (3D data) - Default Behaviour (Conversion to 32-bit FP SDS)
+Testing for 64-bit floating point binary (2D data) - Conversion to 64-bit FP SDS
+Testing for 64-bit floating point binary (3D data) - Conversion to 64-bit FP SDS
+Testing for raster options
+Testing for reading from hdf files
+=================================
+HDFIMPORT Utilities tests passed.
+=================================
+
+
+Finished testing testutil.sh 
+============================

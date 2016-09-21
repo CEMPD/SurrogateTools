@@ -1,0 +1,8 @@
+# Geographic Filter Specifications
+OVERLAP_TYPE=grid
+             #bbox
+             #poly
+OVERLAP_INFO=gridname
+               #x1,y1,x2,y2
+               #x1,y1,x2,y2,x3,y3,...
+               #polyshapefilename

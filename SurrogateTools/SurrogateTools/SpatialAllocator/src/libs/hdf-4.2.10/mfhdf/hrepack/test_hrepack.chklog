@@ -1,0 +1,29 @@
+----------------------------
+test_hrepack  Test Log
+----------------------------
+Testing generating files                                               PASSED
+Testing hrepack -t dset7:HUFF 1 -c dset7:10x8x6                        PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t dset4:RLE -c dset4:10x8                             PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t dset4:GZIP 6 -c dset4:10x8                          PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t dset4:SZIP 8,EC -c dset4:10x8                       SKIPPED
+Testing hrepack -t dset_chunk:NONE -c dset_chunk:NONE                  PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t dset4:GZIP 9 -t dset5:RLE -c dset4:10x8             PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t dset4:GZIP 9 -t dset5:RLE -t dset6:HUFF 2           PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t *:GZIP 1 -c dset_chunk:NONE                         PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -c *:10x8                                              PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hrepack -t *:GZIP 1                                            PASSED
+Testing hdiff hrepacktst1.hdf hrepacktst1_out.hdf                      PASSED
+Testing hyperslab repacking                                            PASSED
+Testing hdiff hrepacktst2.hdf hrepacktst2_out.hdf                      PASSED
+Testing vgroups dependencies                                           PASSED
+Testing hdiff hrepacktst3.hdf hrepacktst3_out.hdf                      PASSED
+----------------------------
+Finished testing test_hrepack 

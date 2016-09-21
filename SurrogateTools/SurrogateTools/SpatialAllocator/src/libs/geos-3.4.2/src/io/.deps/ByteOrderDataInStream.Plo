@@ -1,0 +1,4 @@
+ByteOrderDataInStream.lo ByteOrderDataInStream.o:  \
+ ByteOrderDataInStream.cpp ../../include/geos/inline.h
+
+../../include/geos/inline.h:

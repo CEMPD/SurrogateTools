@@ -1,0 +1,9 @@
+----------------------------
+hdfnctest  Test Log
+----------------------------
+Testing read/write datasets with unlimited dims via SD API (tunlim.c)  PASSED
+Testing read/write variables with unlimited dims via nc API (tncunlim.c) PASSED
+Testing ncvarget fills buffer when reading UDim HDF data sets (tncvarget.c) PASSED
+*** HDF-nc test passes ***
+----------------------------
+Finished testing hdfnctest 

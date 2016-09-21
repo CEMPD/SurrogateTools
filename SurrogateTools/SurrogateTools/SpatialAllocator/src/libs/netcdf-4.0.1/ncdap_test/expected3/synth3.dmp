@@ -1,0 +1,13 @@
+netcdf synth3 {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	DIM2 = 2 ;
+	DIM3 = 3 ;
+variables:
+	int v1(DIM2, DIM3) ;
+data:
+
+ v1 =
+  132, 232, 332,
+  432, 532, 632 ;
+}

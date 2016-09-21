@@ -1,0 +1,36 @@
+USGS NLCD Landuse Files:
+../data/sat/pp_NLCD2001_v2/nlcd2001_landcover_v2_2-13-11.bil
+USGS NLCD Urban Imperviousness Files:
+../data/sat/pp_NLCD2001_v2/nlcd2001_impervious_v2_5-4-11.bil
+USGS NLCD Tree Canopy Files:
+../data/sat/pp_NLCD2001_v2/nlcd_canopy_mosaic_1-29-08.bil
+NOAA CGAP NLCD Landuse Files:
+../data/sat/pp_NLCD2001_v2/al_05.bil
+../data/sat/pp_NLCD2001_v2/ca_01.bil
+../data/sat/pp_NLCD2001_v2/ct_05.bil
+../data/sat/pp_NLCD2001_v2/de_05.bil
+../data/sat/pp_NLCD2001_v2/fl_01.bil
+../data/sat/pp_NLCD2001_v2/ga_01.bil
+../data/sat/pp_NLCD2001_v2/il_01.bil
+../data/sat/pp_NLCD2001_v2/in_01.bil
+../data/sat/pp_NLCD2001_v2/la_05.bil
+../data/sat/pp_NLCD2001_v2/ma_05.bil
+../data/sat/pp_NLCD2001_v2/md_05.bil
+../data/sat/pp_NLCD2001_v2/me_06.bil
+../data/sat/pp_NLCD2001_v2/mi_01.bil
+../data/sat/pp_NLCD2001_v2/mn_01.bil
+../data/sat/pp_NLCD2001_v2/ms_05.bil
+../data/sat/pp_NLCD2001_v2/nc_01.bil
+../data/sat/pp_NLCD2001_v2/nh_06.bil
+../data/sat/pp_NLCD2001_v2/nj_05.bil
+../data/sat/pp_NLCD2001_v2/ny_05.bil
+../data/sat/pp_NLCD2001_v2/oh_01.bil
+../data/sat/pp_NLCD2001_v2/or_01.bil
+../data/sat/pp_NLCD2001_v2/pa_01.bil
+../data/sat/pp_NLCD2001_v2/ri_05.bil
+../data/sat/pp_NLCD2001_v2/sc_01.bil
+../data/sat/pp_NLCD2001_v2/tx_05.bil
+../data/sat/pp_NLCD2001_v2/va_05.bil
+../data/sat/pp_NLCD2001_v2/vt_06.bil
+../data/sat/pp_NLCD2001_v2/wa_01_regrided.bil
+../data/sat/pp_NLCD2001_v2/wi_01.bil

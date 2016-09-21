@@ -1,0 +1,39 @@
+----------------------------
+nctest  Test Log
+----------------------------
+*** Testing nccreate ...	ok ***
+*** Testing ncopen ...		ok ***
+*** Testing ncredef ...		ok ***
+*** Testing ncendef ...		ok ***
+*** Testing ncclose ...		ok ***
+*** Testing ncinquire ...	ok ***
+*** Testing ncsync ...		ok ***
+*** Testing ncabort ...		ok ***
+*** Testing ncdimdef ...	ok ***
+*** Testing ncdimid ...		ok ***
+*** Testing ncdiminq ...	ok ***
+*** Testing ncdimrename ...	ok ***
+*** Testing ncvardef ...	ok ***
+*** Testing ncvarid ...		ok ***
+*** Testing ncvarinq ...	ok ***
+*** Testing ncvarput1 ...	ok ***
+*** Testing ncvarget1 ...	ok ***
+*** Testing ncvarput ...	ok ***
+*** Testing ncvarget ...	ok ***
+*** Testing ncvarget_unlim ...	ok ***
+*** Testing ncvarputg ...	ok ***
+*** Testing ncvargetg ...	ok ***
+*** Testing ncrecinq ...	ok ***
+*** Testing ncrecput ...	ok ***
+*** Testing ncrecget ...	ok ***
+*** Testing ncvarrename ...	ok ***
+*** Testing ncattput ...	ok ***
+*** Testing ncattinq ...	ok ***
+*** Testing ncattget ...	ok ***
+*** Testing ncattcopy ...	ok ***
+*** Testing ncattname ...	ok ***
+*** Testing ncattrename ...	ok ***
+*** Testing ncattdel ...	ok ***
+*** Testing nctypelen ...	ok ***
+----------------------------
+Finished testing nctest 

@@ -1,0 +1,31 @@
+netcdf test {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	DIM3 = 3 ;
+	DIM2 = 2 ;
+variables:
+	int j ;
+	int i ;
+	short g(DIM3, DIM3, DIM3) ;
+	short f(DIM2, DIM2) ;
+data:
+
+ j = 1 ;
+
+ i = 2 ;
+
+ g =
+  0, 256, 512,
+  256, 512, 768,
+  512, 768, 1024,
+  256, 512, 768,
+  512, 768, 1024,
+  768, 1024, 1280,
+  512, 768, 1024,
+  768, 1024, 1280,
+  1024, 1280, 1536 ;
+
+ f =
+  0, 256,
+  256, 512 ;
+}

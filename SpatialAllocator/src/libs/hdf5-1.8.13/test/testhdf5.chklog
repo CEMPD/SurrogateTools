@@ -1,0 +1,42 @@
+============================
+ testhdf5  Test Log
+============================
+
+For help use: /nas01/depts/ie/cempd/apps/sallocator/sa_052014/src/libs/hdf5-1.8.13/test/.libs/lt-testhdf5 -help
+Linked with hdf5 version 1.8 release 13
+Testing  -- Configure definitions (config) 
+Testing  -- Encoding/decoding metadata (metadata) 
+Testing  -- Checksum algorithm (checksum) 
+Testing  -- Ternary Search Trees (tst) 
+Testing  -- Memory Heaps (heap) 
+Testing  -- Skip Lists (skiplist) 
+Testing  -- Reference Counted Strings (refstr) 
+Testing  -- Low-Level File I/O (file) 
+Testing  -- Generic Object Functions (objects) 
+Testing  -- Dataspaces (h5s) 
+Testing  -- Dataspace coordinates (coords) 
+Testing  -- Shared Object Header Messages (sohm) 
+Testing  -- Attributes (attr) 
+Testing  -- Selections (select) 
+Testing  -- Time Datatypes (time) 
+Testing  -- References (reference) 
+Testing  -- Variable-Length Datatypes (vltypes) 
+Testing  -- Variable-Length Strings (vlstrings) 
+Testing  -- Group & Attribute Iteration (iterate) 
+Testing  -- Array Datatypes (array) 
+Testing  -- Generic Properties (genprop) 
+Testing  -- UTF-8 Encoding (unicode) 
+Testing  -- User-Created Identifiers (id) 
+Testing  -- Miscellaneous (misc) 
+
+
+All tests were successful. 
+
+
+Cleaning Up temp files...
+
+51.41user 0.73system 0:58.93elapsed 88%CPU (0avgtext+0avgdata 148240maxresident)k
+0inputs+0outputs (0major+35459minor)pagefaults 0swaps
+
+Finished testing testhdf5 
+============================

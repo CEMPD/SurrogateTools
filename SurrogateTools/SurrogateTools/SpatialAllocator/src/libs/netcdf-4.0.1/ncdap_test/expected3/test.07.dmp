@@ -1,0 +1,18 @@
+netcdf test {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	stringdim64 = 64 ;
+variables:
+	char name(unlimited, stringdim64) ;
+	int age(unlimited) ;
+	byte b(unlimited) ;
+	int i32(unlimited) ;
+	double ui32(unlimited) ;
+	short i16(unlimited) ;
+	int ui16(unlimited) ;
+	float f32(unlimited) ;
+	double f64(unlimited) ;
+	char s(unlimited, stringdim64) ;
+	char u(unlimited, stringdim64) ;
+data:
+}

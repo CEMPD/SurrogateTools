@@ -1,0 +1,6 @@
+# Input file for srgmerge program that does merging
+OUTFILE=test/data/merge/merged_surrogates.txt
+XREFFILE=test/data/merge/srg_xref.txt
+OUTSRG=Merge Airports; 0.75*({test/data/merge/2_NOFILL.txt|Airports})+0.25*({test/data/merge/7_NOFILL.txt|Population})
+OUTSRG=Airports; 1*({test/data/merge/2_NOFILL.txt|Airports})
+OUTSRG=Population; 1*({test/data/merge/7_NOFILL.txt|Population})

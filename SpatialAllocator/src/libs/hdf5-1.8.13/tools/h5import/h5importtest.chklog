@@ -1,0 +1,8 @@
+============================
+ h5importtest  Test Log
+============================
+0.02user 0.01system 0:00.04elapsed 76%CPU (0avgtext+0avgdata 25360maxresident)k
+0inputs+0outputs (0major+6631minor)pagefaults 0swaps
+
+Finished testing h5importtest 
+============================

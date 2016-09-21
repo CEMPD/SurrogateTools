@@ -1,0 +1,14 @@
+netcdf NestedSeq2 {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+variables:
+	int age(unlimited) ;
+	int size(unlimited) ;
+	short foo(unlimited) ;
+	short bar(unlimited) ;
+	int person2_age(unlimited) ;
+	short person2_foo(unlimited) ;
+	short person2_bar(unlimited) ;
+	int person2_size(unlimited) ;
+data:
+}

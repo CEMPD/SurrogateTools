@@ -1,0 +1,5 @@
+PointOnGeometryLocator.lo PointOnGeometryLocator.o:  \
+ PointOnGeometryLocator.cpp \
+  ../../../include/geos/algorithm/locate/PointOnGeometryLocator.h
+
+../../../include/geos/algorithm/locate/PointOnGeometryLocator.h:

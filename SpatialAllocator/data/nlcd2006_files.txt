@@ -1,0 +1,36 @@
+USGS NLCD Landuse Files:
+../data/sat/NLCD2006/nlcd2006_landcover_4-20-11_se5.img  
+USGS NLCD Urban Imperviousness Files:
+../data/sat/NLCD2006/nlcd2006_impervious_5-4-11.img
+USGS NLCD Tree Canopy Files:
+../data/sat/NLCD2006/nlcd_canopy_mosaic_1-29-08.img
+NOAA CGAP NLCD Landuse Files:
+../data/sat/CCAP06/al_06.img
+../data/sat/CCAP06/ca_06.img
+../data/sat/CCAP06/ct_06.img
+../data/sat/CCAP06/de_06.img
+../data/sat/CCAP06/fl_06.img
+../data/sat/CCAP06/ga_06.img
+../data/sat/CCAP06/il_06.img
+../data/sat/CCAP06/in_06.img
+../data/sat/CCAP06/la_06.img
+../data/sat/CCAP06/ma_06.img
+../data/sat/CCAP06/md_06.img
+../data/sat/CCAP06/me_06.img
+../data/sat/CCAP06/mi_06.img
+../data/sat/CCAP06/mn_06.img
+../data/sat/CCAP06/ms_06.img
+../data/sat/CCAP06/nc_06.img
+../data/sat/CCAP06/nh_06.img
+../data/sat/CCAP06/nj_06.img
+../data/sat/CCAP06/ny_06.img
+../data/sat/CCAP06/oh_06.img
+../data/sat/CCAP06/or_06.img
+../data/sat/CCAP06/pa_06.img
+../data/sat/CCAP06/ri_06.img
+../data/sat/CCAP06/sc_06.img
+../data/sat/CCAP06/tx_06.img
+../data/sat/CCAP06/va_06.img
+../data/sat/CCAP06/vt_06.img
+../data/sat/CCAP06/wa_06.img
+../data/sat/CCAP06/wi_06.img

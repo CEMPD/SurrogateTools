@@ -1,0 +1,3 @@
+#County code which are exclude from normalization
+1011
+1022

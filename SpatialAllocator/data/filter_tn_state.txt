@@ -1,0 +1,4 @@
+# Filter Specifications for discrete filter of TN
+ATTRIBUTE_NAME=STATE_NAME
+ATTRIBUTE_TYPE=DISCRETE
+INCLUDE_VALUES=Tennessee

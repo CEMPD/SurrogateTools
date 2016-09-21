@@ -1,0 +1,4 @@
+QuadEdgeLocator.lo QuadEdgeLocator.o: QuadEdgeLocator.cpp \
+  ../../../include/geos/triangulate/quadedge/QuadEdgeLocator.h
+
+../../../include/geos/triangulate/quadedge/QuadEdgeLocator.h:

@@ -1,0 +1,6 @@
+# Input file for srgmerge program that does gap filling
+OUTFILE=test/data/gapfill/gapfilled_surrogates.txt
+XREFFILE=test/data/gapfill/srg_xref.txt
+OUTSRG=Gapfilled Airports; GAPFILL=test/data/gapfill/2_NOFILL.txt|Airports;test/data/gapfill/7_NOFILL.txt|Population
+OUTSRG=Airports; GAPFILL=test/data/gapfill/2_NOFILL.txt|Airports
+OUTSRG=Population; GAPFILL=test/data/gapfill/7_NOFILL.txt|Population

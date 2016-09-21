@@ -1,0 +1,4 @@
+netcdf test {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+}

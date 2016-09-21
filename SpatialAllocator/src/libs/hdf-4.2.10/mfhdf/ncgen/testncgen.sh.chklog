@@ -1,0 +1,15 @@
+============================
+testncgen.sh  Test Log
+============================
+=============================
+Running ncgen tests
+=============================
+testncgen.sh: line 113: [: -ne: unary operator expected
+*** ncgen -b test successful ***
+*** ncgen -c test successful ***
+=============================
+All ncgen tests passed
+=============================
+
+Finished testing testncgen.sh 
+============================

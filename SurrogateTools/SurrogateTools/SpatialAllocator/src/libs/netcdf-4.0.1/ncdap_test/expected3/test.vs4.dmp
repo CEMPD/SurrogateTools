@@ -1,0 +1,17 @@
+netcdf test {
+dimensions:
+	unlimited = UNLIMITED ; // (0 currently)
+	stringdim64 = 64 ;
+variables:
+	int Field_DFNT_INT32__0(unlimited) ;
+	double Field_DFNT_UINT32__0(unlimited) ;
+	int Field_DFNT_INT16__0(unlimited) ;
+	double Field_DFNT_UINT16__0(unlimited) ;
+	int Field_DFNT_INT8__0(unlimited) ;
+	byte Field_DFNT_UINT8__0(unlimited) ;
+	double Field_DFNT_FLOAT32__0(unlimited) ;
+	double Field_DFNT_FLOAT64__0(unlimited) ;
+	char Field_DFNT_CHAR8__0(unlimited, stringdim64) ;
+	char Field_DFNT_UCHAR8__0(unlimited, stringdim64) ;
+data:
+}

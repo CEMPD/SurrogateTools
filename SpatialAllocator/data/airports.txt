@@ -1,0 +1,692 @@
+ICAO_code,Airport_Name,Latitude,Longitude
+KANB,Anniston Metropolitan,33.58,-85.85
+KMSL,Muscle Shoals Regional,34.75,-87.6
+KDHN,Dothan,31.23,-85.43
+KBHM,Birmingham Intl,33.56,-86.75
+KEET,Bessemer,33.16,-86.76
+KHSV,Huntsville Intl,34.65,-86.78
+KMOB,Mobile Regional,30.68,-88.25
+KGZH,Monroe County,31.41,-87.05
+KMGM,Dannelly Field,32.3,-86.4
+KMXF,Maxwell AFB,32.38,-86.35
+KTCL,Tuscaloosa Muni,33.21,-87.61
+KGZH,Martin Field,31.41,-87.05
+KMRI,Merrill Field,61.21,-149.85
+KCZF,Mekoryuk,61.78,-166.03
+KCZF,Toksook Bay,61.78,-166.03
+KCZF,Newtok,61.78,-166.03
+KKTN,Ketchikan Harbor,55.36,-131.71
+KKTN,Ketchikan Intl,55.36,-131.71
+KILI,Nondalton,59.75,-154.91
+KILI,Kokhanok,59.75,-154.91
+KILI,Iliamna,59.75,-154.91
+KILI,Kulik Lake,59.75,-154.91
+KQRC,Lake Brooks,58.68,-156.63
+KQRC,Igiugig,58.68,-156.63
+KBTT,Anaktuvuk Pass,66.91,-151.51
+KSIT,Tenakee,57.05,-135.36
+KORT,Tok,62.96,-141.93
+KCDV,Merle K (Mudhole) Smith,60.5,-145.5
+KGKN,Gulkana,62.15,-145.45
+KVWS,Valdez,61.13,-146.35
+KCZF,Cape Romanzof LRRS,61.78,-166.03
+KCZF,Scammon Bay,61.78,-166.03
+KCZF,Chevak,61.78,-166.03
+KCZF,Alakanuk,61.78,-166.03
+KCZF,Emmonak,61.78,-166.03
+KCZF,Sheldons Point,61.78,-166.03
+KBTT,Bettles,66.91,-151.51
+KBTT,Coldfoot,66.91,-151.51
+KBTT,Prospect Creek,66.91,-151.51
+KTAL,Manley Hot Springs,65.16,-152.1
+KTAL,Ralph M Calhoun Meml,65.16,-152.1
+KTAL,Minchumina,65.16,-152.1
+KFHU,Libby AFB - Sierra Vista Muni,31.56,-110.33
+KFLG,Flagstaff Pulliam,35.13,-111.66
+KGCN,Grand Canyon National Park,35.95,-112.15
+KPGA,Page Muni,36.93,-111.45
+KDVT,Phoenix - Deer Valley Muni,33.68,-112.08
+KPHX,Williams Gateway,33.45,-111.98
+KPHX,Phoenix Sky Harbor Intl,33.45,-111.98
+KSDL,Scottsdale,33.61,-111.91
+KEED,Lake Havasu City,34.76,-114.61
+KEED,Laughlin - Bullhead International,34.76,-114.61
+KIGM,Kingman,35.26,-113.95
+K4BL,Kayenta,37.61,-109.48
+KSJN,Show Low Muni,34.51,-109.38
+KDMA,Davis - Monthan AFB,32.16,-110.88
+KTUS,Tucson Intl,32.13,-110.95
+KFLG,Sedona,35.13,-111.66
+KPRC,Ernest A. Love Field,34.65,-112.41
+KHRO,Boone County,36.26,-93.15
+KJBR,Jonesboro Muni,35.83,-90.65
+KHOT,Memorial Field,34.46,-93.1
+KTXK,Texarkana Regional,33.45,-94
+KLIT,Adams Field,34.75,-92.23
+KFSM,Fort Smith Regional,35.33,-94.36
+KELD,South Arkansas Regional At Goodwin,33.21,-92.81
+KFYV,Springdale Muni,36,-94.16
+KFYV,Drake Field,36,-94.16
+KOAK,Metropolitan Oakland Intl,37.71,-122.21
+KOVE,Chico Muni,39.5,-121.61
+KCEC,Jack Mc Namara Field,41.78,-124.23
+KFAT,Fresno Air Terminal,36.78,-119.71
+KACV,Arcata,40.98,-124.1
+KIPL,Imperial County,32.83,-115.58
+KNJK,Naf El Centro,32.81,-115.68
+KBIH,Bishop,37.36,-118.35
+KBFL,Meadows Field,35.43,-119.05
+KNID,Inyokern,35.68,-117.68
+KBUR,Burbank - Glendale - Pasadena,34.2,-118.35
+KHHR,Hawthorne Muni,33.91,-118.33
+KLAX,Los Angeles Intl,33.93,-118.4
+KLGB,Long Beach,33.83,-118.16
+KSMO,Santa Monica Muni,34.01,-118.45
+KVNY,Van Nuys,34.21,-118.48
+KMCE,Merced Municipal,37.28,-120.51
+KMRY,Monterey Peninsula,36.58,-121.85
+KSNA,John Wayne Airport - Orange County,33.68,-117.86
+KPSP,Palm Springs Regional,33.83,-116.5
+KRIV,March AFB,33.88,-117.26
+KMCC,Sacramento Mather,38.66,-121.4
+KSAC,Sacramento Executive,38.5,-121.5
+KSMF,Sacramento Metropolitan,38.7,-121.58
+KEDW,Southern California International,34.9,-117.86
+KONT,Ontario Intl,34.06,-117.65
+KCRQ,Mc Clellan - Palomar,33.13,-117.28
+KMYF,Montgomery Field,32.81,-117.13
+KNKX,Miramar NAS,32.86,-117.13
+KNZY,North Island NAS,32.7,-117.2
+KSAN,San Diego Intl,32.73,-117.16
+KSCK,Stockton Metropolitan,37.9,-121.23
+KPRB,Paso Robles Muni,35.66,-120.63
+KSBP,San Luis Obispo County,35.23,-120.63
+KSFO,San Francisco Intl,37.61,-122.4
+KSBA,Santa Barbara Muni,34.43,-119.85
+KSMX,Santa Maria,34.91,-120.46
+KVBG,Vandenberg AFB,34.75,-120.58
+KSJC,San Jose International,37.36,-121.93
+KRDD,Redding Muni,40.51,-122.31
+KSUU,Travis AFB,38.26,-121.93
+KMOD,Modesto City - County,37.63,-120.95
+KHJO,Visalia Muni,36.31,-119.61
+KNSI,San Nicolas Island Nolf,33.25,-119.45
+KNTD,Point Mugu NAWS,34.11,-119.11
+KOXR,Oxnard,34.2,-119.2
+KMYV,Yuba County,39.1,-121.56
+KALS,San Luis Valley Regional,37.43,-105.86
+KAPA,Centennial,39.56,-104.85
+KDEN,Denver Intl,39.83,-104.65
+KASE,Eagle County Regional,39.21,-106.86
+KCOS,City Of Colorado Springs Muni,38.81,-104.71
+KASE,Gunnison County,39.21,-106.86
+KDNR,Jeffco,39.76,-104.86
+KDRO,Durango - La Plata County,37.15,-107.75
+KDNR,Fort Collins - Loveland Muni,39.76,-104.86
+KGJT,Walker Field,39.13,-108.53
+KCEZ,Cortez - Montezuma County,37.3,-108.63
+KMTJ,Montrose Regional,38.5,-107.9
+KASE,Aspen - Pitkin Co,39.21,-106.86
+KPUB,Pueblo Memorial,38.28,-104.5
+KCAG,Yampa Valley,40.5,-107.53
+KMTJ,Telluride Regional,38.5,-107.9
+KAKO,Akron - Washington Co,40.16,-103.23
+KBDR,Igor I Sikorsky Memorial,41.18,-73.15
+KBDL,Bradley Intl,41.93,-72.68
+KHFD,Hartford - Brainard,41.73,-72.65
+KHVN,Tweed - New Haven,41.26,-72.88
+KGON,Groton - New London,41.33,-72.05
+KDOV,Dover AFB,39.13,-75.46
+KILG,New Castle County,39.66,-75.6
+KGNV,Gainesville Regional,29.7,-82.28
+KPAM,Tyndall AFB,30.06,-85.58
+KPFN,Panama City - Bay Co Intl,30.2,-85.68
+KCOF,Patrick AFB,28.23,-80.6
+KMLB,Melbourne International,28.1,-80.65
+KTTS,NASA Shuttle Landing Facility,28.61,-80.71
+KFLL,Fort Lauderdale - Hollywood Intl,26.06,-80.15
+KFXE,Fort Lauderdale Executive,26.2,-80.16
+KAPF,Naples Muni,26.15,-81.76
+KJAX,Jacksonville Intl,30.5,-81.7
+KNIP,Jacksonville NAS,30.23,-81.66
+KNPA,Pensacola NAS,30.35,-87.31
+KPNS,Pensacola Regional,30.48,-87.18
+KMCF,Mac Dill AFB,27.85,-82.51
+KTPA,Tampa Intl,27.96,-82.53
+KLEE,Clay Island Airstrip,28.81,-81.8
+KFMY,Page Field,26.58,-81.86
+KRSW,Southwest Florida Intl,26.53,-81.75
+KTLH,Tallahassee Regional,30.4,-84.35
+KSRQ,Sarasota/Bradenton Intl,27.38,-82.55
+KFPR,Witham Field,27.48,-80.36
+KMIA,Miami Intl,25.81,-80.3
+KOPF,Opa Locka,25.9,-80.28
+KEYW,Key West Intl,24.55,-81.75
+KMTH,Marathon,24.73,-81.05
+KHRT,Hurlburt Field,30.41,-86.68
+KVPS,Eglin AFB,30.48,-86.53
+KMCO,Orlando Intl,28.43,-81.33
+KORL,Executive,28.55,-81.33
+KPBI,Palm Beach Intl,26.68,-80.1
+KPIE,St Petersburg - Clearwater Intl,27.9,-82.68
+KSPG,Albert Whitted,27.76,-82.61
+KSFB,Orlando Sanford,28.78,-81.25
+KDAB,Daytona Beach Intl,29.18,-81.06
+KMCN,Middle Georgia Regional,32.68,-83.65
+KSAV,Savannah International,32.11,-81.2
+KSVN,Hunter AAF,32,-81.15
+KLSF,Lawson AAF,32.33,-85
+KAHN,Athens - Ben Epps,33.95,-83.33
+KATL,The William B Hartsfield Atlanta Intl,33.63,-84.43
+KMGE,Dobbins Air Reserve Base,33.91,-84.51
+KPDK,Dekalb - Peachtree,33.86,-84.3
+KABY,Southwest Georgia Regional,31.53,-84.18
+KSSI,Glynco Jetport,31.15,-81.38
+KWRB,Robins AFB,32.63,-83.6
+KVLD,Valdosta Regional,30.78,-83.28
+KCSG,Columbus Metropolitan,32.51,-84.95
+KAGS,Bush Field,33.36,-81.96
+KBOI,Boise Air Terminal,43.56,-116.21
+KJER,Friedman Memorial,42.73,-114.45
+KIDA,Fanning Field,43.51,-112.06
+KMUO,Mountain Home AFB,43.05,-115.86
+KSFF,Coeur D'alene Air Term,47.68,-117.31
+K27U,Lemhi County,45.18,-113.9
+KLWS,Lewiston - Nez Perce County,46.36,-117.01
+KPIH,Pocatello Regional,42.91,-112.56
+KPIH,American Falls,42.91,-112.56
+KTWF,Twin Falls - Sun Valley Regional Josl,42.48,-114.48
+KMYL,Mc Call,44.88,-116.1
+KUIN,Quincy Muni,39.93,-91.2
+KCMI,University Of Illinois - Willard,40.03,-88.28
+KMTO,Coles County Memorial,39.48,-88.28
+KMDW,Chicago Midway,41.78,-87.75
+KORD,Chicago O'Hare Intl,41.98,-87.91
+KPWK,Palwaukee Muni,42.11,-87.9
+KDPA,Dupage,41.91,-88.25
+KARR,Aurora Muni,41.76,-88.46
+KMLI,Galesburg Muni,41.46,-90.51
+KARR,Illinois Valley Regional,41.76,-88.46
+KDPA,Lake In The Hills,41.91,-88.25
+KDEC,Bloomington - Normal,39.83,-88.86
+KDEC,Decatur,39.83,-88.86
+KPIA,Greater Peoria Regional,40.66,-89.68
+KMLI,Quad - City,41.46,-90.51
+KBLV,Scott AFB,38.55,-89.85
+KSPI,Capital,39.85,-89.68
+KDPA,Lewis University,41.91,-88.25
+KMDH,Williamson County Regional,37.76,-89.25
+KRFD,Greater Rockford,42.2,-89.1
+KFWA,Fort Wayne International,41,-85.2
+KLOU,Clark County,38.23,-85.66
+KMIE,Delaware County,40.23,-85.4
+KGSH,Elkhart Muni,41.53,-85.78
+K63G,Gary Regional,41.71,-87.53
+KIND,Indianapolis Intl,39.71,-86.26
+KBMG,Monroe County,39.13,-86.61
+KSBN,Michiana Rgnl Transportation Center,41.7,-86.33
+KLAF,Purdue University,40.41,-86.93
+KEVV,Evansville Regional,38.05,-87.53
+KHUF,Sky King,39.45,-87.3
+KHUF,Hulman Regional,39.45,-87.3
+KALO,Waterloo Muni,42.55,-92.4
+KSPW,Arthur N Neu,43.16,-95.15
+KMCW,Mason City Muni,43.15,-93.33
+KBRL,Burlington Regional,40.78,-91.11
+KDBQ,Dubuque Regional,42.4,-90.7
+KCID,Cedar Rapids Muni,41.88,-91.71
+KSPW,Sheldon Muni,43.16,-95.15
+KDSM,Des Moines Intl,41.53,-93.66
+KAMW,Ames Muni,42,-93.61
+KAMW,Fort Dodge Regional,42,-93.61
+KSUX,Sioux Gateway,42.38,-96.38
+KRSL,Great Bend Muni,38.88,-98.81
+KGLD,Cheyenne County Muni,39.36,-101.7
+KRSL,Hays Muni,38.88,-98.81
+KGCK,Garden City Regional,37.93,-100.71
+KDDC,Dodge City Regional,37.76,-99.96
+KAAO,Newton - City - County,37.75,-97.21
+KOJC,Johnson County Executive,38.85,-94.73
+KMHK,Manhattan Muni,39.13,-96.66
+KSLN,Salina Muni,38.8,-97.63
+KICT,Wichita Mid - Continent,37.65,-97.43
+KGCK,Liberal Muni,37.93,-100.71
+KFOE,Forbes Field,38.95,-95.66
+KGLD,Goodland Muni,39.36,-101.7
+KCVG,Cincinnati - Northern Kentucky International,39.05,-84.66
+KHOP,Campbell AAF,36.66,-87.5
+KEVV,Owensboro - Daviess County,38.05,-87.53
+KLEX,Blue Grass,38.03,-84.6
+KSDF,Louisville Intl,38.18,-85.73
+KPAH,Barkley Regional,37.05,-88.76
+KLEX,Mount Sterling - Montgomery County,38.03,-84.6
+KBWG,Bowling Green - Warren County Regional,36.98,-86.43
+KBAD,Barksdale AFB,32.5,-93.66
+KSHV,Shreveport Regional,32.45,-93.81
+KLCH,Lake Charles Regional,30.11,-93.23
+KBTR,Baton Rouge Metropolitan,30.53,-91.15
+KMSY,New Orleans Intl,30,-90.25
+KLFT,Lafayette Regional,30.2,-91.98
+KNEW,Lakefront,30.05,-90.03
+KMLU,Monroe Regional,32.51,-92.03
+KAEX,Alexandria Intl,31.31,-92.55
+KNHZ,Auburn - Lewiston Muni,43.9,-69.93
+KCAR,Northern Maine Regional At Presque Isle,46.86,-68.03
+KHUL,Houlton Intl,46.11,-67.8
+KNHZ,Brunswick NAS,43.9,-69.93
+KPWM,Portland Intl Jetport,43.65,-70.3
+KH32,Hancock County - Bar Harbor,44.26,-68.31
+KAUG,Augusta State,44.31,-69.8
+K20B,Knox County Regional,44.1,-69.1
+KBGR,Lucky Landing Marina And SPB,44.8,-68.81
+KBGR,Bangor Intl,44.8,-68.81
+KBWI,Baltimore - Washington Intl,39.16,-76.68
+KAPG,Martin State,39.46,-76.16
+KADW,Andrews AFB,38.81,-76.86
+KNHK,Patuxent River NAS,38.3,-76.41
+KHGR,Washington County Regional,39.7,-77.73
+KSBY,Salisbury - Wicomico County Regional,38.33,-75.51
+K30B,Provincetown Muni,41.78,-70.5
+KHYA,Barnstable Muni,41.66,-70.28
+KPSF,Pittsfield Muni,42.41,-73.28
+KEWB,New Bedford Regional,41.66,-70.95
+KMVY,Marthas Vineyard,41.4,-70.61
+KBAF,Barnes Muni,42.15,-72.71
+KCEF,Westover ARB - Metropolitan,42.2,-72.53
+KBED,Laurence G Hanscom Field,42.46,-71.28
+KACK,Nantucket Memorial,41.25,-70.06
+KBOS,General Edward Lawrence Logan Intl,42.36,-71.01
+KORH,Worcester Muni,42.26,-71.88
+KAPN,Alpena County Regional,45.06,-83.58
+KTVC,Antrim County,44.73,-85.58
+KBTL,W K Kellogg,42.3,-85.25
+KPLN,Charlevoix Muni,45.56,-84.78
+KLAN,Capital City,42.78,-84.58
+K34Y,Delta County,46.55,-87.38
+KIMT,Ford,45.81,-88.11
+KPLN,Pellston Regional Airport Of Emmet,45.56,-84.78
+KFNT,Bishop International,42.96,-83.75
+KPKF,Gogebic County,45.93,-90.45
+KTVC,Cherry Capital,44.73,-85.58
+KCMX,Houghton County Memorial,47.16,-88.5
+KAZO,Kalamazoo - Battle Creek International,42.23,-85.55
+KGRR,Kent County Intl,42.88,-85.51
+KMTC,Selfridge Angb,42.61,-82.83
+K14C,Manistee Co. - Blacker,44.63,-86.25
+K34Y,K. I. Sawyer AFB,46.55,-87.38
+K0Y2,Menominee - Marinette Twin County,44.78,-87.31
+KMKG,Muskegon County,43.16,-86.23
+KDET,Oakland - Troy,42.4,-83
+KPTK,Oakland - Pontiac,42.66,-83.41
+KPTK,Spencer Field,42.66,-83.41
+KGLR,Otsego County,45.01,-84.68
+KMBS,Mbs International,43.53,-84.08
+KBEH,South Haven Area Regional,42.13,-86.43
+KDET,Detroit City,42.4,-83
+KDTW,Detroit Metropolitan - Wayne County,42.21,-83.35
+KYIP,Canton - Plymouth - Mettetal,42.23,-83.53
+KYIP,Willow Run,42.23,-83.53
+KPKD,Bemidji - Beltrami County,46.9,-95.06
+KRWF,New Ulm Muni,44.55,-95.08
+KBRD,Brainerd - Crow Wing Co Regional,46.4,-94.13
+KFCM,Flying Cloud,44.81,-93.45
+KMSP,Minneapolis - St Paul Intl - Wold - Chamb,44.88,-93.23
+KHIB,Grand Rapids - Itasca County,47.38,-92.85
+KINL,Falls Intl,48.56,-93.4
+KRST,Rochester International,43.9,-92.5
+KGFK,Thief River Falls Regional,47.95,-97.18
+KSTP,St Paul Downtown,44.93,-93.05
+KDLH,Duluth Intl,46.83,-92.21
+KHIB,Chisholm - Hibbing,47.38,-92.85
+KSTC,St Cloud Muni,45.55,-94.05
+KMEM,Olive Branch,35.06,-89.98
+KGPT,Gulfport - Biloxi Regional,30.4,-89.06
+KHBG,Hattiesburg - Laurel Regional,31.26,-89.25
+KTUP,University - Oxford,34.26,-88.76
+KMEI,Key Field,32.33,-88.75
+KTUP,Tupelo Municipal,34.26,-88.76
+KCBM,Golden Triangle Regional,33.65,-88.45
+KJAN,Jackson International,32.31,-90.08
+KGLH,Greenville Muni,33.48,-90.98
+KIRK,Kirksville Regional,40.1,-92.55
+KCOU,Columbia Regional,38.81,-92.21
+KPOF,Poplar Bluff Municipal,36.76,-90.46
+KMKC,Kansas City Downtown,39.11,-94.6
+KSGF,Springfield Regional,37.23,-93.38
+KJLN,Joplin Regional,37.15,-94.5
+KSZL,Whiteman AFB,38.71,-93.55
+KMCI,Kansas City Intl,39.3,-94.71
+KTBN,Forney AAF,37.73,-92.13
+KSTL,Lambert - St Louis Intl,38.75,-90.36
+KSUS,Spirit Of St Louis,38.65,-90.65
+KCGI,Cape Girardeau Regional,37.23,-89.56
+KGTF,Great Falls Intl,47.46,-111.38
+KMLS,Frank Wiley Field,46.43,-105.88
+KBHK,Dawson Community,46.33,-104.25
+KLWT,Lewistown Muni,47.05,-109.45
+KFCA,Glacier Park Intl,48.31,-114.25
+KBZN,Gallatin Field,45.8,-111.15
+KWEY,Yellowstone,44.65,-111.1
+KHVR,Havre City - County,48.55,-109.76
+KHLN,Helena Regional,46.6,-111.96
+KMSO,Missoula International,46.91,-114.1
+KWEY,Gardiner,44.65,-111.1
+KISN,Sidney - Richland Muni,48.2,-103.65
+KOLF,L M Clayton,48.1,-105.58
+KBTM,Bert Mooney,45.95,-112.5
+KGGW,Glasgow Intl,48.21,-106.61
+KBIL,Billings Logan Intl,45.8,-108.55
+KAIA,Alliance Muni,42.05,-102.8
+KHSI,Kearney Muni,40.6,-98.43
+KCDR,Chadron Muni,42.83,-103.1
+KOMA,Eppley Airfield,41.31,-95.9
+KGRI,Central Nebraska Regional,40.96,-98.31
+KLNK,Lincoln Muni,40.83,-96.76
+KLBF,North Platte Regional,41.11,-100.66
+KOFK,Karl Stefan Memorial,41.98,-97.43
+KMCK,Mc Cook Muni,40.2,-100.58
+KOFF,Offutt AFB,41.11,-95.91
+KBFF,William B. Heilig Field,41.86,-103.6
+KNFL,Fallon NAS,39.41,-118.71
+KLAS,Boulder City Muni,36.08,-115.15
+KLAS,Mc Carran Intl,36.08,-115.15
+KLSV,Nellis AFB,36.23,-115.03
+KVGT,North Las Vegas Air Terminal,36.21,-115.2
+KEKO,Elko Muni,40.83,-115.8
+KRNO,Reno - Tahoe International,39.48,-119.76
+KELY,Ely,39.3,-114.85
+KLEB,Lebanon Muni,43.63,-72.3
+KMHT,Manchester,42.93,-71.43
+KCON,Concord Muni,43.2,-71.5
+KPSM,Pease International Tradeport,43.08,-70.81
+KACY,Atlantic City International,39.45,-74.56
+KTEB,Teterboro,40.85,-74.06
+KWRI,Mc Guire AFB,40.01,-74.6
+KCDW,Essex County,40.88,-74.28
+KEWR,Newark Intl,40.71,-74.18
+KTTN,Mercer County,40.28,-74.81
+KCDW,Morristown Muni,40.88,-74.28
+KNEL,Lakehurst NAES,40.03,-74.35
+KABQ,Albuquerque Intl,35.05,-106.6
+KROW,Roswell Industrial Air Center,33.3,-104.53
+KRTN,Raton Municipal,36.75,-104.65
+KCVS,Clovis Muni,34.38,-103.31
+KCVS,Cannon AFB,34.38,-103.31
+KCNM,Cavern City Air Trml,32.33,-104.26
+KDMN,Grant County,32.25,-107.71
+KINK,Lea County - Hobbs,31.78,-103.2
+KGUP,Gallup Municipal,35.51,-108.78
+KGUP,Black Rock,35.51,-108.78
+KHMN,Alamogordo - White Sands Regional,32.85,-106.1
+KHMN,Holloman AFB,32.85,-106.1
+KFMN,Four Corners Regional,36.75,-108.23
+KSAF,Santa Fe County Muni,35.61,-106.08
+KSAF,Taos Muni,35.61,-106.08
+KCQC,Moriarty,35,-105.66
+KALB,Albany County,42.75,-73.8
+KELZ,Wellsville Muni,42.1,-77.98
+KBGM,Binghamton Regional,42.2,-75.98
+KELM,Elmira - Corning Regional,42.16,-76.9
+KPLB,Clinton Co,44.68,-73.53
+KPOU,Dutchess County,41.63,-73.88
+KBUF,Greater Buffalo Intl,42.93,-78.73
+KSLK,Lake Placid,44.38,-74.2
+KSLK,Adirondack Regional,44.38,-74.2
+KART,Watertown International,44,-76.01
+KGTB,Wheeler - Sack AAF,44.05,-75.71
+KROC,Greater Rochester International,43.11,-77.68
+KIAG,Niagara Falls Intl,43.1,-78.95
+KUCA,Oneida County,43.15,-75.38
+KSYR,Syracuse Hancock Intl,43.11,-76.1
+KMGJ,Stewart Intl,41.51,-74.26
+KJFK,John F Kennedy Intl,40.65,-73.8
+KLGA,La Guardia,40.78,-73.88
+KMSS,Massena Intl,44.93,-74.85
+KFRG,Republic,40.71,-73.41
+KGON,Elizabeth Field,41.33,-72.05
+KISP,Long Island Mac Arthur,40.78,-73.1
+KMTP,East Hampton,41.06,-71.91
+KMTP,Montauk,41.06,-71.91
+KELM,Tompkins County,42.16,-76.9
+KHPN,Westchester County,41.06,-73.71
+KAVL,Asheville Regional,35.43,-82.53
+KHKY,Hickory Regional,35.73,-81.38
+KMRH,Michael J. Smith Field,34.71,-76.65
+KEWN,Craven County Regional,35.06,-77.05
+KNKT,Cherry Point MCAS,34.9,-76.88
+KFAY,Fayetteville Regional,34.98,-78.88
+KPOB,Pope AFB,35.16,-79.01
+KINT,Smith Reynolds,36.13,-80.21
+KGSO,Piedmont Triad International,36.1,-79.95
+KGSB,Kinston Regional Jetport At Stallin,35.33,-77.96
+KCLT,Charlotte - Douglas Intl,35.21,-80.95
+KRWI,Rocky Mount - Wilson,35.85,-77.9
+KILM,New Hanover International,34.26,-77.9
+KNCA,Albert J Ellis,34.7,-77.38
+KRWI,Pitt - Greenville,35.85,-77.9
+KRDU,Raleigh - Durham International,35.86,-78.78
+KGSB,Seymour Johnson AFB,35.33,-77.96
+KBIS,Bismarck Muni,46.76,-100.75
+KFAR,Hector International,46.93,-96.81
+KGFK,Grand Forks Intl,47.95,-97.18
+KRDR,Grand Forks AFB,47.96,-97.4
+K8D3,Gwinner,45.66,-96.98
+KDIK,Dickinson Muni,46.8,-102.8
+KJMS,Jamestown Muni,46.91,-98.68
+KMIB,Minot AFB,48.41,-101.35
+KMOT,Minot Intl,48.26,-101.28
+KISN,Sloulin Field Intl,48.2,-103.65
+KAOH,Lima Allen County,40.4,-84.01
+KBKL,Burke Lakefront,41.51,-81.68
+KCLE,Cleveland - Hopkins Intl,41.4,-81.85
+KCMH,Port Columbus Intl,39.98,-82.88
+KCMH,Rickenbacker International,39.98,-82.88
+KFFO,Wright - Patterson AFB,39.83,-84.05
+KLUK,Cincinnati Muni,39.1,-84.41
+KFDY,Bluffton,41.01,-83.66
+KFDY,Findlay,41.01,-83.66
+KTOL,Toledo Express,41.58,-83.8
+KYNG,Salem Airpark Inc,41.25,-80.66
+KDAY,James M Cox Dayton Intl,39.9,-84.21
+KMFD,Mansfield Lahm Muni,40.81,-82.51
+KFDY,Seneca County,41.01,-83.66
+KCAK,Akron - Canton Regional,40.91,-81.43
+KYNG,Youngstown - Warren Regional,41.25,-80.66
+KLAW,Lawton Muni,34.56,-98.41
+KEND,Vance AFB,36.33,-97.91
+KEND,Enid Woodring Muni,36.33,-97.91
+KPNC,Ponca City Muni,36.73,-97.1
+KOKC,Will Rogers World,35.38,-97.6
+KPWA,Wiley Post,35.53,-97.65
+KSWO,Stillwater Muni,36.15,-97.08
+KBGD,Guymon Muni,35.7,-101.4
+KTUL,Tulsa Intl,36.2,-95.88
+KAST,Astoria Regional,46.15,-123.88
+KOTH,North Bend Muni,43.41,-124.25
+KRDM,Roberts Field,44.25,-121.16
+KMFR,Rogue Valley International - Medford,42.38,-122.86
+KLMT,Klamath Falls International,42.15,-121.71
+KEUG,Mahlon Sweet Field,44.11,-123.21
+KSLE,Mcnary Field,44.9,-123
+KPDX,Portland Intl,45.6,-122.61
+KPDT,Eastern Oregon Regional At Pendleton,45.7,-118.83
+KAGC,Allegheny County,40.35,-79.91
+KPIT,Pittsburgh International,40.5,-80.23
+KRDG,Reading Regional,40.36,-75.96
+KAOO,Altoona - Blair County,40.3,-78.31
+KJST,Johnstown - Cambria County,40.31,-78.83
+KFIG,University Park,41.03,-78.4
+KMDT,Harrisburg International,40.2,-76.76
+KPHL,Philadelphia Intl,39.86,-75.23
+KERI,Erie Intl,42.08,-80.18
+KDUJ,Du Bois - Jefferson County,41.18,-78.9
+KLNS,Lancaster,40.11,-76.3
+KABE,Lehigh Valley International,40.65,-75.45
+KAVP,Wilkes - Barre - Scranton Intl,41.33,-75.73
+KIPT,Williamsport - Lycoming County,41.25,-76.91
+KBFD,Bradford Regional,41.8,-78.63
+KPNE,Northeast Philadelphia,40.08,-75.01
+KGKJ,Venango Regional,41.61,-80.2
+KHLG,Washington County,40.18,-80.65
+KAGC,Westmoreland County,40.35,-79.91
+KPVD,Theodore Francis Green State,41.71,-71.43
+KGON,Westerly State,41.33,-72.05
+KPJI,Block Island State,41.35,-71.46
+KAND,Anderson County,34.5,-82.71
+KNBC,Beaufort County,32.48,-80.71
+KCHS,Charleston AFB - Intl,32.9,-80.03
+KCHS,Dorchester County,32.9,-80.03
+KFLO,Florence Regional,34.18,-79.73
+KCRE,Grand Strand,33.81,-78.71
+KCRE,Myrtle Beach Intl,33.81,-78.71
+KCAE,Columbia Metropolitan,33.95,-81.11
+KGSP,Greenville - Spartanburg,34.9,-82.21
+KSSC,Shaw AFB,33.96,-80.46
+KHON,Huron Regional,44.4,-98.21
+KATY,Brookings Muni,44.93,-97.15
+KABR,Aberdeen Regional,45.45,-98.41
+KATY,Watertown Muni,44.93,-97.15
+KPIR,Pierre Regional,44.38,-100.28
+KRCA,Black Hills,44.15,-103.1
+KRCA,Ellsworth AFB,44.15,-103.1
+KFSD,Joe Foss Field,43.58,-96.75
+KRAP,Rapid City Regional,44.05,-103.05
+KTYS,Mc Ghee Tyson,35.81,-83.98
+KBNA,Nashville International,36.11,-86.68
+KBNA,John C Tune,36.11,-86.68
+KBNA,Cornelia Fort Airpark,36.11,-86.68
+KTRI,Greeneville Muni,36.46,-82.4
+KCHA,Lovell Field,35.03,-85.2
+KMKL,Mc Kellar - Sipes Regional,35.6,-88.91
+KBNA,Ellington,36.11,-86.68
+KMEM,Memphis Intl,35.06,-89.98
+KTRI,Tri-Cities Regional Tn - Va,36.46,-82.4
+KLFK,Angelina County,31.23,-94.75
+KGRK,Robert Gray AAF,31.06,-97.83
+KHLR,Killeen Muni,31.13,-97.71
+KSAT,San Antonio Intl,29.53,-98.46
+KSKF,Kelly AFB,29.38,-98.58
+KLBX,Brazoria County,29.11,-95.46
+KCLL,Easterwood Field,30.58,-96.36
+KABI,Brownwood Regional,32.41,-99.68
+KBRO,Brownsville - South Padre Island Intl,25.9,-97.43
+KHRL,Rio Grande Valley Intl,26.23,-97.65
+KDAL,Dallas Love Field,32.85,-96.85
+KELP,Biggs AAF,31.81,-106.38
+KELP,El Paso Intl,31.81,-106.38
+KSGR,Sugar Land Muni,29.61,-95.65
+KGLS,Scholes Field,29.3,-94.8
+KGGG,Gregg County,32.35,-94.65
+KDWH,David Wayne Hooks Memorial,30.06,-95.55
+KEFD,Ellington Field,29.6,-95.16
+KHOU,William P Hobby,29.65,-95.28
+KIAH,Houston Intercontinental,30,-95.36
+KMFE,Mc Allen Miller Intl,26.18,-98.23
+KBPT,Jefferson County,29.95,-94.01
+KLBB,Lubbock Intl,33.66,-101.81
+KACT,Waco Regional,31.61,-97.23
+KMAF,Midland Airpark,31.95,-102.18
+KMAF,Midland International,31.95,-102.18
+KCRP,Corpus Christi Intl,27.76,-97.51
+KNGP,Corpus Christi NAS,27.68,-97.28
+KAMA,Amarillo Intl,35.21,-101.7
+KTYR,Tyler Pounds Field,32.35,-95.4
+KAFW,Fort Worth Alliance,32.98,-97.31
+KDFW,Dallas - Fort Worth International,32.9,-97.01
+KFTW,Fort Worth Meacham Intl,32.81,-97.36
+KNFW,Fort Worth NAS,32.76,-97.45
+KABI,Abilene Regional,32.41,-99.68
+KDYS,Dyess AFB,32.43,-99.85
+KSJT,Mathis Field,31.35,-100.5
+KATT,Robert Mueller Muni,30.3,-97.7
+KVCT,Victoria Regional,28.86,-96.93
+KSPS,Sheppard AFB - Wichita Falls Muni,33.98,-98.5
+KHIF,Hill AFB,41.11,-111.96
+KU28,Green River Muni,39,-110.16
+K4BL,Hite,37.61,-109.48
+KBCE,Bryce Canyon,37.7,-112.15
+KCNY,Canyonlands Field,38.75,-109.75
+KCDC,Cedar City Muni,37.7,-113.1
+KSLC,Salt Lake City Intl,40.78,-111.96
+K4BL,Blanding Muni,37.61,-109.48
+KVEL,Vernal,40.43,-109.51
+KT62,Provo Muni,40.31,-112.3
+KCDC,St George Muni,37.7,-113.1
+KBTV,Burlington Intl,44.46,-73.15
+KVSF,Rutland State,43.35,-72.51
+KCHO,Charlottesville - Albemarle,38.13,-78.45
+KDCA,Washington National,38.86,-77.03
+KCHO,Shenandoah Valley Regional,38.13,-78.45
+KLYH,Lynchburg Regional,37.33,-79.2
+KOFP,Hanover County Muni,37.7,-77.43
+KRIC,Richmond International,37.51,-77.31
+KIAD,Washington Dulles International,38.93,-77.45
+KNGU,Hampton Roads,36.95,-76.28
+KLFI,Langley AFB,37.08,-76.35
+KIAD,Manassas Regional,38.93,-77.45
+KPHF,Newport News - Williamsburg International,37.13,-76.5
+KNGU,Norfolk NAS,36.95,-76.28
+KORF,Norfolk Intl,36.9,-76.2
+KROA,Roanoke Regional,37.31,-79.96
+KCLM,William R Fairchild Intl,48.11,-123.5
+KEAT,Pangborn Memorial,47.4,-120.2
+KPSC,Tri-Cities,46.26,-119.11
+KMWH,Grant County,47.2,-119.31
+KNUW,Oak Harbor Air Park,48.35,-122.66
+KNUW,Whidbey Island NAS,48.35,-122.66
+KBFI,King County Intl,47.53,-122.3
+KPAE,Kenmore Air Harbor Inc,47.9,-122.28
+KSEA,Seattle - Tacoma Intl,47.46,-122.31
+KTCM,Mcchord AFB,47.13,-122.48
+CWEZ,Orcas Island,48.78,-123.05
+KFHR,Friday Harbor,48.51,-123.01
+KFHR,Lopez Island,48.51,-123.01
+KNUW,Anacortes,48.35,-122.66
+KPAE,Snohomish County,47.9,-122.28
+KGEG,Spokane Intl,47.61,-117.53
+KOLM,Olympia,46.96,-122.9
+KALW,Walla Walla Regional,46.1,-118.28
+KBLI,Bellingham Intl,48.8,-122.53
+KPUW,Pullman - Moscow Regional,46.75,-117.11
+KYKM,Yakima Air Terminal,46.56,-120.55
+KMRB,Eastern WV Regional - Shepherd,39.4,-77.98
+KROA,Greenbrier Valley,37.31,-79.96
+KCKB,Benedum,39.28,-80.23
+KCRW,Yeager,38.38,-81.58
+KBLF,Mercer County,37.3,-81.2
+KJST,Greater Cumberland Regional,40.31,-78.83
+KMGW,Morgantown Muni,39.65,-79.91
+KBKW,Raleigh County Memorial,37.8,-81.11
+KHTS,Tri-State,38.38,-82.55
+KPKB,Wood County,39.35,-81.43
+KGRB,Austin Straubel International,44.48,-88.13
+KEAU,Chippewa Valley Regional,44.86,-91.48
+KMSN,Dane County Regional,43.13,-89.35
+KMSN,Morey,43.13,-89.35
+KVOK,Volk Field,43.93,-90.26
+KLSE,La Crosse Muni,43.86,-91.25
+KAUW,Central Wisconsin,44.91,-89.63
+K15C,Lawrence J Timmerman,43.01,-87.95
+KMKE,General Mitchell International,42.95,-87.9
+KRHI,Rhinelander - Oneida County,45.63,-89.46
+KOSH,Outagamie County,43.98,-88.55
+KISW,Stevens Point Muni,44.35,-89.83
+K21C,Sheboygan County Memorial,43.76,-87.85
+K15C,Waukesha County,43.01,-87.95
+KOSH,Wittman Regional,43.98,-88.55
+KLAR,Laramie Regional,41.31,-105.68
+KGEY,South Big Horn County,44.51,-108.08
+KGCC,Gillette - Campbell County,44.35,-105.53
+KRIW,Riverton Regional,43.05,-108.45
+KCYS,Cheyenne,41.15,-104.8
+KCPR,Natrona County Intl,42.9,-106.46
+KGEY,Yellowstone Regional,44.51,-108.08
+KSHR,Sheridan County,44.76,-106.96
+KRKS,Rock Springs - Sweetwater County,41.6,-109.06
+KWRL,Worland Muni,43.96,-107.95
+KCZF,Hooper Bay,61.78,-166.03
+KNYC,New York Skyports Inc,40.78,-73.96
+KSIT,Pelican,57.05,-135.36
+KSIT,Sitka,57.05,-135.36
+KSTT,Cyril E King,18.35,-64.96
+KSTX,Alexander Hamilton,17.7,-64.8
