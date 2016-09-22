@@ -1,0 +1,82 @@
+Adding Merge Constraints
+
+ 1. Merge rows only if all of the surrgates have a atleast one entry per countyId
+
+ 2. When merge, check result total(==1.0) only if initial total for the county is 1.
+
+
+
+===>
+
+DataStructure
+
+!Need a list of all the counties
+
+!A Variable to denote whether the county exist in all the surrogates (bool)
+
+!A Variable to denote whether the total accross all the counties is 1 (bool)
+
+!When you read the file
+
+ !Need intial total for all the counties
+
+ !From this produce a union of list of counties
+
+   !check whether this id is exist in all the counties if so true, else false
+
+   !check the total equal to 1 (TOLERANCE) in all the surrogates. If so true, else false
+
+   !
+
+
+
+OutPUt:
+
+ !For(List of all counties)
+
+    !IF existAll = true
+
+      
+
+ 
+
+   
+
+!!
+
+
+
+What I have now:
+
+ track[]= store the indices for all the surrogates
+
+ min(track[])
+
+ get the minSurrogate
+
+ for(size-track)
+
+  minSrg = srg(track[i])
+
+  if exist all
+
+      merge 
+
+	before put 0, you can check, whether check with the data structure 
+
+	otherwise you have tp move the ds:
+
+     all so check the total for a county if initial total is 1.
+
+ 	
+
+  else 
+
+   Print a warning message 
+
+   move all surrogates pointers to next county ID.
+
+  
+
+
+
