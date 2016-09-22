@@ -1,6 +1,0 @@
-# Input file for srgmerge program that does gap filling
-OUTFILE=output\gapfilled_surrogates.txt
-XREFFILE=data\srg_xref.txt
-OUTSRG=Gapfilled Airports; GAPFILL=data\srg_nash_ref.txt|Airports;data\srg_nash_ref.txt|Population
-OUTSRG=Airports; GAPFILL=data\srg_nash_ref.txt|Airports
-OUTSRG=Population; GAPFILL=data\srg_nash_ref.txt|Population

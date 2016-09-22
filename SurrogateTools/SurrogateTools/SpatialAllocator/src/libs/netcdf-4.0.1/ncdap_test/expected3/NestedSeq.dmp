@@ -1,8 +1,0 @@
-netcdf NestedSeq {
-dimensions:
-	unlimited = UNLIMITED ; // (0 currently)
-variables:
-	int age(unlimited) ;
-	short foo(unlimited) ;
-data:
-}

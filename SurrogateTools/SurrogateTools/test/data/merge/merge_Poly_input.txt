@@ -1,4 +1,0 @@
-# Input file for srgmerge program that does merging
-OUTFILE=test/data/merge/merged_Poly_surrogates.txt
-XREFFILE=test/data/merge/srg_xref.txt
-OUTSRG=Rural Unrestricted Roads; 0.19*({test/data/merge/130_Ploy_NOFILL.txt|Rural Population})+0.81*({test/data/merge/230_Ploy_NOFILL.txt|Rural Secondary Road Miles})

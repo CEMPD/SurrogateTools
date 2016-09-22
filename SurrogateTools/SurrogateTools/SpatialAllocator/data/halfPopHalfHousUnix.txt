@@ -1,6 +1,0 @@
-#Input file for srgmerge that merges two surrogates
-OUTFILE=output/merged_surrogates.txt
-XREFFILE=data/srg_xref.txt
-OUTSRG=Population;1*{data/srg_nash_ref.txt|Population}
-OUTSRG=Housing;1*{data/srg_nash_ref.txt|Housing}
-OUTSRG=Half Pop Half Housing; 0.5*({data/srg_nash_ref.txt|Population}) + 0.5*({data/srg_nash_ref.txt|Housing})

@@ -1,7 +1,0 @@
-USGS NLCD Landuse Files:
-../data/sat/NLCD2001_v2/nlcd2001_landcover_v2_2-13-11.img  
-USGS NLCD Urban Imperviousness Files:
-../data/sat/NLCD2001_v2/nlcd2001_impervious_v2_5-4-11.img
-USGS NLCD Tree Canopy Files:
-../data/sat/NLCD2001_v2/nlcd_canopy_mosaic_1-29-08.img
-NOAA CGAP NLCD Landuse Files:

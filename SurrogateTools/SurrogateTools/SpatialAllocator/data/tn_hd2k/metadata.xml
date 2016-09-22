@@ -1,3 +1,0 @@
-<?xml version="1.0"?>
-<!--<!DOCTYPE metadata SYSTEM "http://www.esri.com/metadata/esriprof80.dtd">-->
-<metadata xml:lang="en"><Esri><MetaID>{E05FE5AD-579D-4B73-AC1E-5C6179D04BE8}</MetaID><CreaDate>20080804</CreaDate><CreaTime>10303000</CreaTime><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process Name="ExtractByMask_1" ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Spatial Analyst Tools.tbx\ExtractByMask" Date="20080804" Time="103030">ExtractByMask D:\Projects\emiss303\bhds_iclus_a2_2000_2030_1\bhd2000us D:\Projects\emiss303\tn_pophu2k_aea.shp D:\Projects\emiss303\temp\tn_hd2k</Process></lineage></DataProperties></Esri></metadata>

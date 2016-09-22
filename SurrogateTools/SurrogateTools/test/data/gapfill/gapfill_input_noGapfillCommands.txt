@@ -1,3 +1,0 @@
-# Input file for srgmerge program that does gap filling
-OUTFILE=test/data/gapfill/gapfilled_surrogates.txt
-XREFFILE=test/data/gapfill/srg_xref.txt
