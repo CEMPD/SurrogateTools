@@ -27,7 +27,7 @@
 
 #####   Default I/O API binary-type:
 
-SA_HOME := /nas01/depts/ie/cempd/apps/sallocator/sa_082016
+SA_HOME := /nas01/depts/ie/cempd/apps/sallocator/git/SpatialAllocator
 
 BIN := Linux2_x86pg_pgcc_nomp
 
@@ -37,12 +37,12 @@ BLDDIR := ${PWD}/${BIN}
 
 ######   Location of PROJ, I/O API and NetCDF libraries compiled using pgcc
 
-PROJDIR := ${SA_HOME}/src/vector/libs_32bits/proj-4.6.0/local
+PROJDIR := ${SA_HOME}/src/vector_32bits/libs_32bits/proj-4.6.0/local
 PROJLIB := ${PROJDIR}/lib
 PROJINC := ${PROJDIR}/include
 
-IODIR :=  ${SA_HOME}/src/vector/libs_32bits/ioapi
-IOLIB :=  ${SA_HOME}/src/vector/libs_32bits/ioapi/local/${BIN}
+IODIR :=  ${SA_HOME}/src/vector_32bits/libs_32bits/ioapi
+IOLIB :=  ${SA_HOME}/src/vector_32bits/libs_32bits/ioapi/local/${BIN}
 
 INSTDIR := ${SA_HOME}/bin/32bits
 
@@ -81,7 +81,7 @@ CFLAGS := ${MFLAGS} ${COPTFLAGS} ${IOAPIFLAGS} ${ARCHFLAGS} -I$(PROJINC) -I${IOD
 
 CSRC := mims_spatial.c srg_main.c beld3smk.c PointFileReader.c  \
        PolygonFileReader.c parseAllocModes.c diffsurr.c io.c    \
-       diffioapi.c io.c dbf2asc.c
+       diffioapi.c io.c dbf2asc.c  beld4smk.c
 
 LSRC := attributes.c bbox.c data_weight.c dbfopen.c		\
  dscgridc.c fractionalVegReader.c inpoly.c       		\
@@ -107,7 +107,7 @@ OBJ :=  $(CSRC:.c=.o) $(LSRC:.c=.o)
 
 LIB := libspatial.a
 
-EXE := allocator.exe beld3smk.exe dbf2asc.exe diffioapi.exe diffsurr.exe srgcreate.exe
+EXE := allocator.exe beld3smk.exe beld4smk.exe dbf2asc.exe diffioapi.exe diffsurr.exe srgcreate.exe
 
 ######################################################################
 
@@ -156,7 +156,10 @@ allocmodetest.exe: parseAllocModes.c
 beld3smk.exe: beld3smk.o
 	cd ${BLDDIR} ; cd ${BLDDIR} ; $(CC) -o $@ $^ $(LIBS)
 
-dbf2asc.exe: diffsurr.o io.o
+beld4smk.exe: beld4smk.o
+	cd ${BLDDIR} ; cd ${BLDDIR} ; $(CC) -o $@ $^ $(LIBS)
+
+dbf2asc.exe: dbf2asc.o
 	cd ${BLDDIR} ; cd ${BLDDIR} ; $(CC) -o $@ $^ $(LIBS)
 
 diffioapi.exe: diffioapi.o io.o

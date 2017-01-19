@@ -30,7 +30,7 @@ PolyObject *IoapiInputReader(char *name,       /* env. var. for file name */
     int nObjects;
     int nv, np;
     int c, r;
-    char *prog_name = "IoapiInputReader";
+    extern char *prog_name;
     char mesg[256];
 
     char gname[256];

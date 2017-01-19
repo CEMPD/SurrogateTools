@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
   setenv("INPUT_FILE_NAME", file_name, 1);
   setenv("INPUT_FILE_MAP_PRJN", 
          "+proj=lcc,+lon_0=-90.0,+lat_1=30.0,+lat_2=60.0,+lat_0=40.0", 1);
-  setenv("INPUT_FILE_ELLIPSOID", "+a=6370997.0,+b=6370997.0", 1);
+  setenv("INPUT_FILE_ELLIPSOID", "+a=6370000.0,+b=6370000.0", 1);
  
   if(system( allocatorEXE ))
   {

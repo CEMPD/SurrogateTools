@@ -25,7 +25,7 @@ static char *strTokPtr;
 static char *nextStrTokPtr;
 static char token[512];
 
-char * ioapi_sphere = "+a=6370997.0,+b=6370997.0";
+char * ioapi_sphere = "+a=6370000.0,+b=6370000.0";
 
 /** custom implementation of strtok since default didn't seem to be working */
 int nextVal(char * string, const char *delim, double *valuePtr)
@@ -165,7 +165,7 @@ PolyObject *VariableGridReader(
     goto error;
   }
 
-  //ellipsoid doesn't matter for a grid - the IO/API supports sphere = 6370997.0m only
+  //ellipsoid doesn't matter for a grid - the IO/API supports sphere = 6370000.0m only
   if ((map->earth_ellipsoid = (char *) strdup(ioapi_sphere)) == NULL) {
         sprintf(mesg,"Allocation error for map ellipsoid.");
         goto error;
@@ -600,7 +600,7 @@ PolyObject *VariableGridReader1(
     goto error;
   }
 
-  //ellipsoid doesn't matter for a grid - the IO/API supports sphere = 6370997.0m only
+  //ellipsoid doesn't matter for a grid - the IO/API supports sphere = 6370000.0m only
   if ((map->earth_ellipsoid = (char *) strdup(ioapi_sphere)) == NULL) {
         sprintf(mesg,"Allocation error for map ellipsoid.");
         goto error;

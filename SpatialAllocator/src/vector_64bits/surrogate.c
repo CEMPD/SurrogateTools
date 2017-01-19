@@ -289,7 +289,11 @@ int reportSurrogate(PolyObject *wdg_poly, char *ename, int use_weight_val,
         if (strcmp(data_poly_id, last_data_poly_id)) 
         {
           frac = 1.0 - qasum;   /*missing percentage in a data polygon*/
-          if (fabs(frac) > 0.00001)
+          //fprintf(sfile,"QA sum for attr %d, county %s was %.4lf not 1; last c,r=%d,%d,%d\n",
+          //       attr_num, last_data_poly_id, qasum, lastcol, lastrow, n1);
+
+
+          if ( fabs(frac) > 0.00001 && qasum > 0.00001 )
           {   
             if (strlen(last_data_poly_id) >= 1)
             {            

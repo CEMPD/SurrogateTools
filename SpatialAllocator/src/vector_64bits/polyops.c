@@ -509,12 +509,13 @@ double PolyLength(PolyShape * p)
     n = p->num_contours;
     for(i = 0; i < n; i++)
     {
-        isHole = p->hole[i];
+        a += Length(p->contour + i);
+/*      isHole = p->hole[i];
         if ( isHole == NOT_A_HOLE )
            a += Length(p->contour + i);
         else
            a -= Length(p->contour + i);
-
+*/
     }
     return a;
 

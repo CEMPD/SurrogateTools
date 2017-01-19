@@ -23,7 +23,7 @@
 
 char *prog_name;
 
-char *prog_version = "Surrogate Creator Version 3.6, 03/10/2009\n";
+char *prog_version = "Surrogate Creator Version 4.3, 01/20/2017\n";
 int maxShapes = 0;
 int fileCompleted;
 
