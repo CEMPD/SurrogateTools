@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
     char tol_str[20];           /* tolerance env. variable value */
     char varname[NAMLEN3+1];    /* variable name */
 
-    char *prog_name = "diffioapi";      /* program name */
+    char *prog_name="diffioapi";     /* program name */
     
 /* ========================================================================== */
 
-/*  prog_name = (char *) strdup("diffioapi"); */
+    /*prog_name = (char *) strdup("diffioapi");*/
     
     if(!getEnvtValue(ORIG_FILE, orig_name))
     {

@@ -113,7 +113,7 @@ typedef struct _AttributeHeader {
   AttributeDesc **attr_desc;
 } AttributeHeader;
 
-typedef union _AttributeValue {
+typedef union  _AttributeValue {
   double val;
   int ival;
   char *str;

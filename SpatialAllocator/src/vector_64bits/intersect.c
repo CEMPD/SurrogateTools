@@ -62,9 +62,7 @@ int polyIsect(PolyObject * poly1,       /* a point, line, or polygon */
         return -1;
     }
 
-    MESG("poly1bb: ");
     printBoundingBox(poly1->bb);
-    MESG("poly2bb: ");
     printBoundingBox(poly2->bb);
     if(!OVERLAP2(poly1->bb, poly2->bb))
     {
@@ -111,8 +109,6 @@ int polyIsect(PolyObject * poly1,       /* a point, line, or polygon */
 
     at_least_one = 0;
 
-    sprintf(mesg, "p1 bbox = ");
-    MESG(mesg);
     printBoundingBox(poly1->bb);
 
     for(j = 0; j < n2; j++)
@@ -313,11 +309,11 @@ int line_clip(PolyShape * p1, PolyShape * p2, PolyShape * p)
     for(i = 0; i < n1; i++)
     {
         shp1 = p1->contour + i;
+        isHole = p1-> hole[i];
 
         for(j = 0; j < n2; j++)
         {
             shp2 = p2->contour + j;
-            isHole = p2-> hole[j];
             for(k = 0; k < shp1->num_vertices - 1; k++)
             {                   /* loop over line segs */
                 m = 0;

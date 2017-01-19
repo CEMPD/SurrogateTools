@@ -19,6 +19,6 @@ int getEnvtValue(char *evName, char *evValue);
 void trim(char *inString, char *outString);
 int digiCheck(char *val);
 char *convertToUpper(char *input);
-int strNullTerminate(char *dest, const char *src, size_t n);
-int strBlankCopy(char *desc, const char *src, size_t n);
+int strNullTerminate(char *dest, const char *src, int n);
+int strBlankCopy(char *desc, const char *src, int n);
 #endif

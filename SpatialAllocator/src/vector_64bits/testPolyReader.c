@@ -40,7 +40,7 @@ PolyObject *TestPolyReader(
   int    ncols;
   int    nrows;
   int    nthik;
-  char *ioapi_sphere="+a=6370997.0,+b=6370997.0";
+  char *ioapi_sphere="+a=6370000.0,+b=6370000.0";
 
   map = getNewMap();
   if (map == NULL) {

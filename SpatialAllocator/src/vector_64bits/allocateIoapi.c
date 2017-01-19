@@ -195,7 +195,7 @@ int allocateIoapi(PolyObject *poly,   /* intersected weight and data polygons */
                 modeFileName);
         ERROR(prog_name, mesg, 1);
     }
-    fprintf(stderr,"modefilename=%s\n",modeFileName);
+    //fprintf(stderr,"modefilename=%s\n",modeFileName);
 
     parseAllocModes(modeFileName);
 
@@ -212,7 +212,7 @@ int allocateIoapi(PolyObject *poly,   /* intersected weight and data polygons */
 
     /* if input file was I/O API, get description */
     nInputVars = 0;
-    fprintf(stderr,"input_ioapi=%d\n",input_ioapi);
+    //fprintf(stderr,"input_ioapi=%d\n",input_ioapi);
     if(input_ioapi)
     {
         if(!desc3c(ENVT_INPUT_FILE_NAME, &bdesc_in, &cdesc_in))
@@ -236,8 +236,6 @@ int allocateIoapi(PolyObject *poly,   /* intersected weight and data polygons */
 
     bdesc.ftype = GRDDED3;
     
-    fprintf(stderr,"set grid projection\n");
-    fprintf(stderr,"d_poly ctyp=%d\n",d_poly->map->ctype);
     /* Set grid projection */
     bdesc.gdtyp = d_poly->map->ctype;
     bdesc.p_alp = d_poly->map->p_alp;
@@ -251,9 +249,9 @@ int allocateIoapi(PolyObject *poly,   /* intersected weight and data polygons */
     bdesc.ycell = d_poly->map->ycell;
 
     /* Set grid name and size */
-    fprintf(stderr,"d_poly gridname=%s\n",d_poly->map->gridname);
+    //fprintf(stderr,"d_poly gridname=%s\n",d_poly->map->gridname);
     strBlankCopy(cdesc.gdnam, d_poly->map->gridname, sizeof(cdesc.gdnam));
-    fprintf(stderr,"d_poly ncols=%d nrows=%d\n",d_poly->map->ncols,d_poly->map->nrows);
+    //fprintf(stderr,"d_poly ncols=%d nrows=%d\n",d_poly->map->ncols,d_poly->map->nrows);
     bdesc.ncols = d_poly->map->ncols;
     bdesc.nrows = d_poly->map->nrows;
 
@@ -299,8 +297,8 @@ int allocateIoapi(PolyObject *poly,   /* intersected weight and data polygons */
     dPolyNumAttr = d_poly->attr_hdr->num_attr;
     wPolyNumAttr = w_poly->attr_hdr->num_attr;
 
-    fprintf(stderr,"dpolyattr=%d\n",dPolyNumAttr);
-    fprintf(stderr,"wpolyattr=%d\n",wPolyNumAttr);
+    //fprintf(stderr,"dpolyattr=%d\n",dPolyNumAttr);
+    //fprintf(stderr,"wpolyattr=%d\n",wPolyNumAttr);
 
     /* define variables -- these are the pass through fields for the data */
     

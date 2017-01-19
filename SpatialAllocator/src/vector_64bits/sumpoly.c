@@ -29,13 +29,13 @@
 #include "mims_spatl.h"
 #include "parms3.h"
 
-/*#define DEBUGCOUNTY 
-#define OLD_SUM */
+//#define DEBUGCOUNTY 
+/*#define OLD_SUM */
 static int inSum2Poly = 0;
 static char mesg[256];
 
 
-static char* debugcty = "02198";    /* set this to a county of interest */
+static char* debugcty = "51161";    /* set this to a county of interest */
 
 /* ============================================================= */
 /* Computes the denominator for the surrogate calculation.  Sum an  
@@ -122,13 +122,13 @@ int sum1Poly(PolyObject * poly, double **psum, int *pn1, int attr_id,
         MESG("weight object type is ARC");
     else
         MESG("weight object type is POLY");
-    sprintf(mesg, "use weight attribute value = %d", use_weight_attr_value);
-    MESG(mesg);
+    //sprintf(mesg, "use weight attribute value = %d", use_weight_attr_value);
+    //MESG(mesg);
 
     /* loop over polygons in the weight-data intersection */
     n = poly->nObjects;
-    sprintf(mesg, "num data polys = %d num weight-data ojects = %d\n", n1, n);
-    MESG(mesg);
+    //sprintf(mesg, "num data polys = %d num weight-data ojects = %d\n", n1, n);
+    //MESG(mesg);
 
     plist = poly->plist;
 
@@ -156,6 +156,7 @@ int sum1Poly(PolyObject * poly, double **psum, int *pn1, int attr_id,
             countyid = (d_poly->attr_val[id][0]).str;
             printf("sum1Poly: countyid=%s\n", countyid);
             printf("processing county %s, id=%d\n",countyid, id); 
+            printf("num_contours=%d\n", ps->num_contours);
             /* bug??? for some reason the countyid is not in the right numeric range */
 #endif
             /* get the value of the weight */
@@ -599,12 +600,12 @@ int sum2Poly(PolyObject * dwg_poly, double ***psum, int *pnum_data_polys,
         fprintf(stdout, "weight poly type is ARC\n");
     else
         fprintf(stdout, "weight poly type is POLY\n");
-    sprintf(mesg, "use weight attribute value = %d\n", use_weight_attr_value);
-    MESG(mesg);
+    //sprintf(mesg, "use weight attribute value = %d\n", use_weight_attr_value);
+    //MESG(mesg);
 
     num_dwg_polys = dwg_poly->nObjects;
-    sprintf(mesg, "num data-weight-grid polys = %d\n", dwg_poly->nObjects);
-    MESG(mesg);
+    //sprintf(mesg, "num data-weight-grid polys = %d\n", dwg_poly->nObjects);
+    //MESG(mesg);
     /* TBD: cache the area / length of polys to prevent recomputing */
     plist = dwg_poly->plist;
     for(i = 0; i < num_dwg_polys; i++)
@@ -671,7 +672,7 @@ int sum2Poly(PolyObject * dwg_poly, double ***psum, int *pnum_data_polys,
                     frac = val * (PolyArea(ps) / PolyArea(pp->p1->ps));
 #ifdef DEBUGCOUNTY
                     countyid = (d_poly->attr_val[data_poly_idx][0]).str;
-                    fprintf(stderr, "sum2poly ctyid = %s\n", countyid);
+                    //fprintf(stderr, "sum2poly ctyid = %s\n", countyid);
 
                     if(countyid == debugcty)
                     {
@@ -748,7 +749,7 @@ int sum2Poly(PolyObject * dwg_poly, double ***psum, int *pnum_data_polys,
 #endif
 
     inSum2Poly = 0;
-    fprintf(stdout, "returning 0\n");
+    //fprintf(stdout, "returning 0\n");
     return 0;
 }
 
@@ -996,8 +997,8 @@ int discreteOverlap(PolyObject *poly, int **pmax, int *pn1, int attr_id)
     n = poly->nObjects;
 
     
-    sprintf(mesg, "num data polys = %d num weight-data ojects = %d\n", n1, n);
-    MESG(mesg);
+    //sprintf(mesg, "num data polys = %d num weight-data ojects = %d\n", n1, n);
+    //MESG(mesg);
 
     plist = poly->plist;
 

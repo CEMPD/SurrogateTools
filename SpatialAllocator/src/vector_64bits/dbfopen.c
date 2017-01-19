@@ -1055,14 +1055,17 @@ DBFHandle DBFCloneEmpty(DBFHandle psDBF, const char * pszFilename )
    newDBF->nRecordLength = psDBF->nRecordLength;
    newDBF->nHeaderLength = psDBF->nHeaderLength;
     
-   newDBF->panFieldOffset = (void *) malloc ( sizeof(int) * psDBF->nFields ); 
-   memcpy ( newDBF->panFieldOffset, psDBF->panFieldOffset, sizeof(int) * psDBF->nFields );
-   newDBF->panFieldSize = (void *) malloc ( sizeof(int) * psDBF->nFields );
-   memcpy ( newDBF->panFieldSize, psDBF->panFieldSize, sizeof(int) * psDBF->nFields );
-   newDBF->panFieldDecimals = (void *) malloc ( sizeof(int) * psDBF->nFields );
-   memcpy ( newDBF->panFieldDecimals, psDBF->panFieldDecimals, sizeof(int) * psDBF->nFields );
-   newDBF->pachFieldType = (void *) malloc ( sizeof(int) * psDBF->nFields );
-   memcpy ( newDBF->pachFieldType, psDBF->pachFieldType, sizeof(int) * psDBF->nFields );
+   /*psDBF = (DBFHandle) calloc( 1, sizeof(DBFInfo) ); */
+
+
+   newDBF->panFieldOffset = (void *) calloc ( psDBF->nFields, sizeof(int)  ); 
+   memcpy ( newDBF->panFieldOffset, psDBF->panFieldOffset,  psDBF->nFields );
+   newDBF->panFieldSize = (void *) calloc (  psDBF->nFields, sizeof(int)  );
+   memcpy ( newDBF->panFieldSize, psDBF->panFieldSize, psDBF->nFields );
+   newDBF->panFieldDecimals = (void *) calloc ( psDBF->nFields, sizeof(int) );
+   memcpy ( newDBF->panFieldDecimals, psDBF->panFieldDecimals,  psDBF->nFields );
+   newDBF->pachFieldType = (void *) calloc (  psDBF->nFields, sizeof(int) );
+   memcpy ( newDBF->pachFieldType, psDBF->pachFieldType, psDBF->nFields );
 
    newDBF->bNoHeader = TRUE;
    newDBF->bUpdated = TRUE;

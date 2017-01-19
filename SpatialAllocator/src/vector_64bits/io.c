@@ -211,7 +211,7 @@ char *convertToUpper(char *input)
 
 /* creates a null terminated string from a blank padded string */
 
-int strNullTerminate(char *dest, const char *src, size_t n)
+int strNullTerminate(char *dest, const char *src, int n)
 {
     int i;
     
@@ -226,9 +226,9 @@ int strNullTerminate(char *dest, const char *src, size_t n)
 
 /* creates a blank padded string from a null terminated string */
 
-int strBlankCopy(char *dest, const char *src, size_t n)
+int strBlankCopy(char *dest, const char *src, int n)
 {
-    size_t src_len;
+    int src_len;
 
     src_len = strlen(src);
     

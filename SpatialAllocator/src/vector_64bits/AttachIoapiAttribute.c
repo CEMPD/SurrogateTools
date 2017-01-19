@@ -37,15 +37,15 @@ int attachIoapiAttribute(PolyObject * poly, char *attr_env_name,
     char **list, **listc;
     char mesg[256];
 
-    char *prog_name = "attachIoapiAttribute";
+    extern char *prog_name;
 
     IOAPI_Bdesc3 bdesc;
     IOAPI_Cdesc3 cdesc;
     int nvars;
     char varlist[MXVARS3][NAMLEN3+1];
-    int    *intData = NULL;
-    float  *fltData = NULL;
-    double *dblData = NULL;
+    int    *intData;
+    float  *fltData;
+    double *dblData;
     int output_ioapi;
                                                                                     
     /* no attributes, so just create an empty structure and return */
@@ -149,9 +149,9 @@ int attachIoapiAttribute(PolyObject * poly, char *attr_env_name,
     {
         /* allocate space to store data from I/O API file */
         printf("output_ioapi  %d \n", output_ioapi ) ;
-        intData = (int *)    malloc(bdesc.nrows * bdesc.ncols * sizeof(int));
-        fltData = (float *)  malloc(bdesc.nrows * bdesc.ncols * sizeof(float));
-        dblData = (double *) malloc(bdesc.nrows * bdesc.ncols * sizeof(double));
+        intData = (int *)    calloc(bdesc.nrows * bdesc.ncols, sizeof(int));
+        fltData = (float *)  calloc(bdesc.nrows * bdesc.ncols, sizeof(float));
+        dblData = (double *) calloc(bdesc.nrows * bdesc.ncols, sizeof(double));
     }
 
     /* added 4/13/2005 to support "ALL" keyword for attribute selection  BDB */
