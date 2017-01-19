@@ -366,8 +366,8 @@ int allocate(PolyObject * poly, /* intersected weight and data polygons */
 
         if(mode == Aggregate || mode == Average)
         {
-             sprintf(mesg,"ALLOCTE: name=%s  mode=%d", w_poly->attr_hdr->attr_desc[attr_id]->name, mode);
-             MESG2("Variable: ", mesg);
+             //sprintf(mesg,"ALLOCTE: name=%s  mode=%d", w_poly->attr_hdr->attr_desc[attr_id]->name, mode);
+             //MESG2("Variable: ", mesg);
 
              /* make sure original attribute type is not FTString */
              if(w_poly->attr_hdr->attr_desc[attr_id]->type == FTString)
@@ -391,8 +391,8 @@ int allocate(PolyObject * poly, /* intersected weight and data polygons */
         }
         else if(mode == DiscreteOverlap || mode == DiscreteCentroid)
         {
-             sprintf(mesg,"ALLOCTE: name=%s  mode=%d", w_poly->attr_hdr->attr_desc[attr_id]->name, mode);
-             MESG2("Variable: ", mesg); 
+             //sprintf(mesg,"ALLOCTE: name=%s  mode=%d", w_poly->attr_hdr->attr_desc[attr_id]->name, mode);
+             //MESG2("Variable: ", mesg); 
              if(w_poly->attr_hdr->attr_desc[attr_id]->type == FTString)
              {
                   if(DBFAddField(hDBF, w_poly->attr_hdr->attr_desc[attr_id]->name,
@@ -755,7 +755,7 @@ int print_hdr(FILE * file, PolyObject * g_poly)
         "MERCATOR",
         "STEREOGRAPHIC",
         "UTM",
-        "PolarSTEREO",
+        "POLGRD3",
         "EquatorialMERCATOR",
         "TransverseMERCATOR"
     };
@@ -789,7 +789,30 @@ int print_hdr(FILE * file, PolyObject * g_poly)
       strcpy(unit,"meters");
     }
 
-    return
+    if ( strcmp(cname[g_poly->map->ctype], "POLGRD3") == 0 )
+    {
+        return
+        fprintf(file,
+                "%s\t%s\t%f\t%f\t%f\t%f\t%d\t%d\t%d\t%s\t%s\t%f\t%f\t%f\t%f\t%f\n",
+                gridStr,
+                g_poly->map->gridname,
+                g_poly->map->xorig,
+                g_poly->map->yorig,
+                g_poly->map->xcell,
+                g_poly->map->ycell,
+                g_poly->map->ncols,
+                g_poly->map->nrows,
+                1,
+                cname[g_poly->map->ctype],
+                unit,
+                g_poly->map->p_gam,
+                g_poly->map->p_alp,
+                g_poly->map->p_bet,
+                g_poly->map->xcent, g_poly->map->ycent);
+    }
+    else
+    {
+        return
         fprintf(file,
                 "%s\t%s\t%f\t%f\t%f\t%f\t%d\t%d\t%d\t%s\t%s\t%f\t%f\t%f\t%f\t%f\n",
                 gridStr,
@@ -806,4 +829,5 @@ int print_hdr(FILE * file, PolyObject * g_poly)
                 g_poly->map->p_alp,
                 g_poly->map->p_bet,
                 g_poly->map->p_gam, g_poly->map->xcent, g_poly->map->ycent);
+    }
 }
