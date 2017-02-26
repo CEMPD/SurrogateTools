@@ -11,7 +11,7 @@ public class NormalizePloySurrogateTest extends TestCase {
 		int[] excludeCounties = { 1011, 1022 };
 		NormalizeSurrogate ns = new NormalizeSurrogate(fileName, 4, new Precision(1e-6), excludeCounties);
 		ns.normalize();
-		compareWithSampleFile("test/data/expected_small_polysurrogate_240_NORM.txt", "test/data/small_polysurrogate_240_NORM.txt");
+		compareWithSampleFile("test/data/small_polysurrogate_240_NORM.txt", "test/data/expected_small_polysurrogate_240_NORM.txt");
 	}
 
 	private void compareWithSampleFile(String referenceFile, String testResultFile) throws Exception {
