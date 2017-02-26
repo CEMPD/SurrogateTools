@@ -35,6 +35,12 @@ Running Testscript(will compile, run test and clean)
 	TestScripts.AIX.csh
 
 
+BUILD FAILED
+C:\Users\Dongmei Yang\git\SurrogateTools\SurrogateTools\build.xml:53: The following error occurred while executing this line:
+C:\Users\Dongmei Yang\git\SurrogateTools\SurrogateTools\build.xml:64: Unable to find a javac compiler;
+com.sun.tools.javac.Main is not on the classpath.
+Perhaps JAVA_HOME does not point to the JDK.
+It is currently set to "C:\Java\jdk1_8"
 
 
 
