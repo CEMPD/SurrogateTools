@@ -1,0 +1,16 @@
+VARIABLE,VALUE,DESCRIPTION
+GENERATION CONTROL FILE,test/data/srgtoolpg/surrogate_generation.csv,File containing surrogates for computation
+SURROGATE SPECIFICATION FILE,test/data/srgtoolpg/surrogate_specification.csv,File containing settings for generating surrogates
+SHAPEFILE CATALOG,test/data/srgtoolpg/shapefile_catalog.csv,Shapefile names and map projection information
+SURROGATE CODE FILE,test/data/srgtoolpg/surrogate_codes_all.csv,List of surrogate codes and names
+DEBUG_OUTPUT,Y,Output debug control
+OUTPUT_FORMAT,SMOKE,output files used for SMOKE
+OUTPUT_FILE_TYPE,RegularGrid,Type of output shapes being generated - RegularGrid or Polygon 
+OUTPUT_GRID_NAME,CONUS12k_444x336,This is a grid name for output area.
+GRIDDESC,./GRIDDESC.txt,It is the file containing the list of available of grids (needed only for SMOKE surrogates).
+OUTPUT_FILE_ELLIPSOID,"+a=6370000.0,+b=6370000.0",Output grid projection ellipsoid for the grid.
+OUTPUT DIRECTORY,C:\Users\dyang\projects\SA\output\,Directory for individual surrogate files
+OVERWRITE OUTPUT FILES,YES,Users can choose YES to overwrite the individual and total output surrogate ratio files
+LOG FILE NAME,C:\Users\dyang\projects\SA\srg_conus12.log,log file to store all information from running the program
+DENOMINATOR_THRESHOLD,0.0005,surrogate ratio is output as comment line with # sign if denominator of surrogate ratio computation is less than the threshold
+COMPUTE SURROGATES,YES,"It can be YES or NO.  If YES is selected, srgcreate is called to compute surrogates."
