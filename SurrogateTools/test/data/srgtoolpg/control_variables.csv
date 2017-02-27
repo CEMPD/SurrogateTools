@@ -9,8 +9,8 @@ OUTPUT_FILE_TYPE,RegularGrid,Type of output shapes being generated - RegularGrid
 OUTPUT_GRID_NAME,CONUS12k_444x336,This is a grid name for output area.
 GRIDDESC,./GRIDDESC.txt,It is the file containing the list of available of grids (needed only for SMOKE surrogates).
 OUTPUT_FILE_ELLIPSOID,"+a=6370000.0,+b=6370000.0",Output grid projection ellipsoid for the grid.
-OUTPUT DIRECTORY,C:\Users\dyang\projects\SA\output\,Directory for individual surrogate files
+OUTPUT DIRECTORY,C:\Users\Dongmei Yang\projects\SA\output,Directory for individual surrogate files
 OVERWRITE OUTPUT FILES,YES,Users can choose YES to overwrite the individual and total output surrogate ratio files
-LOG FILE NAME,C:\Users\dyang\projects\SA\srg_conus12.log,log file to store all information from running the program
+LOG FILE NAME,C:\Users\Dongmei Yang\projects\SA\srg_conus12.log,log file to store all information from running the program
 DENOMINATOR_THRESHOLD,0.0005,surrogate ratio is output as comment line with # sign if denominator of surrogate ratio computation is less than the threshold
 COMPUTE SURROGATES,YES,"It can be YES or NO.  If YES is selected, srgcreate is called to compute surrogates."

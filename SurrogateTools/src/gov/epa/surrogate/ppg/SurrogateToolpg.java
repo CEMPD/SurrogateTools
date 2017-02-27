@@ -1,7 +1,9 @@
 package gov.epa.surrogate.ppg;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -288,7 +290,8 @@ public class SurrogateToolpg {
 			String key = (String) rows.get(j);
 			list = (ArrayList) controls.get(key);
 			String value = (String) list.get(0);
-			System.out.println("key: "+key+"\t"+value);
+			//System.out.println("key: "+key+"\t"+value);
+			
 			writeLogFile(key + "\t" + value + LS, runContinue);
 			if (value.length() == 0 || value.matches("^\\s*$")) {
 				writeLogFile("Error: " + key + " does not have a value in " + CONTROL_VARIABLE_FILE + "." + LS, runStop);
@@ -302,7 +305,7 @@ public class SurrogateToolpg {
 		if (outputFType.equals("RegularGrid")) {
 			for (j = 0; j < gridVars.length - 2; j++) {
 				if (!controls.containsKey(gridVars[j])) {
-					System.out.println("key: "+gridVars[j]+"\t"+getControls(gridVars[j]));
+					//System.out.println("key: "+gridVars[j]+"\t"+getControls(gridVars[j]));
 					writeLogFile("Error: " + gridVars[j] + " does not exist in " + CONTROL_VARIABLE_FILE + "." + LS,
 							runStop);
 				}
@@ -400,10 +403,21 @@ public class SurrogateToolpg {
 		list = (ArrayList) surrogates.get(key);
 		return list;
 	}
+	
+	public ArrayList getShapefilesList(String key, int runStatus) {
+		ArrayList list = new ArrayList();
+
+		if (!shapefiles.containsKey(key)) {
+			writeLogFile("Error: Catalog csv file does not contain surrogate -- " + key + LS, runStatus);
+			return null;
+		}
+		list = (ArrayList) shapefiles.get(key);
+		return list;
+	}
 
 	public void readShapefiles() {
 		String[] items = { "SHAPEFILE NAME", "DIRECTORY", "ELLIPSOID", "PROJECTION",
-				"LOAD_SCRIPT", "INPUT_FILE", "LOAD_CMD", "PRCS_SCRIPT", "GEOM_TYPE",
+				"GEOM_TYPE",
 				"DBNAME", "SCHEMA_NAME", "SHP_TBL", "ORIG_GEOM_FLD", "FINAL_GEOM_FLD_PRE",
 				"SRID_INT", "SRID_FINAL", "CLUSTER", "UNIQUE_INDEX"}; // first field--key
 		int keyItems = 1; // 1 = first item is the key
@@ -597,9 +611,9 @@ public class SurrogateToolpg {
 	
 
 	// output environment variables to a batch or bash/csh file
-	public String writeFile(String dir, String tfile, String header, Vector env) {
+	public String writeFile(String dir, String tfile, String ckey, String header, Vector env) {
 		String line, key, value;
-		String outFile;
+		String outFile, templateFile = null;
 
 		if (!checkDir(dir, runError)) {
 			return null;
@@ -613,26 +627,35 @@ public class SurrogateToolpg {
 		}
 
 		try {
+			
+			templateFile = "test/data/srgtoolpg" + FS + "gen_" + ckey +"_noHead.txt" ;
 			FileWriter fw = new FileWriter(outFile);
 			BufferedWriter out = new BufferedWriter(fw);
+			
+			FileReader fr = new FileReader(templateFile);
+			BufferedReader in = new BufferedReader(fr);
 
 			out.write(SCRIPT_HEADER + LS); // write the header for the scripts file
-			out.write(COMMENT + header + LS); // write the header for surrogate generation
+			out.write(COMMENT + header + LS + LS); // write the header for surrogate generation
 			for (int i = 0; i < env.size(); i++) {
 				String all = (String) env.get(i);
 				String[] var = all.split("=", 2);
 				key = var[0].toLowerCase();
 				value = var[1];
 				line = CMD + " " + key + EQ + value + LS;
-				System.out.println("CMD line:" + line);
+				//System.out.println("CMD line:" + line);
 				out.write(line);
 			}
-
+			
+            while ((line = in.readLine()) != null) {
+                    out.write(line + LS);
+            }
 			// run the program
 			line = TIME + LS;
 			out.write(line);
 			//line = exe + LS;
 			out.write(line);
+			fr.close();
 			out.close();
 
 		} catch (IOException e) {
@@ -704,7 +727,7 @@ public class SurrogateToolpg {
 	// for generations: REGION+SURROGATE CODE = key
 	// shapefiles: SHAPEFILE NAME
 	// surrgates: SURROGATES
-	public static final int SS_REGION_INDEX = 0, SS_SURROGATE_INDEX = 1, SS_SURROGATE_CODE_INDEX = 2, 
+	public static final int SS_REGION_INDEX = 0, SS_SURROGATE_CODE_INDEX = 1, SS_SURROGATE_INDEX = 2, 
 			SS_DATA_SHAPEFILE_INDEX = 3, SS_DATA_ATTRIBUTE_INDEX = 4, SS_GEOG_BNDRY_SCHEMA_INDEX =5, 
 			SS_GEOG_TBL_INDEX = 6, SS_GEOM_FLD_INDEX = 7, SS_WEIGHT_SHAPEFILE_INDEX = 8, 
 			SS_WEIGHT_ATTRIBUTE_INDEX = 9, SS_WEIGHT_FUNCTION_INDEX = 10, SS_WEIGHT_SCHEMA_INDEX = 11, 
@@ -713,13 +736,12 @@ public class SurrogateToolpg {
 			SS_QUARTERNARY_SURROGATE_INDEX = 17, SS_SRID_INT_INDEX = 18, SS_SRID_FINAL_INDEX=19;
 
 	// From surrogate generation
-	public static final int SG_REGION_INDEX = 0, SG_SURROGATE_INDEX=1, SG_SURROGATE_CODE_INDEX =2, 
+	public static final int SG_REGION_INDEX = 0, SG_SURROGATE_CODE_INDEX = 1, SG_SURROGATE_INDEX = 2, 
 			SG_GENERATE_INDEX = 3, SG_QUALITY_ASSURANCE_INDEX = 4, SG_GRID_SCHEMA_INDEX=5,
-			SG_GRID_TBL_INDEX=6, SG_GRID_GEOM_FLD_INDEX=7, SG_GRID_SRID_INDEX=8;
+			SG_GRID_TBL_INDEX = 6, SG_GRID_GEOM_FLD_INDEX = 7, SG_GRID_SRID_INDEX = 8;
 	
 	// From shapefile catelog
-	public static final int SC_DBNAME_INDEX = 10
-;
+	public static final int SC_DBNAME_INDEX = 4, SC_SCHEMA_NAME_INDEX = 5;
 
 //	 String[] env_fitems = { "SURROGATE CODE", "DBNAME", "DATA ATTRIBUTE", "WEIGHT ATTRIBUT", 
 //     		"GEOG BNDRY SCHEMA", "SRID_FINAL", "REGION"};
@@ -736,7 +758,7 @@ public class SurrogateToolpg {
 	public static final int CODE_INDEX = 0; // name is the key in the hashtable
 
 	public ArrayList srgList;
-	public ArrayList specList;
+	//public ArrayList specList;
 	public ArrayList catalogList;
 
 	public void generatePGSurrogates() {
@@ -767,7 +789,7 @@ public class SurrogateToolpg {
 			String g = generate.toUpperCase();
 
 			ArrayList logList = getSrgLogList(key, (String) list.get(SG_SURROGATE_INDEX));
-			System.out.println("KEY: "+ key + " Generate: "+g);
+			//System.out.println("KEY: "+ key + " Generate: "+g);
 
 			if ((srgList = getSurrogateList(key, runError)) == null) {
 				putSrgRunLog(key, logList, "Failed: No specification data");
@@ -777,8 +799,8 @@ public class SurrogateToolpg {
 
 			if (g.equals("YES")) {
 				System.out.println(LS + "Run PostgreSQL/PostgreGIS to generate surrogate ratios for " + key );
-				writeLogFile(LS + "Run PostgreSQL/PostgreGIS to generate surrogate ratios for " + key + ": "
-						+  (String) list.get(SG_SURROGATE_INDEX)+ LS, runContinue);
+				writeLogFile(LS + "Run PostgreSQL/PostgreGIS to generate surrogate ratios for " + key + 
+						LS, runContinue);
 				
 				if (checkFile(srgFile = outDir + FS + key + NOFILL_TYPE + ".txt", "NONE", runContinue)
 						&& OW.equals("NO")) {
@@ -789,21 +811,27 @@ public class SurrogateToolpg {
 					continue;
 				}
 				
+				// extract variable from SG
 				allVar = copyMainVar(); // copy main env to the current surrogate
 				allVar.add("surrogate_file=" + srgFile);
 				allVar.add("surg_code=" + (String) list.get(SG_SURROGATE_CODE_INDEX));
 				allVar.add("region=" + (String) list.get(SG_REGION_INDEX));
 				allVar.add("data_attribute=" + (String) srgList.get(SS_DATA_ATTRIBUTE_INDEX));
 				allVar.add("weight_attribute=" + (String) srgList.get(SS_WEIGHT_ATTRIBUTE_INDEX));
-				
 				allVar.add("srid_final=" + (String) srgList.get(SS_SRID_FINAL_INDEX));
-				//				"schema_name", "srid_dbname
-				
-//				String shapeName = (String) list.get(SS_SRID_FINAL_INDEX)
+				//extract variables from calalog file: dbname,schema_name
+				String ckey = (String) srgList.get(SS_DATA_SHAPEFILE_INDEX);
+				if ((catalogList = getShapefilesList(ckey, runError)) == null) {
+					putSrgRunLog(ckey, logList, "Failed: No calalog data. ");
+					continue;
+				}
+				allVar.add("dbname="+(String)catalogList.get(SC_DBNAME_INDEX));
+				allVar.add("schema_name="+(String)catalogList.get(SC_SCHEMA_NAME_INDEX));
+				//System.out.println(LS + catalogList.size() + " "+catalogList.toString());
 				
 				header = "Environment variables for computation of surrogate -- " + key + "="
 						+ (String) list.get(SS_SURROGATE_INDEX);
-				String scripts = writeFile(outDir + FS + tDir, key + NOFILL_TYPE, header, allVar);
+				String scripts = writeFile(outDir + FS + tDir, key + NOFILL_TYPE,key, header, allVar);
 				if (scripts == null) {
 					logList.add("Warning: failed to create bat or bash/csh file");
 				}
@@ -818,9 +846,8 @@ public class SurrogateToolpg {
 
 				//COMMAND[2] = getControls("SRGCREATE EXECUTABLE");
 				RunScripts rs = new RunScripts("PGSRGCREATE", COMMAND, env);
-//				String runMessage = rs.run();
-				String runMessage = rs.toString();
-				runMessage = " ";
+				String runMessage = rs.run();
+				 
 				rs = null; // free all memory used by rs
 				System.out.println(LS + "checkRunMessage: " + runMessage + LS);
 				if (checkRunMessage(runMessage)) {
