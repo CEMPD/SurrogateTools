@@ -3,9 +3,10 @@ package gov.epa.surrogate.ppg;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -114,8 +115,7 @@ public class SurrogateToolpg {
 			CMD = "export";
 			EQ = "=";
 			TIME = " ";
- 
-			SCRIPT_HEADER = "#!/bin/bash -x";
+			SCRIPT_HEADER = "#!/bin/bash ";
 			COMMAND[0] = "/bin/bash";
 			COMMAND[1] = "-c";
 		}
@@ -613,7 +613,7 @@ public class SurrogateToolpg {
 	// output environment variables to a batch or bash/csh file
 	public String writeFile(String dir, String tfile, String ckey, String header, Vector env) {
 		String line, key, value;
-		String outFile, templateFile = null;
+		String outFile;
 
 		if (!checkDir(dir, runError)) {
 			return null;
@@ -628,13 +628,13 @@ public class SurrogateToolpg {
 
 		try {
 			
-			templateFile = "test/data/srgtoolpg" + FS + "gen_" + ckey +"_noHead.txt" ;
+			//templateFile = "/test/data/srgtoolpg/" + FS + "gen_" + ckey +"_noHead.txt" ;
+			//new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/resources/" + filename)))
 			FileWriter fw = new FileWriter(outFile);
 			BufferedWriter out = new BufferedWriter(fw);
+			//InputStreamReader fr = null;
+			//BufferedReader in =null;
 			
-			FileReader fr = new FileReader(templateFile);
-			BufferedReader in = new BufferedReader(fr);
-
 			out.write(SCRIPT_HEADER + LS); // write the header for the scripts file
 			out.write(COMMENT + header + LS + LS); // write the header for surrogate generation
 			for (int i = 0; i < env.size(); i++) {
@@ -647,18 +647,27 @@ public class SurrogateToolpg {
 				out.write(line);
 			}
 			
-            while ((line = in.readLine()) != null) {
-                    out.write(line + LS);
-            }
+			String templateFile = "gov/epa/surrogate/ppg/sql/gen_" + ckey +"_noHead.txt" ;
+			System.out.println(templateFile);
+			InputStream fr = this.getClass().getClassLoader().getResourceAsStream(templateFile);
+			if (fr == null) {
+				throw new IOException("Resource not found: " + templateFile);
+			}
+			BufferedReader in = new BufferedReader(new InputStreamReader(fr));
+
+			while ((line = in.readLine()) != null) 
+				out.write(line + LS);
+			
 			// run the program
 			line = TIME + LS;
 			out.write(line);
 			//line = exe + LS;
 			out.write(line);
-			fr.close();
+			//fr.close();
 			out.close();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			writeLogFile("Error -- " + e.toString() + LS, 7);
 			return null;
 		}
