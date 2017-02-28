@@ -1,14 +1,14 @@
  
-#SG: surrogate generation
-#surg_code 		# SG.csv: SURROGATE_CODE, ie, 100...
-#dbname 			# SC.csv: DBNAME, Name of database to store loaded table
+#SG: surrogate generation; SC: surrogate catalog
+#surg_code 		    # SG.csv: SURROGATE_CODE, ie, 100...
+#region=USA		    # SS.csv: REGION
 #data_attribute		# SS.csv: DATA ATTRIBUTEField containing unique ID for each record in the GEOG_BNDRY_TBL
 #weight_attribute	# SS.csv: WEIGHT ATTRIBUTE
-#schema_name		# SC.csv: SCHEMA_NAME, Name of schema stored loaded table
-#srid_final=900921	# SC.csv: SRID_FINAL, Final srid for common projection of processed files
-#region=USA		# SS.csv: REGION
+#schema_name		# SC.csv: DIRECTORY, Name of schema stored loaded table
+#srid_final=900921	# control.csv: SRID_FINAL, Final srid for common projection of processed files
+#dbname 		    # control.csv
 #surrogate_path 	# control.csv: OUTPUT DIRECTORY, bash scripts, output surrogate, logs 
-#logfile             # output logs 
+#logfile            # control.csv: output logs 
 
 
 echo "Surrogate 100 begins." >> ${logfile}
