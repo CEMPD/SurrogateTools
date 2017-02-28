@@ -181,10 +181,10 @@ public class SurrogateToolpg {
 				logOut.write(message);
 
 				if (runStatus == runFinish || runStatus == runStop) {
-//					String srgRunInfo = writeSrgRunLog();
-//					if (srgRunInfo != null) {
-//						logOut.write(srgRunInfo);
-//					}
+					String srgRunInfo = writeSrgRunLog();
+					if (srgRunInfo != null) {
+						logOut.write(srgRunInfo);
+					}
 
 					Date endDate = new Date();
 					logOut.write(LS + "End Date: " + endDate.toString() + LS);
@@ -219,32 +219,17 @@ public class SurrogateToolpg {
 			System.exit(prunStatus); // program exit with prunStatus code
 		}
 	}
-
-//	//check a file is directory or not
-//	private boolean checkIsDirectory( String fileName) {
-//		
-//		String tfile = fileName;	
-//		File tempfile = new File(tfile);
-//		
-//        //check whether it exists and it is a directory
-//		if ( tempfile.isDirectory() ) {
-//			return true;			
-//		}	
-//		
-//		return false;
-//		
-//	}
 	
 	 
 	public void readControls(String fileName) {
 		String[] items = { "VARIABLE", "VALUE" }; // first field--key field
 		String[] gridVars = { "GENERATION CONTROL FILE", "SURROGATE SPECIFICATION FILE", 
 				"SHAPEFILE CATALOG", "SURROGATE CODE FILE",
-				"DEBUG_OUTPUT", "OUTPUT_FORMAT", "OUTPUT_FILE_TYPE",
+				"OUTPUT_FORMAT", "OUTPUT_FILE_TYPE",
 				"OUTPUT_GRID_NAME", "GRIDDESC",
 				"OUTPUT_FILE_ELLIPSOID", "OUTPUT DIRECTORY",
 				"OVERWRITE OUTPUT FILES", "LOG FILE NAME",
-				"DENOMINATOR_THRESHOLD", "COMPUTE SURROGATES" };  
+				"SRID_FINAL", "DBNAME", "COMPUTE SURROGATES" };  
 
 		int keyItems = 1; // 1 = first item is the key item
 		ArrayList list = new ArrayList();
@@ -261,7 +246,7 @@ public class SurrogateToolpg {
 		File cf = new File(fileName);
 		try {
 			CONTROL_VARIABLE_FILE = cf.getCanonicalPath(); // save for header
-			System.out.println(CONTROL_VARIABLE_FILE);
+			System.out.println("File name:"+CONTROL_VARIABLE_FILE);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(runStop);
@@ -314,10 +299,7 @@ public class SurrogateToolpg {
 		
 		// check variables not needed
 		// check varaibles settings
-		if (!getControls("DEBUG_OUTPUT").equals("Y") && !getControls("DEBUG_OUTPUT").equals("N")) {
-			writeLogFile("Error: DEBUG_OUTPUT value has to be Y or N" + LS, runStop);
-		}
-
+		
 		if (!getControls("OUTPUT_FORMAT").equals("SMOKE")) {
 			writeLogFile("Error: OUTPUT_FORMAT value has to be SMOKE" + LS, runStop);
 		}
@@ -365,11 +347,8 @@ public class SurrogateToolpg {
 
 	public void readSurrogateSpec() {
 		String[] items = { "REGION", "SURROGATE CODE", "SURROGATE", "DATA SHAPEFILE", "DATA ATTRIBUTE",
-				"GEOG BNDRY SCHEMA", "GEOG BNDRY TBL", "GEOM FLD",
-				"WEIGHT SHAPEFILE", "WEIGHT ATTRIBUTE", "WEIGHT FUNCTION", 
-				"WEIGHT SCHEMA", "WEIGHT TABLE", "FILTER FUNCTION", "MERGE FUNCTION",
-				"SECONDARY SURROGATE", "TERTIARY SURROGATE", "QUARTERNARY SURROGATE", 
-				"SRID_INT", "SRID_FINAL"}; // REGION+SURROGATE CODE = key
+				"WEIGHT SHAPEFILE", "WEIGHT ATTRIBUTE", "WEIGHT FUNCTION", "FILTER FUNCTION", "MERGE FUNCTION",
+				"SECONDARY SURROGATE", "TERTIARY SURROGATE", "QUARTERNARY SURROGATE"}; // REGION+SURROGATE CODE = key
 		//"SURROGATE FILE HEADER PATH", "SURROGATE FILE HEADER FILE",																				// field
 		int keyItems = 2; // 2 = combined first two items is the key
 //		ArrayList list = new ArrayList();
@@ -416,10 +395,7 @@ public class SurrogateToolpg {
 	}
 
 	public void readShapefiles() {
-		String[] items = { "SHAPEFILE NAME", "DIRECTORY", "ELLIPSOID", "PROJECTION",
-				"GEOM_TYPE",
-				"DBNAME", "SCHEMA_NAME", "SHP_TBL", "ORIG_GEOM_FLD", "FINAL_GEOM_FLD_PRE",
-				"SRID_INT", "SRID_FINAL", "CLUSTER", "UNIQUE_INDEX"}; // first field--key
+		String[] items = { "SHAPEFILE NAME", "DIRECTORY", "ELLIPSOID", "PROJECTION"}; // first field--key
 		int keyItems = 1; // 1 = first item is the key
 		// ArrayList list = new ArrayList();
 		// Iterator it;
@@ -441,13 +417,13 @@ public class SurrogateToolpg {
 	}
 
 	// set item index in shapefile catalog
-	public static final int DIRECTORY_INDEX = 0, ELLIPSOID_INDEX = 1, PROJECTION_INDEX = 2; // shapefile name is the key
-																							// in the hashtable
+//	public static final int DIRECTORY_INDEX = 0, ELLIPSOID_INDEX = 1, PROJECTION_INDEX = 2; // shapefile name is the key
+//																							// in the hashtable
 	// read data in from generation file and compare entries with specification file
 	public void readGenerations() {
-		String[] items = { "REGION", "SURROGATE CODE", "SURROGATE", "GENERATE", "QUALITY ASSURANCE", 
-				"GRID_SCHEMA", "GRID_TBL", "GRID_GEOM_FLD", "GRID_SRID" }; // REGION+SURROGATE
-																										// CODE = key																								// field
+		String[] items = { "REGION", "SURROGATE CODE", "SURROGATE", "GENERATE", 
+				"QUALITY ASSURANCE", }; // REGION+SURROGATE	
+		                                // CODE = key																								// field
 		int keyItems = 2; // 2 = combined first two items is the key
 		ArrayList list = new ArrayList();
 		ArrayList srgList = new ArrayList();
@@ -548,23 +524,9 @@ public class SurrogateToolpg {
 			OUTPUT_FILE_MAP_PRJN_INDEX = 7; // output file info for polygon output type
 
 	public void setGentVariables() {
-//		String[] env_gitems = { "input_file", "LOAD_SCRIPT", "load_cmd", "geom_type", "dbname",
-//				"schema_name", "shp_tbl", "orig_geom_fld", "final_geom_fld_pre", "srid_int",
-//				"srid_final", "cluster", "data_attribute", "geog_bndry_schema", "geog_bndry_tbl", 
-//				"geom_bndry_fld"}; // envs for grid output
-		// SG: surrogate generation, generations; 
-		//SS: surrogate specification, surrogates; 
-		//SC: shape catalog, shapefiles	
-		// names used in postgreSQL
-//		String[] env_gitems = { "surg_code", "dbname", "data_attribute", "weight_attribute", 
-//				"schema_name", "srid_final", "region", "surrogate_path", "logfile"};
-//	    // names used in inputs files 
-//        String[] env_fitems = { "SURROGATE CODE", "DBNAME", "DATA ATTRIBUT", "WEIGHT ATTRIBUT", 
-//        		"GEOG BNDRY SCHEMA", "SRID_FINAL", "REGION","OUTPUT DIRECTORY", 
-//        		"LOG FILE NAME"};
-        String[] env_gitems = { "surrogate_path", "logfile"};
+        String[] env_gitems = { "surrogate_path", "logfile", "dbname", "srid_final"};
 	    // names used in inputs files 
-        String[] env_fitems = { "OUTPUT DIRECTORY", "LOG FILE NAME"};
+        String[] env_fitems = { "OUTPUT DIRECTORY", "LOG FILE NAME", "DBNAME", "SRID_FINAL"};
 //        String[] env_ftypes = {"surrogates", "shapefiles", "surrogates", "surrogates",
 //        		"shapefiles", "shapefiles", "surrogates", "controls", "controls"};
  
@@ -574,24 +536,9 @@ public class SurrogateToolpg {
 		if (run_create) {
 			for (int i = 0; i < env_gitems.length; i++) {
 				mainEnv.add(env_gitems[i] + "=" + getControls(env_fitems[i]));
-//				if ( env_ftypes[i] == "controls") {
-//					mainEnv.add(env_gitems[i] + "=" + getControls(env_fitems[i]));
-//				}
-//				if ( env_ftypes[i] == "shapefiles") {
-//					index = shapefiles.keys().
-//					mainEnv.add(env_gitems[i] + "=" + getVarValue(env_fitems[i], shapefiles, env_ftypes[i]));
-//				}
-//				if ( env_ftypes[i] == "generations") {
-//					mainEnv.add(env_gitems[i] + "=" + getVarValue(env_fitems[i], generations, env_ftypes[i]));
-//				}
-//				if ( env_ftypes[i] == "surrogates") {
-//					mainEnv.add(env_gitems[i] + "=" + getVarValue(env_fitems[i], surrogates, env_ftypes[i]));
-//				}
 			}
 		}
 		// add hard coded environment variables
-//		mainEnv.add("DATA_FILE_NAME_TYPE=ShapeFile");
-//		mainEnv.add("WEIGHT_FILE_TYPE=ShapeFile");
 
 		System.out.println(LS + "\t\t" + "Main Environment Variables for SRGCREATE" + LS + LS);
 		for (int i = 0; i < mainEnv.size(); i++) {
@@ -650,20 +597,22 @@ public class SurrogateToolpg {
 			String templateFile = "gov/epa/surrogate/ppg/sql/gen_" + ckey +"_noHead.txt" ;
 			System.out.println(templateFile);
 			InputStream fr = this.getClass().getClassLoader().getResourceAsStream(templateFile);
+			
+//			String templateFile = "test/data/srgtoolpg" + FS + "gen_" + ckey +"_noHead.txt" ;
+//			FileReader fr = new FileReader(templateFile);
+
 			if (fr == null) {
 				throw new IOException("Resource not found: " + templateFile);
 			}
 			BufferedReader in = new BufferedReader(new InputStreamReader(fr));
-
+			//BufferedReader in = new BufferedReader(fr);
 			while ((line = in.readLine()) != null) 
 				out.write(line + LS);
 			
 			// run the program
 			line = TIME + LS;
 			out.write(line);
-			//line = exe + LS;
-			out.write(line);
-			//fr.close();
+			in.close();
 			out.close();
 
 		} catch (IOException e) {
@@ -687,10 +636,6 @@ public class SurrogateToolpg {
 		return false;
 	}
 
-	// get grid, egrid or polygon header information
-//	private void getGridPolyHeader() {
-//		//Vector allVar = new Vector();
-//	}
 
 	private boolean renameFile(String oldFile, String newFile, int runStatus) {
 
@@ -737,27 +682,17 @@ public class SurrogateToolpg {
 	// shapefiles: SHAPEFILE NAME
 	// surrgates: SURROGATES
 	public static final int SS_REGION_INDEX = 0, SS_SURROGATE_CODE_INDEX = 1, SS_SURROGATE_INDEX = 2, 
-			SS_DATA_SHAPEFILE_INDEX = 3, SS_DATA_ATTRIBUTE_INDEX = 4, SS_GEOG_BNDRY_SCHEMA_INDEX =5, 
-			SS_GEOG_TBL_INDEX = 6, SS_GEOM_FLD_INDEX = 7, SS_WEIGHT_SHAPEFILE_INDEX = 8, 
-			SS_WEIGHT_ATTRIBUTE_INDEX = 9, SS_WEIGHT_FUNCTION_INDEX = 10, SS_WEIGHT_SCHEMA_INDEX = 11, 
-			SS_WEIGHT_TABLE_INDEX =12, SS_FILTER_FUNCTION_INDEX = 13, SS_MERGE_FUNCTION_INDEX = 14, 
-			SS_SECONDARY_SURROGATE_INDEX = 15, SS_TERTIARY_SURROGATE_INDEX = 16, 
-			SS_QUARTERNARY_SURROGATE_INDEX = 17, SS_SRID_INT_INDEX = 18, SS_SRID_FINAL_INDEX=19;
+			SS_DATA_SHAPEFILE_INDEX = 3, SS_DATA_ATTRIBUTE_INDEX = 4, SS_WEIGHT_SHAPEFILE_INDEX = 5, 
+			SS_WEIGHT_ATTRIBUTE_INDEX = 6, SS_WEIGHT_FUNCTION_INDEX = 7, SS_FILTER_FUNCTION_INDEX = 8, 
+			SS_MERGE_FUNCTION_INDEX = 9,SS_SECONDARY_SURROGATE_INDEX = 10, SS_TERTIARY_SURROGATE_INDEX = 11, 
+			QUARTERNARY_SURROGATE_INDEX = 12;
 
 	// From surrogate generation
 	public static final int SG_REGION_INDEX = 0, SG_SURROGATE_CODE_INDEX = 1, SG_SURROGATE_INDEX = 2, 
-			SG_GENERATE_INDEX = 3, SG_QUALITY_ASSURANCE_INDEX = 4, SG_GRID_SCHEMA_INDEX=5,
-			SG_GRID_TBL_INDEX = 6, SG_GRID_GEOM_FLD_INDEX = 7, SG_GRID_SRID_INDEX = 8;
+			SG_GENERATE_INDEX = 3, SG_QUALITY_ASSURANCE_INDEX = 4;
 	
 	// From shapefile catelog
-	public static final int SC_DBNAME_INDEX = 4, SC_SCHEMA_NAME_INDEX = 5;
-
-//	 String[] env_fitems = { "SURROGATE CODE", "DBNAME", "DATA ATTRIBUTE", "WEIGHT ATTRIBUT", 
-//     		"GEOG BNDRY SCHEMA", "SRID_FINAL", "REGION"};
-//	String[] env_gitems = { "surg_code", "dbname", "data_attribute", "weight_attribute", 
-//			"schema_name", "srid_final", "region", "surrogate_path", "logfile"};
-//    // names used in inputs files 
-			 
+	public static final int SC_DBNAME_INDEX = 0; // Directory
 
 	public static final int CREATE_STATUS_INDEX = 5, MERGE_STATUS_INDEX = 6, GAPFILL_STATUS_INDEX = 7; // processing
 																										// status stored
@@ -827,7 +762,7 @@ public class SurrogateToolpg {
 				allVar.add("region=" + (String) list.get(SG_REGION_INDEX));
 				allVar.add("data_attribute=" + (String) srgList.get(SS_DATA_ATTRIBUTE_INDEX));
 				allVar.add("weight_attribute=" + (String) srgList.get(SS_WEIGHT_ATTRIBUTE_INDEX));
-				allVar.add("srid_final=" + (String) srgList.get(SS_SRID_FINAL_INDEX));
+				
 				//extract variables from calalog file: dbname,schema_name
 				String ckey = (String) srgList.get(SS_DATA_SHAPEFILE_INDEX);
 				if ((catalogList = getShapefilesList(ckey, runError)) == null) {
@@ -835,7 +770,6 @@ public class SurrogateToolpg {
 					continue;
 				}
 				allVar.add("dbname="+(String)catalogList.get(SC_DBNAME_INDEX));
-				allVar.add("schema_name="+(String)catalogList.get(SC_SCHEMA_NAME_INDEX));
 				//System.out.println(LS + catalogList.size() + " "+catalogList.toString());
 				
 				header = "Environment variables for computation of surrogate -- " + key + "="
