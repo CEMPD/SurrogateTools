@@ -11,15 +11,15 @@
 #logfile            # control.csv: output logs 
 
 
-echo "Surrogate 100 begins." >> ${logfile}
-psql -a ${dbname} << END0 >> ${logfile}
+echo "Surrogate 100 begins." 
+psql -a ${dbname} << END0 
 DROP TABLE IF EXISTS ${schema_name}.denom_${surg_code};
 DROP TABLE IF EXISTS ${schema_name}.numer_${surg_code};
 DROP TABLE IF EXISTS ${schema_name}.surg_${surg_code};
 END0
 
 
-psql -a ${dbname} << END1 >> ${logfile}
+psql -a ${dbname} << END1 
 CREATE TABLE ${schema_name}.denom_${surg_code} (${data_attribute} varchar (6) not null,
 	denom integer default 0,
 	primary key (${data_attribute}));
@@ -36,7 +36,7 @@ export vac_table=denom_${surg_code}
 
 ./vacanalyze.sh
 
-psql -a ${dbname} << END2 >>${logfile}
+psql -a ${dbname} << END2 
 CREATE TABLE ${schema_name}.numer_${surg_code} (${data_attribute} varchar (6) not null,
 	colnum integer not null,
 	rownum integer not null,
@@ -59,7 +59,7 @@ export vac_table=numer_${surg_code}
 ./vacanalyze.sh
 
 
-psql -a ${dbname} << END3 >>${logfile}
+psql -a ${dbname} << END3 
 CREATE TABLE ${schema_name}.surg_${surg_code} (surg_code integer not null,
 	${data_attribute} varchar (6) not null,
 	colnum integer not null,
@@ -93,12 +93,13 @@ export vac_table=surg_${surg_code}
 
 ./vacanalyze.sh
 
-echo "ready to write surrogate file" >> ${logfile}
-echo "#GRID" > ${surrogate_path}${region}_${surg_code}_NOFILL.txt >>${logfile}		# NEED TO PUT HEADER HERE
-psql -F $'\t' -t -a --no-align ${dbname} << ENDS >> ${region}_${surg_code}_NOFILL.txt 
+echo "ready to write surrogate file"  
+echo "#GRID" > ${surrogate_path}${region}_${surg_code}_NOFILL.txt  		# NEED TO PUT HEADER HERE
+psql -F $'\t' -t --no-align ${dbname} << ENDS >> ${surrogate_path}${region}_${surg_code}_NOFILL.txt 
 
-select surg_code, ${data_attribute}, colnum, rownum, surg, '!', numer, denom
-	from ${schema_name}.surg_${surg_code}
-	order by geoid, colnum, rownum;
+SELECT surg_code, ${data_attribute}, colnum, rownum, surg, '!', numer, denom
+  FROM ${schema_name}.surg_${surg_code}
+ ORDER BY geoid, colnum, rownum;
+	
 ENDS
-echo "Surrogate 100 ends." >> ${logfile}
+echo "Surrogate 100 ends."  

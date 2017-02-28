@@ -612,7 +612,9 @@ public class SurrogateToolpg {
 			// run the program
 			line = TIME + LS;
 			out.write(line);
-			in.close();
+			//line = exe + LS;
+			out.write(line);
+			//fr.close();
 			out.close();
 
 		} catch (IOException e) {
@@ -769,7 +771,7 @@ public class SurrogateToolpg {
 					putSrgRunLog(ckey, logList, "Failed: No calalog data. ");
 					continue;
 				}
-				allVar.add("dbname="+(String)catalogList.get(SC_DBNAME_INDEX));
+				allVar.add("schema_name="+(String)catalogList.get(SC_DBNAME_INDEX));
 				//System.out.println(LS + catalogList.size() + " "+catalogList.toString());
 				
 				header = "Environment variables for computation of surrogate -- " + key + "="
