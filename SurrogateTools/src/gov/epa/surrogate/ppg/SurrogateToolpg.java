@@ -789,7 +789,7 @@ public class SurrogateToolpg {
 				}
 				
 
-				//COMMAND[2] = getControls("SRGCREATE EXECUTABLE");
+				COMMAND[2] = scripts;
 				RunScripts rs = new RunScripts("PGSRGCREATE", COMMAND, env);
 				String runMessage = rs.run();
 				 
