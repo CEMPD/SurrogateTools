@@ -1,6 +1,6 @@
 REGION,SURROGATE,SURROGATE CODE,DATA SHAPEFILE,DATA ATTRIBUTE,WEIGHT SHAPEFILE,WEIGHT ATTRIBUTE,WEIGHT FUNCTION,FILTER FUNCTION,MERGE FUNCTION,SECONDARY SURROGATE,TERTIARY SURROGATE,QUARTERNARY SURROGATE,DETAILS,COMMENTS
 USA,Population,100,ACS_2014_5YR_PopHousing,geoid,ACS_2014_5YR_PopHousing,pop2014,,,,,,,Total population from Census 2014 blocks,
-USA,Housing,110,ACS_2014_5YR_PopHousing,GEOID,ACS_2014_5YR_PopHousing,HU2014,,,,Population,,,Total Housing Units from Census 2014,
+USA,Housing,110,ACS_2014_5YR_PopHousing,GEOID,ACS_2014_5YR_PopHousing,hu2014,,,,Population,,,Total Housing Units from Census 2014,
 #USA,Urban Population,120,cb_2014_us_county_500k_Poly,GEOID,ACS_2014_5YR_PopHousing,NONE,,POPD_CODE=URBAN,,Population,,,Census 2014 population density >= 1000 ppl/mi2,
 #USA,Rural Population,130,cb_2014_us_county_500k_Poly,GEOID,ACS_2014_5YR_PopHousing,NONE,,POPD_CODE=RURAL,,Population,,,Census 2014 population density < 1000 ppl/mi2,
 USA,Urban Housing,131,cb_2014_us_county_500k_Poly,GEOID,ACS_2014_5YR_PopHousing,NONE,,HUD_CODE=1,,Housing,Population,NLCD Land,,Housing unit density assigned to Census block groups 2010; Urban defined as Census block groups with density >= 1000 people/mi2

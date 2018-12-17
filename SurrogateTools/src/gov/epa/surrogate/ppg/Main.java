@@ -24,10 +24,12 @@ public class Main {
 			System.out.println("finished reading generation. ");
 			sc.readSurrogateCodes();
 			System.out.println("finished reading surrogate codes. ");
-
+			sc.setCMainVariables();
+			sc.getGridPolyHeader();
+			
 			sc.setGentVariables();
-			//	sc.getGridPolyHeader();
-
+			System.out.println("finished set up variables. ");
+			//sc.getGridPolyHeader();
 			//	if (sc.run_load)
 			//		sc.setLoadVariables();
 			//		sc.loadShapefile();
@@ -35,7 +37,9 @@ public class Main {
 			//		sc.gridShapefile();
 			if (sc.run_create)
 				sc.generatePGSurrogates();
-
+			//sc.setCMainVariables();
+			//sc.getGridPolyHeader();
+			
 			sc.writeLogFile(sc.LS, SurrogateToolpg.runFinish); // exit the program run
 			sc = null;
 		} catch (Exception e) {

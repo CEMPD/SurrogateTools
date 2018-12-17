@@ -1,0 +1,35 @@
+
+Run Date: Thu Mar 01 14:30:13 EST 2018
+
+
+		Main Control CSV File
+
+GENERATION CONTROL FILE	test/data/srgtoolpg/surrogate_generation.csv
+SURROGATE SPECIFICATION FILE	test/data/srgtoolpg/surrogate_specification.csv
+SHAPEFILE CATALOG	test/data/srgtoolpg/shapefile_catalog.csv
+SURROGATE CODE FILE	test/data/srgtoolpg/surrogate_codes_all.csv
+OUTPUT_FORMAT	SMOKE
+OUTPUT_FILE_TYPE	RegularGrid
+OUTPUT_GRID_NAME	CONUS12k_444x336
+GRIDDESC	./GRIDDESC.txt
+OUTPUT_FILE_ELLIPSOID	+a=6370000.0,+b=6370000.0
+OUTPUT DIRECTORY	test/data/srgtoolpg/temp
+PGSCRIPT DIRECTORY	test/data/srgtoolpg/pgscripts/
+OVERWRITE OUTPUT FILES	YES
+LOG FILE NAME	test/data/srgtoolpg/logs/srg_conus12.log
+PG_SERVER	localhost
+PG_USER	dyang
+PGBIN	test/data/srgtoolpg/bin
+SRID_FINAL	900921
+DBNAME	surrogates
+DENOMINATOR_THRESHOLD	0.0005
+COMPUTE SURROGATES	YES
+MERGE SURROGATES	NO
+GAPFILL SURROGATES	NO
+
+Error: Row has unmatched number of commas with header.  File -- test/data/srgtoolpg/surrogate_generation.csv  Line -- USA,Residential + Commercial + Industrial + Institutional + Government,535,NO,NO,,template_withWF_noFF_noWA.csh
+
+End Date: Thu Mar 01 14:30:13 EST 2018
+Elapsed time in minutes: 0.00205
+
+ERROR -- The Program Run Stopped

@@ -3,16 +3,22 @@ package gov.epa.surrogate.ppg;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+//import java.io.InputStream;
+//import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+//import gov.epa.surrogate.CSV;
 
 /**
  * This program is used to generate surrogate ratios by calling srgcreate.exe and srgmerger.exe or java
@@ -22,7 +28,7 @@ import java.util.regex.Pattern;
  * java 2 Platform Standard Edition (J2SE) software Development Date: Feb-Mar 2017: added egrid
  * computation Developed by: IE/CEMPD at UNC
  */
-public class SurrogateToolpg {
+public class SurrogateToolpg  {
 
 	long      startTime, endTime;     // time in milliseconds
 	
@@ -61,6 +67,7 @@ public class SurrogateToolpg {
 								// equal sign
 
 	String TIME;
+	String LIBPATH; // LD_LIBRARY_PATH for unix system
 
 	String CONTROL_VARIABLE_FILE; // main control variable file for headers
 
@@ -71,7 +78,7 @@ public class SurrogateToolpg {
 	String[] COMMAND = new String[3]; // command to run external exe
 
 	Vector mainEnv = new Vector(); // array to hold main environment variables
-
+	Vector cmainEnv = new Vector(); // hold variables for srgcreate
 	public static final String NOFILL_TYPE = "_NOFILL"; // srg file type without gapfills
 
 	public static final String tDir = "temp_files"; // temp file directory name
@@ -95,30 +102,31 @@ public class SurrogateToolpg {
 		LS = System.getProperty("line.separator");
 		System.out.println("Your Operating system is:  " + OS + LS);
 
-		if (OS.indexOf("windows 9") > -1 || OS.indexOf("nt") > -1 || OS.indexOf("windows 20") > -1
-				|| OS.indexOf("windows xp") > -1) {
-			OS = "window";
-			COMMENT = ":: ";
-			CMD = "set";
-			EQ = "=";
-			TIME = "time /t";
-			SCRIPT_HEADER = "@echo off";
-			COMMAND[0] = "cmd.exe";
-			COMMAND[1] = "/c";
-			if (OS.indexOf("windows 9") > -1) {
-				COMMAND[0] = "command.com";
-			}
-		} else { 
+//		if (OS.indexOf("windows 9") > -1 || OS.indexOf("nt") > -1 || OS.indexOf("windows 20") > -1
+//				|| OS.indexOf("windows xp") > -1) {
+//			OS = "window";
+//			COMMENT = ":: ";
+//			CMD = "set";
+//			EQ = "=";
+//			TIME = "time /t";
+//			SCRIPT_HEADER = "@echo off";
+//			COMMAND[0] = "cmd.exe";
+//			COMMAND[1] = "/c";
+//			if (OS.indexOf("windows 9") > -1) {
+//				COMMAND[0] = "command.com";
+//			}
+//		} else { 
 			// assume Unix
 			OS = "unix";
 			COMMENT = "# ";
 			CMD = "export";
 			EQ = "=";
 			TIME = " ";
-			SCRIPT_HEADER = "#!/bin/bash ";
-			COMMAND[0] = "/bin/bash";
+			LIBPATH = System.getenv("LD_LIBRARY_PATH");
+			SCRIPT_HEADER = "#!/bin/csh ";
+			COMMAND[0] = "/bin/csh";
 			COMMAND[1] = "-c";
-		}
+//		}
 	}
 
 	public void createLogFile(String logFileName) {		
@@ -224,12 +232,13 @@ public class SurrogateToolpg {
 	public void readControls(String fileName) {
 		String[] items = { "VARIABLE", "VALUE" }; // first field--key field
 		String[] gridVars = { "GENERATION CONTROL FILE", "SURROGATE SPECIFICATION FILE", 
-				"SHAPEFILE CATALOG", "SURROGATE CODE FILE",
+				"SHAPEFILE CATALOG", "SURROGATE CODE FILE",  
 				"OUTPUT_FORMAT", "OUTPUT_FILE_TYPE",
 				"OUTPUT_GRID_NAME", "GRIDDESC",
-				"OUTPUT_FILE_ELLIPSOID", "OUTPUT DIRECTORY",
-				"OVERWRITE OUTPUT FILES", "LOG FILE NAME",
-				"SRID_FINAL", "DBNAME", "COMPUTE SURROGATES" };  
+				"OUTPUT_FILE_ELLIPSOID", "OUTPUT DIRECTORY", "PGSCRIPT DIRECTORY", 
+				"OUTPUT SRGDESC FILE", "OVERWRITE OUTPUT FILES", "LOG FILE NAME",
+				"SRID_FINAL", "DBNAME", 
+				"PGBIN", "PG_SERVER", "PG_USER", "COMPUTE SURROGATES" };  
 
 		int keyItems = 1; // 1 = first item is the key item
 		ArrayList list = new ArrayList();
@@ -290,7 +299,7 @@ public class SurrogateToolpg {
 		if (outputFType.equals("RegularGrid")) {
 			for (j = 0; j < gridVars.length - 2; j++) {
 				if (!controls.containsKey(gridVars[j])) {
-					//System.out.println("key: "+gridVars[j]+"\t"+getControls(gridVars[j]));
+					System.out.println("key: "+gridVars[j]+"\t"+getControls(gridVars[j]));
 					writeLogFile("Error: " + gridVars[j] + " does not exist in " + CONTROL_VARIABLE_FILE + "." + LS,
 							runStop);
 				}
@@ -309,6 +318,16 @@ public class SurrogateToolpg {
 		}
 		 
 		//check two output files
+		String outputSrgFile = getControls("OUTPUT SURROGATE FILE");
+		if (checkIsDirectory(outputSrgFile) ){
+			writeLogFile("Error: OUTPUT SURROGATE FILE - " + outputSrgFile + " is an existing directory." + LS, runStop);
+		}
+			
+		outputSrgFile = getControls("OUTPUT SRGDESC FILE");
+		if (checkIsDirectory(outputSrgFile)){
+			writeLogFile("Error: OUTPUT SRGDESC FILE - " + outputSrgFile + " is an existing directory." + LS, runStop);
+		}
+		
 		String ow = getControls("OVERWRITE OUTPUT FILES");
 		String OW = ow.toUpperCase();
 		if (!OW.equals("YES") && (!OW.equals("NO"))) {
@@ -422,7 +441,7 @@ public class SurrogateToolpg {
 	// read data in from generation file and compare entries with specification file
 	public void readGenerations() {
 		String[] items = { "REGION", "SURROGATE CODE", "SURROGATE", "GENERATE", 
-				"QUALITY ASSURANCE", }; // REGION+SURROGATE	
+				"QUALITY ASSURANCE", "PG SCRIPT", }; // REGION+SURROGATE	
 		                                // CODE = key																								// field
 		int keyItems = 2; // 2 = combined first two items is the key
 		ArrayList list = new ArrayList();
@@ -524,9 +543,11 @@ public class SurrogateToolpg {
 			OUTPUT_FILE_MAP_PRJN_INDEX = 7; // output file info for polygon output type
 
 	public void setGentVariables() {
-        String[] env_gitems = { "surrogate_path", "logfile", "dbname", "srid_final"};
+        String[] env_gitems = { "surrogate_path", "dbname", "srid_final", "grid", "PGBIN", "server", 
+        		"user", "srgdesc_file"};
 	    // names used in inputs files 
-        String[] env_fitems = { "OUTPUT DIRECTORY", "LOG FILE NAME", "DBNAME", "SRID_FINAL"};
+        String[] env_fitems = { "OUTPUT DIRECTORY", "DBNAME", "SRID_FINAL", "OUTPUT_GRID_NAME",
+        		"PGBIN", "PG_SERVER", "PG_USER", "OUTPUT SRGDESC FILE"};
 //        String[] env_ftypes = {"surrogates", "shapefiles", "surrogates", "surrogates",
 //        		"shapefiles", "shapefiles", "surrogates", "controls", "controls"};
  
@@ -556,59 +577,69 @@ public class SurrogateToolpg {
 		return all;
 	}
 	
+	public Vector copyCMainVar() {
+		Vector all = new Vector();
+
+		for (int i = 0; i < cmainEnv.size(); i++) {
+			all.add(cmainEnv.get(i));
+		}
+		return all;
+	}
 
 	// output environment variables to a batch or bash/csh file
-	public String writeFile(String dir, String tfile, String ckey, String header, Vector env) {
-		String line, key, value;
+	public String writeFile(String dir, String tfile, String pgf, Vector env) {
+		String line, key, value, setline;
 		String outFile;
 
 		if (!checkDir(dir, runError)) {
 			return null;
 		}
-
+		
 		if (OS.equals("window")) {
 			outFile = dir + FS + tfile + ".bat";
 		} else {
 			// assume unix
-			outFile = dir + FS + tfile + ".sh";
+			outFile = dir + FS + tfile + ".csh";
 		}
-
+		
 		try {
 			
-			//templateFile = "/test/data/srgtoolpg/" + FS + "gen_" + ckey +"_noHead.txt" ;
-			//new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/resources/" + filename)))
 			FileWriter fw = new FileWriter(outFile);
 			BufferedWriter out = new BufferedWriter(fw);
-			//InputStreamReader fr = null;
-			//BufferedReader in =null;
 			
-			out.write(SCRIPT_HEADER + LS); // write the header for the scripts file
-			out.write(COMMENT + header + LS + LS); // write the header for surrogate generation
-			for (int i = 0; i < env.size(); i++) {
-				String all = (String) env.get(i);
-				String[] var = all.split("=", 2);
-				key = var[0].toLowerCase();
-				value = var[1];
-				line = CMD + " " + key + EQ + value + LS;
-				//System.out.println("CMD line:" + line);
-				out.write(line);
-			}
-			
-			String templateFile = "gov/epa/surrogate/ppg/sql/gen_" + ckey +"_noHead.txt" ;
+			//String templateFile = "gov/epa/surrogate/ppg/sql/gen_" + ckey +"_noHead.txt" ;
+			String templateFile = pgf;
 			System.out.println(templateFile);
-			InputStream fr = this.getClass().getClassLoader().getResourceAsStream(templateFile);
 			
+//			InputStream fr = this.getClass().getClassLoader().getResourceAsStream(templateFile);		
 //			String templateFile = "test/data/srgtoolpg" + FS + "gen_" + ckey +"_noHead.txt" ;
 //			FileReader fr = new FileReader(templateFile);
 
-			if (fr == null) {
-				throw new IOException("Resource not found: " + templateFile);
-			}
-			BufferedReader in = new BufferedReader(new InputStreamReader(fr));
-			//BufferedReader in = new BufferedReader(fr);
-			while ((line = in.readLine()) != null) 
-				out.write(line + LS);
+			 
+
+			FileReader file = new FileReader(templateFile);
+			BufferedReader in = new BufferedReader(file);
 			
+			while ( (line = in.readLine()) != null) {
+				//System.out.println("CMD line:" + line);
+				if (line.contains("VAR_DEFINITIONS") ) {
+					for (int i = 0; i < env.size(); i++) {
+						String all = (String) env.get(i);
+						String[] var = all.split("=", 2);
+						//key = var[0].toLowerCase();
+						key = var[0];
+						value = var[1];
+						setline = "set " + key + EQ + value + LS;
+						if ( key.contains("srid_final") ) // grid_proj=srid_final
+							setline += "set grid_proj" + EQ + value + LS;
+						if ( key.contains("schema_name") ) // grid_proj=srid_final
+							setline += "set schema" + EQ + value + LS;
+						out.write(setline);
+					}
+				}
+				else
+					out.write(line + LS);
+			}
 			// run the program
 			line = TIME + LS;
 			out.write(line);
@@ -616,6 +647,8 @@ public class SurrogateToolpg {
 			out.write(line);
 			//fr.close();
 			out.close();
+			File efile = new File(outFile);
+			efile.setExecutable(true);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -659,23 +692,23 @@ public class SurrogateToolpg {
 
 
 	// add output surrogate file information into a hashtable
-//	private void addSrgDesc(String key, String srgName, String fileName) {
-//
-//		// split key into region and code
-//		String[] rc = key.split("_"); // split partial function
-//		String region = rc[REGION_INDEX];
-//		String code = rc[SURROGATE_CODE_INDEX];
-//
-//		// delete the existing entry
-//		if (srgDesc.containsKey(key)) {
-//			srgDesc.remove(key);
-//		}
-//
-//		// add new entry
-//		String line = region + "," + code + ",\"" + srgName + "\"," + fileName;
-//		System.out.println("srgDesc Line = " + line);
-//		srgDesc.put(key, line);
-//	}
+	private void addSrgDesc(String key, String srgName, String fileName) {
+
+		// split key into region and code
+		String[] rc = key.split("_"); // split partial function
+		String region = rc[SS_REGION_INDEX];
+		String code = rc[SS_SURROGATE_CODE_INDEX];
+
+		// delete the existing entry
+		if (srgDesc.containsKey(key)) {
+			srgDesc.remove(key);
+		}
+
+		// add new entry
+		String line = region + "," + code + ",\"" + srgName + "\"," + fileName;
+		System.out.println("srgDesc Line = " + line);
+		srgDesc.put(key, line);
+	}
 
 
 
@@ -691,7 +724,7 @@ public class SurrogateToolpg {
 
 	// From surrogate generation
 	public static final int SG_REGION_INDEX = 0, SG_SURROGATE_CODE_INDEX = 1, SG_SURROGATE_INDEX = 2, 
-			SG_GENERATE_INDEX = 3, SG_QUALITY_ASSURANCE_INDEX = 4;
+			SG_GENERATE_INDEX = 3, SG_QUALITY_ASSURANCE_INDEX = 4, SG_PGSCRIPT_INDEX=5;
 	
 	// From shapefile catelog
 	public static final int SC_DBNAME_INDEX = 0; // Directory
@@ -714,13 +747,21 @@ public class SurrogateToolpg {
 		ArrayList list = new ArrayList();
 		 
 		Vector allVar = new Vector();
-		String header;
+		//String header;
 		String outDir;
+		String pgSoutDir;
 		String srgFile;
+		String pgTemFile;
+		 
 		//System.out.print("under construction");
 		
 		if (!checkDir(outDir = getControls("OUTPUT DIRECTORY"), runError)) {
 			System.out.print("Error: output directory -- " + outDir  + " Does Not Exist");
+			return; // srgcreate ends
+		}
+		
+		if (!checkDir(pgSoutDir = getControls("PGSCRIPT DIRECTORY"), runError)) {
+			System.out.print("Error: output directory -- " + pgSoutDir  + " Does Not Exist");
 			return; // srgcreate ends
 		}
 		
@@ -733,6 +774,7 @@ public class SurrogateToolpg {
 			list = (ArrayList) generations.get(key);
 			String generate = (String) list.get(SG_GENERATE_INDEX);
 			String g = generate.toUpperCase();
+			String pgf = (String) list.get(SG_PGSCRIPT_INDEX);
 
 			ArrayList logList = getSrgLogList(key, (String) list.get(SG_SURROGATE_INDEX));
 			//System.out.println("KEY: "+ key + " Generate: "+g);
@@ -742,7 +784,6 @@ public class SurrogateToolpg {
 				continue;
 			}
 			
-
 			if (g.equals("YES")) {
 				System.out.println(LS + "Run PostgreSQL/PostgreGIS to generate surrogate ratios for " + key );
 				writeLogFile(LS + "Run PostgreSQL/PostgreGIS to generate surrogate ratios for " + key + 
@@ -757,13 +798,20 @@ public class SurrogateToolpg {
 					continue;
 				}
 				
+				checkFile(pgTemFile = pgSoutDir + FS + pgf, "NO", runStop);
+					 
+				
 				// extract variable from SG
 				allVar = copyMainVar(); // copy main env to the current surrogate
 				allVar.add("surrogate_file=" + srgFile);
 				allVar.add("surg_code=" + (String) list.get(SG_SURROGATE_CODE_INDEX));
 				allVar.add("region=" + (String) list.get(SG_REGION_INDEX));
+				allVar.add("data_shape=" + (String) srgList.get(SS_DATA_SHAPEFILE_INDEX));
 				allVar.add("data_attribute=" + (String) srgList.get(SS_DATA_ATTRIBUTE_INDEX));
+				allVar.add("weight_shape=" + (String) srgList.get(SS_WEIGHT_SHAPEFILE_INDEX));
 				allVar.add("weight_attribute=" + (String) srgList.get(SS_WEIGHT_ATTRIBUTE_INDEX));
+				allVar.add("weight_function=\"" + (String) srgList.get(SS_WEIGHT_FUNCTION_INDEX)+'"');
+				allVar.add("filter_function=\"" + (String) srgList.get(SS_FILTER_FUNCTION_INDEX) + '"');
 				
 				//extract variables from calalog file: dbname,schema_name
 				String ckey = (String) srgList.get(SS_DATA_SHAPEFILE_INDEX);
@@ -772,11 +820,14 @@ public class SurrogateToolpg {
 					continue;
 				}
 				allVar.add("schema_name="+(String)catalogList.get(SC_DBNAME_INDEX));
+				allVar.add("output_dir="+outDir);
+				
+				//add pg log file definition
+				//allVar.add("logfile=generate_"+(String) list.get(SG_SURROGATE_CODE_INDEX)+".log");
 				//System.out.println(LS + catalogList.size() + " "+catalogList.toString());
 				
-				header = "Environment variables for computation of surrogate -- " + key + "="
-						+ (String) list.get(SS_SURROGATE_INDEX);
-				String scripts = writeFile(outDir + FS + tDir, key + NOFILL_TYPE,key, header, allVar);
+				String scripts = writeFile(outDir + FS + tDir, key + NOFILL_TYPE, pgTemFile, allVar);
+				 
 				if (scripts == null) {
 					logList.add("Warning: failed to create bat or bash/csh file");
 				}
@@ -785,12 +836,13 @@ public class SurrogateToolpg {
 				System.out.println("\t\t" + "Environment Variables Settings for SRGCREATE" + LS);
 				for (int i = 0; i < allVar.size(); i++) {
 					env[i] = (String) allVar.get(i);
-					System.out.println((String) allVar.get(i));
+					System.out.println((String) allVar.get(i) + "\n");
 				}
 				
 
-				COMMAND[2] = scripts;
-				RunScripts rs = new RunScripts("PGSRGCREATE", COMMAND, env);
+				COMMAND[2] = COMMAND[0]+ " " + scripts;
+				//System.out.println("command: " + COMMAND[0] + COMMAND[1] + " " + COMMAND[2]);
+				RunScripts rs = new RunScripts("PGSRGCREATE script", COMMAND, env);
 				String runMessage = rs.run();
 				 
 				rs = null; // free all memory used by rs
@@ -802,99 +854,100 @@ public class SurrogateToolpg {
 					putSrgRunLog(key, logList, "PGSRGCREATE Success");
 					System.out.println(LS + key + "   PGSRGCREATE Success" + LS);
 
-//					if (!addSrgHeaders(key, srgFile, CREATE_STATUS_INDEX)) {
-//						putSrgRunLog(key, logList, "PGSRGCREATE Headers Failed");
-//						System.out.println(LS + key + "   PGSRGCREATE Headers Failed" + LS);
-//					} else {
-//						//addSrgDesc(key, (String) list.get(SURROGATE_INDEX), srgFile);
-//						//writeSrgDesc();
-//					}
+					if (!addSrgHeaders(key, srgFile, CREATE_STATUS_INDEX)) {
+						putSrgRunLog(key, logList, "PGSRGCREATE Headers Failed");
+						System.out.println(LS + key + "   PGSRGCREATE Headers Failed" + LS);
+					} else {
+						addSrgDesc(key, (String) list.get(SS_SURROGATE_INDEX), srgFile);
+						writeSrgDesc();
+					}
 				}
 			}
 		}
 	}
 	
-//	private boolean addSrgHeaders(String key, String fileName, int runExe) {
-//
-//		StringBuffer headers = new StringBuffer();
-//		ArrayList list = new ArrayList();
-//		String line;
-//
-//		headers.append(GRIDPOLY_HEADER);
-//
-//		if ((list = getSurrogateList(key, runError)) == null) {
-//			writeLogFile("Error: No surrogate specification data for " + key + LS, runError);
-//			return false;
-//		}
-//
-//		headers.append("#SRGDESC=" + (String) list.get(SS_SURROGATE_CODE_INDEX) + ","
-//		+ (String) list.get(SS_SURROGATE_INDEX)
-//				+ LS);
-//		headers.append("#" + LS);
-//		headers.append("#SURROGATE REGION = " + (String) list.get(SS_REGION_INDEX) + LS);
-//		headers.append("#SURROGATE CODE = " + (String) list.get(SS_SURROGATE_CODE_INDEX) + LS);
-//		headers.append("#SURROGATE NAME = " + (String) list.get(SS_SURROGATE_INDEX) + LS);
-//
-//		if (runExe == CREATE_STATUS_INDEX || runExe == GAPFILL_STATUS_INDEX) {
-//			headers.append("#DATA SHAPEFILE = " + (String) list.get(SS_DATA_SHAPEFILE_INDEX) + LS);
-//			headers.append("#DATA ATTRIBUTE = " + (String) list.get(SS_DATA_ATTRIBUTE_INDEX) + LS);
-//			headers.append("#WEIGHT SHAPEFILE = " + (String) list.get(SS_WEIGHT_SHAPEFILE_INDEX) + LS);
-//			headers.append("#WEIGHT ATTRIBUTE = " + (String) list.get(SS_WEIGHT_ATTRIBUTE_INDEX) + LS);
-//			headers.append("#WEIGHT FUNCTION = " + (String) list.get(SS_WEIGHT_FUNCTION_INDEX) + LS);
-//			headers.append("#FILTER FUNCTION = " + (String) list.get(SS_FILTER_FUNCTION_INDEX) + LS);
-//		}
-//		headers.append("#" + LS);
-//		headers.append("#USER = " + USER + LS);
-//		headers.append("#COMPUTER SYSTEM = " + CS + LS);
-//		Date now = new Date();
-//		headers.append("#DATE = " + now.toString() + LS);
-//
-//		// temp file
-//		String newFile = fileName + ".tmp";
-//
-//		checkFile(fileName, "NO", runStop);
-//		if (!renameFile(fileName, newFile, runError)) {
-//			return false;
-//		}
-//		
-//		try {
-//			// open input file
-//			FileReader fr = new FileReader(newFile);
-//			BufferedReader buff = new BufferedReader(fr);
-//
-//			// open output file
-//			FileWriter fw = new FileWriter(fileName);
-//			BufferedWriter out = new BufferedWriter(fw);
-//			// write headers
-//			out.write(headers.toString());
-//
-//			// read the input file
-//			while ((line = buff.readLine()) != null) {
-//				// skip lines starting with # or empty lines
-//				if (line.matches("^\\#GRID.*") || line.matches("^\\#GRID\\t.*") ||
-//					line.matches("^\\#POLYGON.*") || line.matches("^\\#POLYGON\\t.*") || 	
-//					line.matches("^\\s*$") || line.matches("^\\#SRGDESC.*")) {
-//					continue;
-//				}
-//				out.write(line + LS);
-//			}
-//			out.close();
-//			buff.close();
-//
-//		} catch (IOException e) {
-//			writeLogFile("Error -- " + e.toString() + LS, runError);
-//			return false;
-//		}
-//
-//		// delete the temp file
-//		boolean success = (new File(newFile)).delete();
-//		if (!success) {
-//			writeLogFile("Warning: In Deleting Temp File: " + newFile + LS, runError);
-//		}
-//
-//		return true;
-//	}
-//	
+	private boolean addSrgHeaders(String key, String fileName, int runExe) {
+
+		StringBuffer headers = new StringBuffer();
+		ArrayList list = new ArrayList();
+		String line;
+
+		headers.append(GRIDPOLY_HEADER);
+
+		if ((list = getSurrogateList(key, runError)) == null) {
+			writeLogFile("Error: No surrogate specification data for " + key + LS, runError);
+			return false;
+		}
+
+		headers.append("#SRGDESC=" + (String) list.get(SS_SURROGATE_CODE_INDEX) + ","
+		+ (String) list.get(SS_SURROGATE_INDEX)
+				+ LS);
+		headers.append("#" + LS);
+		headers.append("#SURROGATE REGION = " + (String) list.get(SS_REGION_INDEX) + LS);
+		headers.append("#SURROGATE CODE = " + (String) list.get(SS_SURROGATE_CODE_INDEX) + LS);
+		headers.append("#SURROGATE NAME = " + (String) list.get(SS_SURROGATE_INDEX) + LS);
+
+		if (runExe == CREATE_STATUS_INDEX || runExe == GAPFILL_STATUS_INDEX) {
+			headers.append("#DATA SHAPEFILE = " + (String) list.get(SS_DATA_SHAPEFILE_INDEX) + LS);
+			headers.append("#DATA ATTRIBUTE = " + (String) list.get(SS_DATA_ATTRIBUTE_INDEX) + LS);
+			headers.append("#WEIGHT SHAPEFILE = " + (String) list.get(SS_WEIGHT_SHAPEFILE_INDEX) + LS);
+			headers.append("#WEIGHT ATTRIBUTE = " + (String) list.get(SS_WEIGHT_ATTRIBUTE_INDEX) + LS);
+			headers.append("#WEIGHT FUNCTION = " + (String) list.get(SS_WEIGHT_FUNCTION_INDEX) + LS);
+			headers.append("#FILTER FUNCTION = " + (String) list.get(SS_FILTER_FUNCTION_INDEX) + LS);
+		}
+		headers.append("#" + LS);
+		headers.append("#USER = " + USER + LS);
+		headers.append("#COMPUTER SYSTEM = " + CS + LS);
+		Date now = new Date();
+		headers.append("#DATE = " + now.toString() + LS);
+
+		// temp file
+		String newFile = fileName + ".tmp";
+
+		checkFile(fileName, "NO", runStop);
+		if (!renameFile(fileName, newFile, runError)) {
+			return false;
+		}
+		
+		try {
+			// open input file
+			FileReader fr = new FileReader(newFile);
+			BufferedReader buff = new BufferedReader(fr);
+
+			// open output file
+			FileWriter fw = new FileWriter(fileName);
+			BufferedWriter out = new BufferedWriter(fw);
+			// write headers
+			out.write(headers.toString());
+
+			// read the input file
+			while ((line = buff.readLine()) != null) {
+				// skip lines starting with # or empty lines
+				if (line.matches("^\\#GRID.*") || line.matches("^\\#GRID\\t.*") ||
+					line.matches("^\\#POLYGON.*") || line.matches("^\\#POLYGON\\t.*") || 	
+					line.matches("^\\s*$") || line.matches("^\\#SRGDESC.*") ||
+					line.matches("^\\#.*")) {
+					continue;
+				}
+				out.write(line + LS);
+			}
+			out.close();
+			buff.close();
+
+		} catch (IOException e) {
+			writeLogFile("Error -- " + e.toString() + LS, runError);
+			return false;
+		}
+
+		// delete the temp file
+		boolean success = (new File(newFile)).delete();
+		if (!success) {
+			writeLogFile("Warning: In Deleting Temp File: " + newFile + LS, runError);
+		}
+
+		return true;
+	}
+	
 	public String getControls(String varName) {
 		String value;
 		ArrayList list = new ArrayList();
@@ -950,6 +1003,137 @@ public class SurrogateToolpg {
 		}
 		return runInfo.toString(); // return srgRunlog information
 	}
+	
+	private void writeSrgDesc() {
+		String line; // one record from csv file
+		List list = new ArrayList();
+		int ITEMS = 4;
+		int SRGFILE_INDEX = 3;
+		String outSrgTotal;
+
+		// return if no new surrogate files created
+		if (srgDesc.isEmpty()) {
+			return;
+		}
+
+		// get SRGDESC file and check the existence
+		String fileName = getControls("OUTPUT SRGDESC FILE");
+		ProcessCSV csv = new ProcessCSV(); // for parsing input csv file line
+
+		if (checkFile(fileName, "NONE", runContinue)) {
+			try {
+				FileReader file = new FileReader(fileName);
+				BufferedReader buff = new BufferedReader(file);
+
+				while ((line = buff.readLine()) != null) {
+					// get rid of headers
+					if (line.matches("^\\#.*") || line.matches("^\\s*$")) {
+						continue;
+					}
+					list = csv.parse(line.trim());
+					// check total items in each line
+					if (list.size() != ITEMS) {
+						writeLogFile("Warning: Wrong format line in " + fileName + ": " + line + LS, runError);
+					} else {
+						String region = (String) list.get(SS_REGION_INDEX);
+						String code = (String) list.get(SS_SURROGATE_CODE_INDEX);
+						String srgName = (String) list.get(SS_SURROGATE_INDEX);
+						String srgFile = (String) list.get(SRGFILE_INDEX);
+
+						String key = region + "_" + code;
+						if (srgDesc.containsKey(key)) {
+							continue; // skip old file and replace it with the new file
+						}
+						String newline = region + "," + code + ",\"" + srgName + "\"," + srgFile;
+						srgDesc.put(key, newline);
+					}
+				}
+				buff.close();
+			} catch (IOException e) {
+				writeLogFile("Error: Reading existing OUTPUT SRGDESC FILE --" + e.toString() + LS, runError);
+			}
+
+			// delete the old srgdesc file
+			if (!checkFile(fileName, "YES", runError)) {
+				writeLogFile("Error: Deleting existing OUTPUT SRGDESC FILE -- " + fileName + LS, runError);
+			}
+			System.out.println("Finished checking the SRGDESC file");
+		}
+
+		// write out srgdesc information to the file and append individual srg files based on the srgdesc information
+		// check the existence of appened srg output file
+		String ow = getControls("OVERWRITE OUTPUT FILES");
+		String OW = ow.toUpperCase();
+		outSrgTotal = getControls("OUTPUT SURROGATE FILE");
+		if (!outSrgTotal.equals("NONE")) {
+			if (OW.equals("YES")) {
+				if (!checkFile(outSrgTotal, "YES", runError)) {
+					writeLogFile("Error: Deleting existing OUTPUT SURROGATE FILE -- " + outSrgTotal + LS, runError);
+					OW = "NO"; // no new OUTPUT SURROGATE FILE
+				}
+			} else {
+				if (!checkFile(outSrgTotal, "NONE", runContinue)) {
+					OW = "YES"; // output total srg file if no existing old file
+				}
+			}
+		} else {
+			OW = "NO";
+		}
+
+		try {
+			// open output SRGDESC file
+			FileWriter fw = new FileWriter(fileName); // overwrite the existing file whether or not it is deleted
+			BufferedWriter out = new BufferedWriter(fw);
+
+			// write grid headers
+			System.out.println("#GRID" + GRIDPOLY_HEADER );
+			out.write(GRIDPOLY_HEADER);
+
+			// output srgdesc data from the sorted hashtable
+			Vector v = new Vector(srgDesc.keySet());
+			Collections.sort(v);
+			Iterator it = v.iterator();
+			while (it.hasNext()) {
+				String key = (String) it.next();
+				line = (String) srgDesc.get(key);
+				// System.out.println("srgDesc Line = "+line);
+				out.write(line + LS);
+
+				list = csv.parse(line.trim());
+				// String region = (String) list.get(REGION_INDEX);
+				// String code = (String) list.get(SURROGATE_CODE_INDEX);
+				// String srgName = (String) list.get(SURROGATE_INDEX);
+				String srgFile = (String) list.get(SRGFILE_INDEX);
+
+				if (OW.equals("YES") && checkFile(srgFile, "NONE", runContinue)) {
+					try {
+						// open total srg file for writing
+						FileWriter fwSrg = new FileWriter(outSrgTotal, true); // append all files together
+						BufferedWriter outSrg = new BufferedWriter(fwSrg);
+
+						// open individual srg file for reading
+						FileReader file = new FileReader(srgFile);
+						BufferedReader buff = new BufferedReader(file);
+
+						while ((line = buff.readLine()) != null) {
+							outSrg.write(line + LS);
+						}
+						outSrg.close();
+						buff.close();
+					} catch (IOException e) {
+						writeLogFile("Error: In reading surrogate file for appending --" + line + LS, runError);
+					}
+				} else if (!checkFile(srgFile, "NONE", runContinue)) {
+					writeLogFile("Error: Surrogate file does not exist in SRGDESC file: " + line + LS, runError);
+				}
+			}
+			out.close();
+		} catch (IOException e) {
+			writeLogFile("Error: Writing OUTPUT SRGDESC FILE --" + e.toString() + LS, runError);
+		}
+		System.out.println("Finished writing srgDesc file and total surrogate file");
+	}
+
 	
 	// method to check the existence of a file
 	public boolean checkFile(String fileName, String delete, int runStatus) {
@@ -1017,5 +1201,155 @@ public class SurrogateToolpg {
 		list.add(message);
 		runLog.put(key, list);
 	}
+	
+	//check a file is directory or not
+	public boolean checkIsDirectory( String fileName) {
+		
+		String tfile = fileName;	
+		File tempfile = new File(tfile);
+		
+        //check whether it exists and it is a directory
+		if ( tempfile.isDirectory() ) {
+			return true;			
+		}	
+		
+		return false;
+		
+	}
+	
+	public void getGridPolyHeader() {
+		Vector allVar = new Vector();
+		// String[] cmd = new String[4]; //has an argument--header
+
+		if (getControls("OUTPUT_FILE_TYPE").equals("RegularGrid") || getControls("OUTPUT_FILE_TYPE").equals("EGrid")) { // get
+																														// grid																													// information
+			System.out.println("\t\t" + "Get Grid Header For Surrogate Files");
+			writeLogFile(LS + "\t\t" + "Get Grid Header For Surrogate Files" + LS, runContinue);
+			allVar = copyCMainVar(); // copy main env to a vector
+			String[] env = new String[allVar.size()]; // put all environment variables in a String array
+			for (int i = 0; i < allVar.size(); i++) {
+				env[i] = (String) allVar.get(i);
+			}
+
+			COMMAND[2] = getControls("SRGCREATE EXECUTABLE") + "  " + "-header";
+			// System.arraycopy(COMMAND,0,cmd,0,COMMAND.length);
+			// cmd[3] = "-header";
+			RunScripts rs = new RunScripts("SRGCREATE", COMMAND, env);
+			String runMessage = rs.run();
+			Pattern p = Pattern.compile("#GRID(.*)");
+			Matcher m = p.matcher(runMessage);
+			if (checkRunMessage(runMessage)) {
+				writeLogFile("Error: Getting Grid Header Failed, check grid description file." + LS, runStop);
+				System.out.println("Error: Getting grid header failed, check grid description file." + LS);
+			} else if (m.find()) {
+				GRIDPOLY_HEADER = m.group() + LS; // get matched header with the end of line
+				System.out.println(GRIDPOLY_HEADER);
+			} else {
+				writeLogFile("Error: No Grid Header from the SRGCREATE Run Output." + LS, runStop);
+				System.out.println("Error: No Grid Header from the SRGCREATE Run Output." + LS);
+			}
+		} else if (getControls("OUTPUT_FILE_TYPE").equals("Polygon")) { // set output polygon information
+			GRIDPOLY_HEADER = "#POLYGON\t" + mainEnv.get(OUTPUT_POLY_FILE_INDEX) + "\t"
+					+ mainEnv.get(OUTPUT_POLY_ATTR_INDEX) + "\t" + mainEnv.get(OUTPUT_FILE_ELLIPSOID_INDEX) + "\t"
+					+ mainEnv.get(OUTPUT_FILE_MAP_PRJN_INDEX) + LS;
+			writeLogFile(LS + "Header of The Surrogate Ratio File" + LS + GRIDPOLY_HEADER + LS, runContinue);
+			System.out.println(GRIDPOLY_HEADER);
+		}
+	}
+	
+	public void setCMainVariables() {
+		String[] env_gitems = { "DEBUG_OUTPUT", "OUTPUT_FORMAT", "OUTPUT_FILE_TYPE", "OUTPUT_GRID_NAME", "GRIDDESC",
+				"OUTPUT_FILE_ELLIPSOID" }; // envs for grid output
+		String[] env_pitems = { "DEBUG_OUTPUT", "OUTPUT_FORMAT", "OUTPUT_FILE_TYPE", "OUTPUT_POLY_FILE",
+				"OUTPUT_POLY_ATTR" }; // envs for polygon output
+		String[] env_egitems = { "DEBUG_OUTPUT", "OUTPUT_FORMAT", "OUTPUT_FILE_TYPE", "OUTPUT_GRID_NAME", "GRIDDESC",
+				"OUTPUT_FILE_ELLIPSOID", "OUTPUT_POLY_FILE" }; // envs for grid output
+		String[] shape = new String[3]; // store output polygon shapefile information
+
+		// add library path to the execution
+		if (OS.equals("unix"))
+			cmainEnv.add("LD_LIBRARY_PATH=" + LIBPATH);
+
+		// create environment variable Vector for grid output format
+		if (getControls("OUTPUT_FILE_TYPE").equals("RegularGrid")) {
+			for (int i = 0; i < env_gitems.length; i++) {
+				cmainEnv.add(env_gitems[i] + "=" + getControls(env_gitems[i]));
+			}
+		} else if (getControls("OUTPUT_FILE_TYPE").equals("EGrid")) {
+			for (int i = 0; i < env_egitems.length; i++) {
+				cmainEnv.add(env_egitems[i] + "=" + getControls(env_egitems[i]));
+			}
+		} else if (getControls("OUTPUT_FILE_TYPE").equals("Polygon")) { // /set POLYGON output format environmenta
+																		// variables except last two
+			for (int i = 0; i < env_pitems.length; i++) {
+				cmainEnv.add(env_pitems[i] + "=" + getControls(env_pitems[i]));
+			}
+
+			String oshape = getControls("OUTPUT_POLY_FILE"); // output polygon shapefile
+			shape = getShapeInfo(oshape, runStop);
+			String oPolyFile = "OUTPUT_POLY_FILE=" + shape[DIRECTORY_INDEX] + FS + oshape; // put polygon file with dir
+																							// into array
+			cmainEnv.set(OUTPUT_POLY_FILE_INDEX, oPolyFile);
+			cmainEnv.add("OUTPUT_FILE_ELLIPSOID=" + shape[ELLIPSOID_INDEX]); // put output polygon ellipsoid in array
+			cmainEnv.add("OUTPUT_FILE_MAP_PRJN=" + "+" + shape[PROJECTION_INDEX]); // put polygon projection in array
+		}
+
+		// add hard coded environment variables
+		cmainEnv.add("DATA_FILE_NAME_TYPE=ShapeFile");
+		cmainEnv.add("WEIGHT_FILE_TYPE=ShapeFile");
+
+		// set DENOMINATOR_THRESHOLD
+		if (!controls.containsKey("DENOMINATOR_THRESHOLD")) {
+			writeLogFile("Note: Main control CSV file does not contain variable -- DENOMINATOR_THRESHOLD" + LS,
+					runContinue);
+			writeLogFile("Note: DENOMINATOR_THRESHOLD will be set to the default threshold in srgcreate" + LS,
+					runContinue);
+		} else {
+			cmainEnv.add("DENOMINATOR_THRESHOLD=" + getControls("DENOMINATOR_THRESHOLD"));
+		}
+
+		System.out.println(LS + "\t\t" + "Main Environment Variables for SRGCREATE" + LS + LS);
+		for (int i = 0; i < cmainEnv.size(); i++) {
+			System.out.println((String) cmainEnv.get(i)); // print out main environment variables
+		}
+	}
+	
+	// set item index in shapefile catalog
+	public static final int DIRECTORY_INDEX = 0, ELLIPSOID_INDEX = 1, PROJECTION_INDEX = 2; // shapefile name is the key
+																							// in the hashtable
+
+	public String[] getShapeInfo(String shapeName, int runStatus) {
+		ArrayList list = new ArrayList();
+		String[] shapeData = new String[3]; // 0=DIRECTORY,1=ELLIPSOID,2=PROJECTION
+
+		if (!shapefiles.containsKey(shapeName)) {
+			writeLogFile("Error: Shapefile catalog CSV file does not contain shapefile -- " + shapeName + LS, runStatus);
+			return null;
+		}
+
+		list = (ArrayList) shapefiles.get(shapeName);
+
+		for (int i = DIRECTORY_INDEX; i <= PROJECTION_INDEX; i++) {
+			shapeData[i] = (String) list.get(i); // put dir into array
+			if ((shapeData[i].matches("^\\s*$")) || (shapeData[i].equals("NONE"))) {
+				writeLogFile("Error: Shapefile catalog CSV file has missing value for " + shapeName + LS, runStatus);
+				return null;
+			}
+
+		}
+
+		// check main control file has SHAPEFILE DIRECTORY, if it does, use that directory instead
+		if (controls.contains("SHAPEFILE DIRECTORY")) {
+			shapeData[DIRECTORY_INDEX] = getControls("SHAPEFILE DIRECTORY");
+		}
+
+		// check exists of the shapefile
+		if (!checkFile(shapeData[DIRECTORY_INDEX] + FS + shapeName + ".shp", "NO", runStatus)) {
+			return null;
+		}
+
+		return shapeData;
+	}
+
 
 }

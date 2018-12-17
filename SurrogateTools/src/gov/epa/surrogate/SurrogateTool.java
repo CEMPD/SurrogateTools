@@ -1193,8 +1193,7 @@ public class SurrogateTool {
 		// String[] cmd = new String[4]; //has an argument--header
 
 		if (getControls("OUTPUT_FILE_TYPE").equals("RegularGrid") || getControls("OUTPUT_FILE_TYPE").equals("EGrid")) { // get
-																														// grid
-																														// information
+																														// grid																													// information
 			System.out.println("\t\t" + "Get Grid Header For Surrogate Files");
 			writeLogFile(LS + "\t\t" + "Get Grid Header For Surrogate Files" + LS, runContinue);
 			allVar = copyMainVar(); // copy main env to a vector
@@ -2226,6 +2225,7 @@ class CSV {
 			else
 				i = advPlain(line, sb, i);
 			String sb_temp = sb.toString();
+			//System.out.print(sb_temp);
 			list.add(sb_temp.trim());
 			i++;
 		} while (i < line.length());
@@ -2324,7 +2324,9 @@ class RunScripts {
 		exeFile = exe;
 		cmd = new String[command.length];
 		env = new String[environments.length];
+		//System.out.println("ENV:" + env);
 		System.arraycopy(command, 0, cmd, 0, command.length);
+		System.out.println("cmd: " +cmd[0] + cmd[1] + " " + cmd[2]);
 		System.arraycopy(environments, 0, env, 0, environments.length);
 	}
 

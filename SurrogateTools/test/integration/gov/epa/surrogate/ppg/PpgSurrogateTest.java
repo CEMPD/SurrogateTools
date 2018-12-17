@@ -22,7 +22,7 @@ public class PpgSurrogateTest extends TestCase {
 		System.out.println("finished reading surrogate codes. ");
 		sc.setGentVariables();
 		System.out.println("finished generate main vars. ");
-		//sc.getGridPolyHeader();
+		sc.getGridPolyHeader();
 		if (sc.run_create)
 			sc.generatePGSurrogates();
 				

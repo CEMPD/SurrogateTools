@@ -17,7 +17,9 @@ public class RunScripts {
 		exeFile = exe;
 		cmd = new String[command.length];
 		env = new String[environments.length];
+		
 		System.arraycopy(command, 0, cmd, 0, command.length);
+		System.out.println("cmd: "+ cmd[2]);
 		System.arraycopy(environments, 0, env, 0, environments.length);
 	}
 
