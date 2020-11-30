@@ -1381,7 +1381,7 @@ public class SurrogateToolpg  {
 									Double ycent = Double.valueOf(pieces[5].replace("D", "E"));
 									
 									// build header line
-									header = name + "\t";
+									header = "#GRID\t" + name + "\t";
 									header += String.format("%f", xorig) + "\t";
 									header += String.format("%f", yorig) + "\t";
 									header += String.format("%f", xcell) + "\t";
@@ -1406,7 +1406,6 @@ public class SurrogateToolpg  {
 									}
 									header += String.format("%f", xcent) + "\t";
 									header += String.format("%f", ycent) + "\t";
-									header += LS;
 								} catch (NumberFormatException e) {
 									writeLogFile("Error: Bad number format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
 								}
