@@ -458,7 +458,6 @@ public class SurrogateTool {
 			}
 		}
 
-		checkStatus = checkFile(getControls("SRGCREATE EXECUTABLE"), "NO", runStop);
 		if (hasSrgMerge) {
 			checkStatus = checkFile(getControls("SRGMERGE EXECUTABLE"), "NO", runStop);
 		}
@@ -504,6 +503,10 @@ public class SurrogateTool {
 		}
 		if (OW.equals("YES")) {
 			run_create = true;
+		}
+		
+		if (run_create) {
+			checkStatus = checkFile(getControls("SRGCREATE EXECUTABLE"), "NO", runStop);
 		}
 
 		ow = getControls("MERGE SURROGATES");
@@ -1189,35 +1192,18 @@ public class SurrogateTool {
 
 	// get grid, egrid or polygon header information
 	private void getGridPolyHeader() {
-		Vector allVar = new Vector();
-		// String[] cmd = new String[4]; //has an argument--header
-
 		if (getControls("OUTPUT_FILE_TYPE").equals("RegularGrid") || getControls("OUTPUT_FILE_TYPE").equals("EGrid")) { // get
 																														// grid																													// information
 			System.out.println("\t\t" + "Get Grid Header For Surrogate Files");
 			writeLogFile(LS + "\t\t" + "Get Grid Header For Surrogate Files" + LS, runContinue);
-			allVar = copyMainVar(); // copy main env to a vector
-			String[] env = new String[allVar.size()]; // put all environment variables in a String array
-			for (int i = 0; i < allVar.size(); i++) {
-				env[i] = (String) allVar.get(i);
-			}
-
-			COMMAND[2] = getControls("SRGCREATE EXECUTABLE") + "  " + "-header";
-			// System.arraycopy(COMMAND,0,cmd,0,COMMAND.length);
-			// cmd[3] = "-header";
-			RunScripts rs = new RunScripts("SRGCREATE", COMMAND, env);
-			String runMessage = rs.run();
-			Pattern p = Pattern.compile("#GRID(.*)");
-			Matcher m = p.matcher(runMessage);
-			if (checkRunMessage(runMessage)) {
-				writeLogFile("Error: Getting Grid Header Failed, check grid description file." + LS, runStop);
-				System.out.println("Error: Getting grid header failed, check grid description file." + LS);
-			} else if (m.find()) {
-				GRIDPOLY_HEADER = m.group() + LS; // get matched header with the end of line
+			
+			String header = getHeaderFromGridDescFile();
+			if (!header.isEmpty()) {
+				GRIDPOLY_HEADER = header + LS; // get header with the end of line
 				System.out.println(GRIDPOLY_HEADER);
 			} else {
-				writeLogFile("Error: No Grid Header from the SRGCREATE Run Output." + LS, runStop);
-				System.out.println("Error: No Grid Header from the SRGCREATE Run Output." + LS);
+				writeLogFile("Error: Getting Grid Header Failed, check grid description file." + LS, runStop);
+				System.out.println("Error: Getting grid header failed, check grid description file." + LS);
 			}
 		} else if (getControls("OUTPUT_FILE_TYPE").equals("Polygon")) { // set output polygon information
 			GRIDPOLY_HEADER = "#POLYGON\t" + mainEnv.get(OUTPUT_POLY_FILE_INDEX) + "\t"
@@ -1226,6 +1212,200 @@ public class SurrogateTool {
 			writeLogFile(LS + "Header of The Surrogate Ratio File" + LS + GRIDPOLY_HEADER + LS, runContinue);
 			System.out.println(GRIDPOLY_HEADER);
 		}
+	}
+	
+	private enum GridDescSection { COORD, GRID }
+	private String getHeaderFromGridDescFile() {
+		// check that GRIDDESC file exists
+		String gridDescFileName = getControls("GRIDDESC");
+		checkFile(gridDescFileName, "NO", runStop);
+		
+		String header = "";
+		
+		Hashtable<String, String> systems = new Hashtable<>(); // coordinate systems by name
+		Hashtable<String, String> coordTypes = new Hashtable<>(); // mapping of coordinate types
+		coordTypes.put("1", "LAT-LON");
+		coordTypes.put("2", "LAMBERT");
+		coordTypes.put("3", "MERCATOR");
+		coordTypes.put("4", "STEREOGRAPHIC");
+		coordTypes.put("5", "UTM");
+		coordTypes.put("6", "POLGRD3");
+		coordTypes.put("7", "EquatorialMERCATOR");
+		coordTypes.put("8", "TransverseMERCATOR");
+		
+		// GRIDDESC file format
+		// ' '
+		// COORD-NAME (in quotes)
+		// COORDTYPE (int), P_ALP, P_BET, P_GAM, XCENT, YCENT
+		// ' '
+		// GRID-NAME (in quotes)
+		// COORD-NAME (in quotes), XORIG, YORIG, XCELL, YCELL, NCOLS (int), NROWS (int), NTHIK (int)
+		// ' '
+		
+		// regex to match coordinate and grid names
+		Pattern namePattern = Pattern.compile("^['\"].*?['\"]");
+		Matcher matcher;
+		
+		// regex to split lines on whitespace or commas
+		String splitPattern = "\\s*[\\s,]\\s*";
+		
+		try {
+			// open the GRIDDESC file for reading
+			FileReader file = new FileReader(gridDescFileName);
+			BufferedReader buff = new BufferedReader(file);
+			
+			String line;
+			int lineNum = 0;
+			GridDescSection section = GridDescSection.COORD;
+			boolean isDataLine = false;
+			String name = "";
+			while ((line = buff.readLine()) != null) {
+				lineNum++;
+				
+				// skip header line
+				if (lineNum == 1) continue;
+				
+				// skip blank lines
+				if (line.isEmpty()) continue;
+				
+				if (section == GridDescSection.COORD) {
+					// read coordinate system description entries
+					
+					// check for last line of section
+					if (line.startsWith("' '") || line.startsWith("\" \"")) {
+						section = GridDescSection.GRID;
+						isDataLine = false;
+						continue;
+					}
+					
+					// extract coordinate system name
+					if (!isDataLine) {
+						matcher = namePattern.matcher(line);
+						if (matcher.find()) {
+							// save coordinate system name and read data values
+							name = matcher.group();
+							isDataLine = true;
+						} else {
+							writeLogFile("Error: Unknown format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+						}
+					} else {
+						String[] pieces = line.trim().split(splitPattern);
+						if (pieces.length != 6) {
+							writeLogFile("Error: Unknown format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+						}
+						// save the data values associated with the current coordinate system
+						systems.put(name, line.trim());
+						isDataLine = false;
+					}
+				}
+				
+				if (section == GridDescSection.GRID) {
+					// read grid description entries
+					
+					// check for last line of section
+					if (line.startsWith("' '") || line.startsWith("\" \"")) {
+						break;
+					}
+					
+					// extract grid name
+					if (!isDataLine) {
+						matcher = namePattern.matcher(line);
+						if (matcher.find()) {
+							// save grid name (minus quotes) and read data values
+							name = matcher.group().replace("'", "").replace("\"", "");
+							isDataLine = true;
+						} else {
+							writeLogFile("Error: Unknown format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+						}
+					} else {
+						// check if current grid name matches OUTPUT_GRID_NAME
+						if (name.equals(getControls("OUTPUT_GRID_NAME"))) {
+							// extract coordinate system name
+							matcher = namePattern.matcher(line);
+							if (matcher.find()) {
+								String coordName = matcher.group();
+								
+								if (!systems.containsKey(coordName)) {
+									writeLogFile("Error: Unknown coordinate system " + coordName + " at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+								}
+								
+								// remove coordinate system name from line
+								line = line.replace(coordName, "").replaceFirst(splitPattern, "");
+								
+								// convert rest of values to numbers
+								String[] pieces = line.split(splitPattern);
+								if (pieces.length < 7) {
+									writeLogFile("Error: Unknown format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+								}
+								try {
+									Double xorig = Double.valueOf(pieces[0].replace("D", "E"));
+									Double yorig = Double.valueOf(pieces[1].replace("D", "E"));
+									Double xcell = Double.valueOf(pieces[2].replace("D", "E"));
+									Double ycell = Double.valueOf(pieces[3].replace("D", "E"));
+									Integer ncols = Integer.valueOf(pieces[4]);
+									Integer nrows = Integer.valueOf(pieces[5]);
+									Integer nthik = Integer.valueOf(pieces[6]);
+									
+									pieces = systems.get(coordName).split(splitPattern);
+									String coordType = pieces[0];
+									Double p_alp = Double.valueOf(pieces[1].replace("D", "E"));
+									Double p_bet = Double.valueOf(pieces[2].replace("D", "E"));
+									Double p_gam = Double.valueOf(pieces[3].replace("D", "E"));
+									Double xcent = Double.valueOf(pieces[4].replace("D", "E"));
+									Double ycent = Double.valueOf(pieces[5].replace("D", "E"));
+									
+									// build header line
+									header = name + "\t";
+									header += String.format("%f", xorig) + "\t";
+									header += String.format("%f", yorig) + "\t";
+									header += String.format("%f", xcell) + "\t";
+									header += String.format("%f", ycell) + "\t";
+									header += String.format("%d", ncols) + "\t";
+									header += String.format("%d", nrows) + "\t";
+									header += String.format("%d", nthik) + "\t";
+									header += coordTypes.get(coordType) + "\t";
+									if (coordType.equals("1")) {
+										header += "degrees\t";
+									} else {
+										header += "meters\t";
+									}
+									if (coordType.equals("6")) {
+										header += String.format("%f", p_gam) + "\t";
+										header += String.format("%f", p_alp) + "\t";
+										header += String.format("%f", p_bet) + "\t";
+									} else {
+										header += String.format("%f", p_alp) + "\t";
+										header += String.format("%f", p_bet) + "\t";
+										header += String.format("%f", p_gam) + "\t";
+									}
+									header += String.format("%f", xcent) + "\t";
+									header += String.format("%f", ycent) + "\t";
+									header += LS;
+								} catch (NumberFormatException e) {
+									writeLogFile("Error: Bad number format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+								}
+								break;
+							} else {
+								writeLogFile("Error: Unknown format at line " + lineNum + " in GRIDDESC file" + LS, runStop);
+							}
+						} else {
+							// go on to next grid
+							isDataLine = false;
+						}
+					}
+				}
+			}
+			
+			buff.close();
+		} catch (IOException e) {
+			writeLogFile("Error: Reading GRIDDESC FILE --" + e.toString() + LS, runError);
+		}
+		
+		if (header.isEmpty()) {
+			writeLogFile("Error: Could not find grid " + getControls("OUTPUT_GRID_NAME") + " in GRIDDESC file" + LS, runError);
+		}
+		
+		return header;
 	}
 
 	private boolean renameFile(String oldFile, String newFile, int runStatus) {
